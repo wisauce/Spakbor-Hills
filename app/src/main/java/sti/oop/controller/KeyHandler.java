@@ -1,58 +1,44 @@
 // package sti.oop.controller;
+// import javafx.scene.input.KeyCode;
+// import javafx.scene.input.KeyEvent;
 
-// import java.awt.event.KeyEvent;
-// import java.awt.event.KeyListener;
-
-// public class KeyHandler implements KeyListener {
-
+// public class KeyHandler {
 //   public boolean upPressed, downPressed, leftPressed, rightPressed;
 
-//   @Override
-//   public void keyTyped(KeyEvent e) {
-
-//   }
-
-//   @Override
 //   public void keyPressed(KeyEvent e) {
-//     int code = e.getKeyCode();
+//     KeyCode code = e.getCode();
 //     switch (code) {
-//       case KeyEvent.VK_W:
+//       case UP:
 //         upPressed = true;
 //         break;
-//       case KeyEvent.VK_S:
+//       case DOWN:
 //         downPressed = true;
 //         break;
-//       case KeyEvent.VK_A:
+//       case LEFT:
 //         leftPressed = true;
 //         break;
-//       case KeyEvent.VK_D:
-//         downPressed = true;
+//       case RIGHT:
+//         rightPressed = true;
 //         break;
 //     }
 //   }
 
-//   public void keyPressed(KeyEvent e) {
-//     int code = e.getKeyCode();
-//     switch (code) {
-//       case KeyEvent.VK_W:
-//         upPressed = true;
-//         break;
-//       case KeyEvent.VK_S:
-//         downPressed = true;
-//         break;
-//       case KeyEvent.VK_A:
-//         leftPressed = true;
-//         break;
-//       case KeyEvent.VK_D:
-//         downPressed = true;
-//         break;
-//     }
-//   }
-
-//   @Override
 //   public void keyReleased(KeyEvent e) {
-//     // TODO Auto-generated method stub
-//     throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+//     KeyCode code = e.getCode();
+//     switch (code) {
+//       case UP:
+//         upPressed = true;
+//         break;
+//       case DOWN:
+//         downPressed = true;
+//         break;
+//       case LEFT:
+//         leftPressed = true;
+//         break;
+//       case RIGHT:
+//         rightPressed = true;
+//         break;
+//     }
 //   }
-  
+
 // }

@@ -3,38 +3,81 @@
  */
 package sti.oop;
 
+import javafx.scene.canvas.Canvas;
+
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class App extends Application {
+    int x = 0;
+    int y = 0;
+    int speed = 10;
+    final int originalTileSize = 16;
+    final int scale = 3;
+    final int tileSize = originalTileSize * scale;
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 16;
+    final int screenWidth = tileSize * maxScreenCol;
+    final int screenHeight = tileSize * maxScreenRow;
 
     public static void main(String[] args) {
         launch(args);
-        // JFrame window = new JFrame();
-        // window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // window.setResizable(false);
-        // window.setTitle("That TIme I Became a Farming Game Dev To Save The World");
-        
-        // GamePanel gamePanel = new GamePanel();
-        // window.add(gamePanel);
-        // window.pack();
-        
-        // window.setLocationRelativeTo(null);
-        // window.setVisible(true);
-        // gamePanel.startGameThread();
-        // System.out.println(new App().getGreeting());
     }
+
+    // public void update() {
+    //     if ()
+    // }
 
     @Override
     public void start(Stage stage) throws Exception {
-        // HBox root = new HBox();
-        // Button b1 = new Button("tolol");
-        // root.getChildren().add(b1);
-        // Scene sc = new Scene(root);
-        // stage.setScene(sc);
-        // stage.show();
+        // Canvas root = new Canvas();
+        Canvas canvas = new Canvas(screenWidth, screenHeight);
+        StackPane root = new StackPane();
+        root.getChildren().add(canvas);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Scene sc = new Scene(root,screenWidth,screenHeight);
+        stage.setTitle("Spakbor Hills");
+        sc.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.A) {
+                x-=speed;
+            }
+            if (e.getCode() == KeyCode.W) {
+                y-=speed;
+            }
+            if (e.getCode() == KeyCode.S) {
+                y+=speed;
+            }
+            if (e.getCode() == KeyCode.D) {
+                x+=speed;
+            }
+        });
+
+        gc.setFill(Color.RED);
+        
+        stage.setScene(sc);
+        stage.show();
+        
+        Image image = new Image(getClass().getResourceAsStream("/akmal.jpg"));
+        AnimationTimer time = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                gc.clearRect(0, 0, screenWidth , screenHeight);
+                // gc.fillRect(x, y, tileSize , tileSize); // Clear screen
+                gc.drawImage(image, x, y);
+            }
+            
+        };
+        time.start();
     }
 }
