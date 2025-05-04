@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane prefHeight="1024.0" prefWidth="1780.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.FarmController">
+   <children>
+      <BorderPane fx:id="hud" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1780.0">
+         <top>
+            <HBox prefHeight="62.0" prefWidth="585.0" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+      <Canvas fx:id="canvas" height="1024.0" width="1024.0" />
+   </children>
+</StackPane>

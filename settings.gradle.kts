@@ -10,5 +10,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
-rootProject.name = "That-Time-I-Became-a-Farming-Game-Dev-to-Save-the-World"
+rootProject.name = "Spakbor Hills"
 include("app")

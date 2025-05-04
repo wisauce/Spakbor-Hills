@@ -3,81 +3,38 @@
  */
 package sti.oop;
 
-import javafx.scene.canvas.Canvas;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    int x = 0;
-    int y = 0;
-    int speed = 10;
-    final int originalTileSize = 16;
-    final int scale = 3;
-    final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 16;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    final public static int originalTileSize = 16;
+    final public static int scale = 2;
+    final public static int tileSize = originalTileSize * scale;
+    final public static int maxScreenCol = 32;
+    final public static int maxScreenRow = 32;
+    final public static int screenWidth = tileSize * maxScreenCol;
+    final public static int screenHeight = tileSize * maxScreenRow;
 
     public static void main(String[] args) {
+        System.out.println(screenWidth);
+        System.out.println(screenHeight);
         launch(args);
     }
 
-    // public void update() {
-    //     if ()
-    // }
-
     @Override
     public void start(Stage stage) throws Exception {
-        // Canvas root = new Canvas();
-        Canvas canvas = new Canvas(screenWidth, screenHeight);
-        StackPane root = new StackPane();
-        root.getChildren().add(canvas);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        Scene sc = new Scene(root,screenWidth,screenHeight);
+        Parent root = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
+        stage.setScene(new Scene(root));
         stage.setTitle("Spakbor Hills");
-        sc.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.A) {
-                x-=speed;
-            }
-            if (e.getCode() == KeyCode.W) {
-                y-=speed;
-            }
-            if (e.getCode() == KeyCode.S) {
-                y+=speed;
-            }
-            if (e.getCode() == KeyCode.D) {
-                x+=speed;
-            }
-        });
-
-        gc.setFill(Color.RED);
-        
-        stage.setScene(sc);
         stage.show();
-        
-        Image image = new Image(getClass().getResourceAsStream("/akmal.jpg"));
-        AnimationTimer time = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                gc.clearRect(0, 0, screenWidth , screenHeight);
-                // gc.fillRect(x, y, tileSize , tileSize); // Clear screen
-                gc.drawImage(image, x, y);
-            }
-            
-        };
-        time.start();
+
+        // Player player = new Player("Aris", Gender.MALE, "Bebek Om Aris");
+        // Farm farm = new Farm("Bebek Om Aris", player);
+        // farm.run(stage); 
     }
 }
