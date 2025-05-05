@@ -17,7 +17,23 @@ public class Player {
   private Point location;
   private int energy;
   private int speed = 4;
+  
+  public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
+  public static final int playerFrameWidth = 256;
+  public static final int playerFrameHeight = 256;
+  public static int frameX = 0;
+  public static int frameY = 0;
+  // public static int sourceX = frameX * playerFrameWidth;
+  // public static int sourceY = frameY * playerFrameHeight;
+  
   // private Image currentsprite;
+  public static int sourceX() {
+    return frameX * playerFrameWidth;
+  }
+
+  public static int sourceY() {
+    return frameY * playerFrameHeight;
+  }
 
   public Player(String name, Gender gender, String farmName) {
     this.name = name;
