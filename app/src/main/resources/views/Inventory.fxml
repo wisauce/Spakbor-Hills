@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<StackPane fx:id="rootPane" onKeyPressed="#handleKeyPress" prefHeight="1024.0" prefWidth="1780.0" style="-fx-background-color: rgba(0, 0, 0, 0.7);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.InventoryController">
+   <children>
+   <Label fx:id="inventoryLabel" style="-fx-font-size: 36px; -fx-text-fill: white;" text="Inventory" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="200.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="200.0" StackPane.alignment="TOP_LEFT">
+      <StackPane.margin>
+         <Insets left="160.0" top="160.0" />
+      </StackPane.margin>
+   </Rectangle>
+   </children>
+</StackPane>
