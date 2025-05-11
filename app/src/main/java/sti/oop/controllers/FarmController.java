@@ -65,49 +65,85 @@ public class FarmController {
   int idleCounter = 0;
   boolean isIdle = true;
   public void KeyHandler() {
-
     if (inventoryOpened) {
-      return;
+        return;
     }
-    if (keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed) {
-      spriteCounter = (spriteCounter + 1) % 10;
-      isIdle = false;
+    
+    boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
+    if (isMoving) {
+        spriteCounter = (spriteCounter + 1) % 10;
+        isIdle = false;
     } else {
-      isIdle = true;
+        isIdle = true;
     }
+
+    boolean directionChanged = false;
+    
+    if (keyUpPressed) {
+        farm.getPlayer().moveUp();
+        if (Player.frameY != 2) {
+            Player.frameY = 2;
+            Player.frameX = 2; 
+            directionChanged = true;
+        }
+        if (spriteCounter == 9 && !directionChanged) {
+            Player.frameX = 2 + (Player.frameX + 1) % 2;
+        }
+    }
+    else if (keyDownPressed) {
+        farm.getPlayer().moveDown();
+        if (Player.frameY != 0) {
+            Player.frameY = 0;
+            Player.frameX = 2;
+            directionChanged = true;
+        }
+        if (spriteCounter == 9 && !directionChanged) {
+            Player.frameX = 2 + (Player.frameX + 1) % 2;
+        }
+    }
+
     if (keyLeftPressed) {
-      farm.getPlayer().moveLeft();
-      Player.frameY = 1;
-      if (spriteCounter == 9) Player.frameX = (Player.frameX + 1) % 2;
+        farm.getPlayer().moveLeft();
+        if (!keyUpPressed && !keyDownPressed) {
+            if (Player.frameY != 1 || Player.frameX >= 2) {
+                Player.frameY = 1;
+                Player.frameX = 0;
+                directionChanged = true;
+            }
+            if (spriteCounter == 9 && !directionChanged) {
+                Player.frameX = (Player.frameX + 1) % 2;
+            }
+        }
     } 
     if (keyRightPressed) {
-      farm.getPlayer().moveRight();
-      Player.frameY = 1;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
-    }
-    if (keyUpPressed) {
-      farm.getPlayer().moveUp();
-      Player.frameY = 2;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
-    }
-    if (keyDownPressed) {
-      farm.getPlayer().moveDown();
-      Player.frameY = 0;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
-    }
-    if (isIdle) {
-      if (Player.frameY == 0 || Player.frameY == 2) {
-        idleCounter = (idleCounter + 1) % 50;
-        if (idleCounter == 49) Player.frameX = (Player.frameX + 1) % 2;
-      } else {
-        if (Player.frameX < 2) {
-          Player.frameX = 1;
-        } else {
-          Player.frameX = 3;
+        farm.getPlayer().moveRight();
+        if (!keyUpPressed && !keyDownPressed) {
+            if (Player.frameY != 1 || Player.frameX < 2) {
+                Player.frameY = 1;
+                Player.frameX = 2;
+                directionChanged = true;
+            }
+            if (spriteCounter == 9 && !directionChanged) {
+                Player.frameX = 2 + (Player.frameX + 1) % 2;
+            }
         }
-      }
+    }
+    
+    if (isIdle) {
+        idleCounter = (idleCounter + 1) % 50;
+        if (idleCounter == 49) {
+            if (Player.frameY == 0 || Player.frameY == 2) {
+                Player.frameX = (Player.frameX + 1) % 2;
+            } else {
+                if (Player.frameX < 2) {
+                    Player.frameX = (Player.frameX + 1) % 2;
+                } else {
+                    Player.frameX = 2 + (Player.frameX + 1) % 2;
+                }
+            }
+        }
     } else {
-      idleCounter = 0;
+        idleCounter = 0;
     }
   }
 
@@ -152,6 +188,7 @@ public class FarmController {
           case KeyCode.S -> keyDownPressed = true;
           case KeyCode.D -> keyRightPressed = true;
           case KeyCode.E -> toggleInventory();
+          case KeyCode.SHIFT -> player.setRun(true);
           default -> {}
         }
       });
@@ -162,6 +199,7 @@ public class FarmController {
           case KeyCode.W -> {keyUpPressed = false; Player.frameX = 0;}
           case KeyCode.S -> {keyDownPressed = false; Player.frameX = 0;}
           case KeyCode.D -> keyRightPressed = false;
+          case KeyCode.SHIFT -> player.setRun(false);
           default -> {}
         }
       });
@@ -203,9 +241,10 @@ public class FarmController {
             
             InventoryController inventoryController = inventoryLoader.getController();
             inventoryController.setFarmController(this);
+            inventoryController.setPlayer(farm.getPlayer());
             
 
-            inventoryPane.setMaxSize(800, 600);
+            inventoryPane.setMaxSize(696, 400);
             inventoryPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-border-color: white; -fx-border-width: 2px;");
             
             BorderPane.setAlignment(inventoryPane, javafx.geometry.Pos.CENTER);

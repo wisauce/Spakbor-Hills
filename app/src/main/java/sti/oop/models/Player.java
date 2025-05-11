@@ -23,6 +23,7 @@ public class Player {
   }
   private CurrentMap currentMap;
   private int speed = 4;
+  private boolean run = false;
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
   public static final int playerFrameWidth = 256;
@@ -112,17 +113,43 @@ public class Player {
   public int getSpeed(){
     return speed;
   }
+  public boolean getRun() {
+    return run;
+  }
+  public void setRun(boolean state) {
+    run = state;
+  }
   public void moveRight() {
-    location.x+=speed;
+    if (run) {
+      location.x += speed*1.5;
+    }
+    else {
+      location.x +=speed;
+    }
   }
   public void moveLeft() {
-    location.x-=speed;
+    if (run) {
+      location.x -= speed*1.5;
+    }
+    else {
+      location.x -=speed;
+    }
   }
   public void moveUp() {
-    location.y-=speed;
+    if (run) {
+      location.y -= speed*1.5;
+    }
+    else {
+      location.y -=speed;
+    }
   }
   public void moveDown() {
-    location.y+=speed;
+    if (run) {
+      location.y += speed*1.5;
+    }
+    else {
+      location.y +=speed;
+    }
   }
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
   //   if (!inventory.getListOwnedItems().contains(itemName)) {
