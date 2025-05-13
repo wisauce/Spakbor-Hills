@@ -13,10 +13,28 @@ public class Player {
   private String farmName;
   private String partner;
   private int gold;
+  public int getX() {
+    return x;
+  }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
   private String currentMap;
-  private Point location;
+  private int x = Constants.TILE_SIZE * 10;
+  private int y = Constants.TILE_SIZE * 10;
   private int energy;
-  private int speed = 4;
+  private int speed = 20;
+  private final int screenX = Constants.SCREEN_WIDTH / 2 - Constants.TILE_SIZE/2;
+  private final int screenY = Constants.SCREEN_HEIGHT / 2 - Constants.TILE_SIZE/2;
   
   private final Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
   public Image getPlayerSpriteSheet() {
@@ -38,6 +56,14 @@ public class Player {
 
   public int getPlayerFrameHeight() {
     return playerFrameHeight;
+  }
+
+  public int getScreenX() {
+    return screenX;
+  }
+  
+  public int getScreenY() {
+    return screenY;
   }
 
   public int getFrameX() {
@@ -66,7 +92,8 @@ public class Player {
     this.farmName = farmName;
     this.gold = 0;
     currentMap = "Farm";
-    location = new Point(0,0);
+    x = 0;
+    y = 0;
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
   }
@@ -110,22 +137,17 @@ public class Player {
   public void setCurrentMap(String currentMap) {
     this.currentMap = currentMap;
   }
-  public Point getLocation() {
-    return location;
-  }
-  public void setLocation(Point location) {
-    this.location = location;
-  }
+
   public void moveRight() {
-    location.x+=speed;
+    x += speed;
   }
   public void moveLeft() {
-    location.x-=speed;
+    x -= speed;
   }
   public void moveUp() {
-    location.y-=speed;
+    y -= speed;
   }
   public void moveDown() {
-    location.y+=speed;
+    y += speed;
   }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +28,7 @@ public class MainMenuController {
 
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(farmScene);
+    // stage.setFullScreen(true);
     stage.show();
 
   }

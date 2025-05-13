@@ -84,8 +84,8 @@ public class FarmController {
   public void render() {
     // gc.setFill(Color.GREEN);
     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    mapController.render();
-    gc.drawImage(player.getPlayerSpriteSheet(), player.sourceX(), player.sourceY(), player.getPlayerFrameWidth(), player.getPlayerFrameHeight(), player.getLocation().x, player.getLocation().y, 128, 128);
+    mapController.render(player.getX(), player.getY(), player.getScreenX(), player.getScreenY());
+    gc.drawImage(player.getPlayerSpriteSheet(), player.sourceX(), player.sourceY(), player.getPlayerFrameWidth(), player.getPlayerFrameHeight(), player.getScreenX(), player.getScreenY(), 128, 128);
     // gc.fillRect(farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, tileSize, tileSize);
   }
   
@@ -94,11 +94,13 @@ public class FarmController {
     Player player = new Player("Asep", Gender.MALE, "Asep's diary");
     farm = new Farm(player);
     gc = canvas.getGraphicsContext2D();
-    mapController = new MapController(gc,"/tileSheet/farm/test.png","/tileSheet/farm/map.txt");
+    mapController = new MapController(gc,"/tileSheet/farm/cek2.png","/tileSheet/farm/pond.txt", 128 );
     this.player = player;
     // Delay until the scene is ready
     Platform.runLater(() -> {
       scene = hud.getParent().getScene();
+      // canvas.setHeight(scene.getHeight());
+      // canvas.setWidth(scene.getWidth());
       scene.setOnKeyPressed(e -> {
         switch (e.getCode()) {
           case KeyCode.A -> keyLeftPressed = true;
