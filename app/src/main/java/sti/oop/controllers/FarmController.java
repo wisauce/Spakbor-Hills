@@ -32,6 +32,8 @@ public class FarmController {
   private boolean keyRightPressed;
 
   private Farm farm;
+  private Player player;
+  private MapController mapController;
 
   int spriteCounter = 0;
   int idleCounter = 0;
@@ -44,34 +46,34 @@ public class FarmController {
       isIdle = true;
     }
     if (keyLeftPressed) {
-      farm.getPlayer().moveLeft();
-      Player.frameY = 1;
-      if (spriteCounter == 9) Player.frameX = (Player.frameX + 1) % 2;
+      player.moveLeft();
+      player.setFrameY(1);
+      if (spriteCounter == 9) player.setFrameX((player.getFrameX()+1)%2);
     } 
     if (keyRightPressed) {
-      farm.getPlayer().moveRight();
-      Player.frameY = 1;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
+      player.moveRight();
+      player.setFrameY(1);
+      if (spriteCounter == 9) player.setFrameX(2 + (player.getFrameX() + 1) %2);
     }
     if (keyUpPressed) {
-      farm.getPlayer().moveUp();
-      Player.frameY = 2;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
+      player.moveUp();
+      player.setFrameY(2);
+      if (spriteCounter == 9) player.setFrameX(2 + (player.getFrameX()+1) %2);
     }
     if (keyDownPressed) {
-      farm.getPlayer().moveDown();
-      Player.frameY = 0;
-      if (spriteCounter == 9) Player.frameX = 2 + (Player.frameX + 1) % 2;
+      player.moveDown();
+      player.setFrameY(0);
+      if (spriteCounter == 9) player.setFrameX(2 + (player.getFrameX() + 1) % 2); 
     }
     if (isIdle) {
-      if (Player.frameY == 0 || Player.frameY == 2) {
+      if (player.getFrameY() == 0 || player.getFrameY() == 2) {
         idleCounter = (idleCounter + 1) % 50;
-        if (idleCounter == 49) Player.frameX = (Player.frameX + 1) % 2;
+        if (idleCounter == 49) player.setFrameX((player.getFrameX() + 1) % 2);
       } else {
-        if (Player.frameX < 2) {
-          Player.frameX = 1;
+        if (player.getFrameX() < 2) {
+          player.setFrameX(1);
         } else {
-          Player.frameX = 3;
+          player.setFrameX(3);
         }
       }
     } else {
@@ -82,18 +84,21 @@ public class FarmController {
   public void render() {
     // gc.setFill(Color.GREEN);
     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    gc.drawImage(Player.playerSpriteSheet, Player.sourceX(), Player.sourceY(), Player.playerFrameWidth, Player.playerFrameHeight, farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, 128, 128);
+    mapController.render();
+    gc.drawImage(player.getPlayerSpriteSheet(), player.sourceX(), player.sourceY(), player.getPlayerFrameWidth(), player.getPlayerFrameHeight(), player.getLocation().x, player.getLocation().y, 128, 128);
     // gc.fillRect(farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, tileSize, tileSize);
   }
-
+  
   @FXML
   public void initialize() {
     Player player = new Player("Asep", Gender.MALE, "Asep's diary");
     farm = new Farm(player);
+    gc = canvas.getGraphicsContext2D();
+    mapController = new MapController(gc,"/tileSheet/farm/test.png","/tileSheet/farm/map.txt");
+    this.player = player;
     // Delay until the scene is ready
     Platform.runLater(() -> {
       scene = hud.getParent().getScene();
-      gc = canvas.getGraphicsContext2D();
       scene.setOnKeyPressed(e -> {
         switch (e.getCode()) {
           case KeyCode.A -> keyLeftPressed = true;
@@ -107,8 +112,8 @@ public class FarmController {
       scene.setOnKeyReleased(e -> {
         switch (e.getCode()) {
           case KeyCode.A -> keyLeftPressed = false;
-          case KeyCode.W -> {keyUpPressed = false; Player.frameX = 0;}
-          case KeyCode.S -> {keyDownPressed = false; Player.frameX = 0;}
+          case KeyCode.W -> {keyUpPressed = false; player.setFrameX(0);}
+          case KeyCode.S -> {keyDownPressed = false; player.setFrameX(0);}
           case KeyCode.D -> keyRightPressed = false;
           default -> {}
         }

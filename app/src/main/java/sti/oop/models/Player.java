@@ -18,20 +18,45 @@ public class Player {
   private int energy;
   private int speed = 4;
   
-  public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
-  public static final int playerFrameWidth = 256;
-  public static final int playerFrameHeight = 256;
-  public static int frameX = 0;
-  public static int frameY = 0;
-  // public static int sourceX = frameX * playerFrameWidth;
-  // public static int sourceY = frameY * playerFrameHeight;
+  private final Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
+  public Image getPlayerSpriteSheet() {
+    return playerSpriteSheet;
+  }
+  private final int playerFrameWidth = 256;
+  private final int playerFrameHeight = 256;
+  private int frameX = 0;
+  private int frameY = 0;
   
   // private Image currentsprite;
-  public static int sourceX() {
+  public int sourceX() {
     return frameX * playerFrameWidth;
   }
 
-  public static int sourceY() {
+  public int getPlayerFrameWidth() {
+    return playerFrameWidth;
+  }
+
+  public int getPlayerFrameHeight() {
+    return playerFrameHeight;
+  }
+
+  public int getFrameX() {
+    return frameX;
+  }
+
+  public void setFrameX(int frameX) {
+    this.frameX = frameX;
+  }
+
+  public int getFrameY() {
+    return frameY;
+  }
+
+  public void setFrameY(int frameY) {
+    this.frameY = frameY;
+  }
+
+  public int sourceY() {
     return frameY * playerFrameHeight;
   }
 
