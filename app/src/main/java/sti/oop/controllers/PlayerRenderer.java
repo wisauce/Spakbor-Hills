@@ -1,0 +1,105 @@
+package sti.oop.controllers;
+
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import sti.oop.models.Constants;
+import sti.oop.models.Player;
+
+public class PlayerRenderer {
+  private GraphicsContext gc;
+  private int spriteCounter = 0;
+  
+  private int idleCounter = 0;
+  private boolean isIdle = true;
+  
+  private final int screenX = Constants.SCREEN_WIDTH/ 2 - Constants.TILE_SIZE/2;
+  private final int screenY = Constants.SCREEN_HEIGHT/ 2 - Constants.TILE_SIZE/2;
+  private final int playerFrameWidth = 256;
+  private final int playerFrameHeight = 256;
+  private Image playerSpriteSheet;
+  
+  private int frameX = 0;
+  private int frameY = 0;
+  
+  public void setFrameX(int frameX) {
+    this.frameX = frameX;
+  }
+
+  public PlayerRenderer(GraphicsContext gc) {
+    this.gc = gc;
+    playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/new.png"));
+  }
+  
+  public int sourceX() {
+    return frameX * playerFrameWidth;
+  }
+  
+  public int sourceY() {
+    return frameY * playerFrameHeight;
+  }
+  
+  public void playerMovementHandler(Player player, boolean keyLeftPressed, boolean keyRightPressed, boolean keyUpPressed, boolean keyDownPressed, boolean keyUporDownJustPressed) {
+    if (keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed) {
+      spriteCounter = (spriteCounter + 1) % 10;
+      isIdle = false;
+    } else {
+      isIdle = true;
+    }
+    if (keyLeftPressed) {
+      player.moveLeft();
+      frameY = 1;
+      if (spriteCounter == 9) frameX = ((frameX+1) % 2);
+    } 
+    if (keyRightPressed) {
+      player.moveRight();
+      frameY = 3;
+      if (spriteCounter == 9) frameX = ((frameX + 1) %2);
+    }
+    if (keyUpPressed) {
+      player.moveUp();
+      frameY = 2;
+      if (spriteCounter == 9) frameX = (2 + (frameX+1) %2);
+    }
+    if (keyDownPressed) {
+      player.moveDown();
+      frameY = 0;
+      if (spriteCounter == 9) frameX = (2 + (frameX + 1) % 2); 
+    }
+    if (isIdle) {
+      if (frameY == 0 || frameY == 2) {
+        idleCounter = (idleCounter + 1) % 50;
+        if (idleCounter == 49) frameX = (frameX + 1) % 2;
+      } else {
+        frameX = 1;
+      }
+    } else {
+      idleCounter = 0;
+    }
+
+    if (keyUporDownJustPressed) {
+      frameX = 0;
+    }
+  }
+  
+  public void renderPlayer() {
+    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, screenX, screenY, 128, 128);
+  }
+
+  public int getScreenX() {
+    return screenX;
+  }
+  
+  public int getScreenY() {
+    return screenY;
+  }
+  
+  public int getFrameX() {
+    return frameX;
+  }
+  
+  public int getFrameY() {
+    return frameY;
+  }
+
+  
+}
