@@ -17,6 +17,19 @@ public class PlayerRenderer {
   private final int playerFrameWidth = 256;
   private final int playerFrameHeight = 256;
   private Image playerSpriteSheet;
+
+  private final int hitboxOffsetX = 11*4;
+  private final int hitboxOffsetY = 23*4;
+  private final int hitboxWidth = 10*4;
+  private final int hitboxHeight = 9*4;
+  // private final int hitboxTopLeftX = hitboxOffsetX;
+  // private final int hitboxTopLeftY = hitboxOffsetY;
+  // private final int hitboxTopRightX = hitboxOffsetX + hitboxWidth;
+  // private final int hitboxTopRightY = hitboxOffsetY;
+  // private final int hitboxDownLeftX = hitboxOffsetX;
+  // private final int hitboxDownLeftY = hitboxOffsetY + hitboxHeight;
+  // private final int hitboxDownRightX = hitboxOffsetX + hitboxWidth;
+  // private final int hitboxDownRightY = hitboxOffsetY + hitboxHeight;
   
   private int frameX = 0;
   private int frameY = 0;
@@ -46,22 +59,18 @@ public class PlayerRenderer {
       isIdle = true;
     }
     if (keyLeftPressed) {
-      player.moveLeft();
       frameY = 1;
       if (spriteCounter == 9) frameX = ((frameX+1) % 2);
     } 
     if (keyRightPressed) {
-      player.moveRight();
       frameY = 3;
       if (spriteCounter == 9) frameX = ((frameX + 1) %2);
     }
     if (keyUpPressed) {
-      player.moveUp();
       frameY = 2;
       if (spriteCounter == 9) frameX = (2 + (frameX+1) %2);
     }
     if (keyDownPressed) {
-      player.moveDown();
       frameY = 0;
       if (spriteCounter == 9) frameX = (2 + (frameX + 1) % 2); 
     }
@@ -75,7 +84,7 @@ public class PlayerRenderer {
     } else {
       idleCounter = 0;
     }
-
+    
     if (keyUporDownJustPressed) {
       frameX = 0;
     }
@@ -85,21 +94,30 @@ public class PlayerRenderer {
     gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, screenX, screenY, 128, 128);
   }
 
+  public int getHitboxOffsetX() {
+    return hitboxOffsetX;
+  }
+
+  public int getHitboxOffsetY() {
+    return hitboxOffsetY;
+  }
+
+  public int getHitboxWidth() {
+    return hitboxWidth;
+  }
+
+  public int getHitboxHeight() {
+    return hitboxHeight;
+  }
+
   public int getScreenX() {
     return screenX;
   }
-  
+
   public int getScreenY() {
     return screenY;
   }
   
-  public int getFrameX() {
-    return frameX;
-  }
   
-  public int getFrameY() {
-    return frameY;
-  }
-
   
 }

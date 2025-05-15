@@ -18,11 +18,12 @@ public class Player {
   private String partner;
   private int gold;
   private int energy;
+  
   private int speed;
   private int x;
   private int y;
   private String currentMap;
-
+  
   public Player(String name, Gender gender, String farmName, int gold, int speed) {
     this.name = name;
     this.gender = gender;
@@ -53,11 +54,11 @@ public class Player {
   }
   
   private final Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
-
+  
   public Image getPlayerSpriteSheet() {
     return playerSpriteSheet;
   }
-
+  
   public String getName() {
     return name;
   }
@@ -65,27 +66,27 @@ public class Player {
   public void setName(String name) {
     this.name = name;
   }
-
+  
   public int getEnergy() {
     return energy;
   }
-
+  
   public void setEnergy(int energy) {
     this.energy = Math.clamp(energy, 0, maxEnergy);
   }
-
+  
   public Gender getGender() {
     return gender;
   }
-
+  
   public String getFarmName() {
     return farmName;
   }
-
+  
   public void setFarmName(String farmName) {
     this.farmName = farmName;
   }
-
+  
   public String getPartner() {
     return partner;
   }
@@ -93,19 +94,19 @@ public class Player {
   public void setPartner(String partner) {
     this.partner = partner;
   }
-
+  
   public int getGold() {
     return gold;
   }
-
+  
   public void setGold(int gold) {
     this.gold = gold;
   }
-
+  
   public String getCurrentMap() {
     return currentMap;
   }
-
+  
   public void setCurrentMap(String currentMap) {
     this.currentMap = currentMap;
   }
@@ -113,23 +114,27 @@ public class Player {
   public void moveRight() {
     x += speed;
   }
-
+  
   public void moveLeft() {
     x -= speed;
   }
-
+  
   public void moveUp() {
     y -= speed;
   }
-
+  
   public void moveDown() {
     y += speed;
   }
-
+  
   public void move(boolean left, boolean up, boolean down, boolean right) {
     if (left) moveLeft();
     if (up) moveUp();
     if (down) moveDown();
     if (right) moveRight();
+  }
+  
+  public int getSpeed() {
+    return speed;
   }
 }
