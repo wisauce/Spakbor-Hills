@@ -3,164 +3,106 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" onKeyPressed="#handleKeyPress" prefHeight="400.0" prefWidth="696.0" style="-fx-background-color: rgba(0, 0, 0, 0.7);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.InventoryController">
+<StackPane fx:id="inventoryPane" onKeyPressed="#handleKeyPress" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: rgba(0, 0, 0, 0.7);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.InventoryController">
    <children>
-      <Label fx:id="inventoryLabel" text="Inventory" textFill="WHITE" StackPane.alignment="TOP_CENTER">
-         <font>
-            <Font size="18.0" />
-         </font>
+      <ImageView fitHeight="210.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+         <image>
+            <Image url="@../images/hangingSignElongated.png" />
+         </image>
          <StackPane.margin>
-            <Insets top="10.0" />
+            <Insets left="460.0" top="95.0" />
          </StackPane.margin>
-      </Label>
+      </ImageView>
+      <ImageView fitHeight="400.0" fitWidth="696.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+         <image>
+            <Image url="@../images/inventoryGUI.png" />
+         </image>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </ImageView>
       
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
+      <GridPane fx:id="inventoryGrid" alignment="TOP_CENTER" hgap="8.0" maxHeight="234.0" maxWidth="453.0" prefHeight="180.0" prefWidth="400.0" vgap="8" StackPane.alignment="TOP_LEFT">
+         <padding>
+            <Insets left="20" right="20" top="70" />
+         </padding>
          <StackPane.margin>
-            <Insets left="10.0" top="40.0" />
+            <Insets left="32.0" top="129.0" />
          </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
+      </GridPane>
+      
+      <VBox alignment="TOP_LEFT" maxWidth="250.0" StackPane.alignment="TOP_LEFT">
+         <children>
+            <Label fx:id="farmNameLabel" text="Farm Name" textFill="#ffd921">
+               <font>
+                  <Font name="Berlin Sans FB" size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="92.0" />
+               </VBox.margin>
+            </Label>
+            
+            <Label fx:id="playerNameLabel" text="Player Name" textFill="#151152">
+               <font>
+                  <Font name="Berlin Sans FB" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            
+            <Label fx:id="goldLabel" text="Current Gold: 0g" textFill="#151152">
+               <font>
+                  <Font name="Berlin Sans FB" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <Canvas fx:id="playerInventoryCanvas" height="96.0" width="96.0">
+               <VBox.margin>
+                  <Insets left="15.0" top="30.0" />
+               </VBox.margin>
+            </Canvas>
+         </children>
          <StackPane.margin>
-            <Insets left="78.0" top="40.0" />
+            <Insets left="535.0" top="90.0" />
          </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
+      </VBox>
+      
+      
+      <StackPane maxHeight="30.0" maxWidth="10.0" onMouseClicked="#handleClose" prefHeight="40.0" prefWidth="265.0" style="-fx-cursor: hand;" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
-            <Insets left="146.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="214.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="282.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="350.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="418.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="486.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="554.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="622.0" top="40.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" layoutX="88.0" layoutY="20.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="10.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="78.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="146.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="214.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="282.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="350.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="486.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="418.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="622.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="64.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="64.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="554.0" top="118.0" />
-         </StackPane.margin>
-      </Rectangle>
-      <StackPane prefWidth="160.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets top="200.0" />
+            <Insets bottom="20.0" left="535.0" top="20.0" />
          </StackPane.margin>
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c8d2db" height="168.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="138.0" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets left="70.0" top="15.0" />
-               </StackPane.margin></Rectangle>
-            <Canvas fx:id="playerInventoryCanvas" height="128.0" width="128.0" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets left="75.0" top="35.0" />
-               </StackPane.margin></Canvas>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+               <image>
+                  <Image url="@../images/closeInventory.png" />
+               </image>
+            </ImageView>
          </children>
       </StackPane>
       
-      <VBox alignment="TOP_LEFT" maxWidth="400.0" spacing="5.0" StackPane.alignment="TOP_RIGHT">
-         <children>
-            <Label fx:id="farmNameLabel" text="Farm Name" textFill="WHITE">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            
-            <Label fx:id="goldLabel" text="Current Gold: 0g" textFill="WHITE">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            
-            <Label fx:id="playerNameLabel" text="Player Name" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Label>
-         </children>
+      <StackPane prefWidth="160.0" StackPane.alignment="TOP_LEFT">
          <StackPane.margin>
-            <Insets right="20.0" top="220.0" />
+            <Insets left="20" top="220.0" />
          </StackPane.margin>
-      </VBox>
+      </StackPane>
+      <ImageView fitHeight="42.0" fitWidth="481.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+         <image>
+            <Image url="@../images/inventoryText.png" />
+         </image>
+         <StackPane.margin>
+            <Insets left="144.0" top="17.0" />
+         </StackPane.margin>
+      </ImageView>
    </children>
 </StackPane>

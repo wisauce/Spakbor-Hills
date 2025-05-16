@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -13,18 +14,20 @@ import sti.oop.models.Player;
 public class InventoryController {
 
     @FXML
-    private StackPane rootPane;
+    private StackPane inventoryPane;
 
     @FXML
-    private Label inventoryLabel;
+    private GridPane inventoryGrid;
 
     @FXML
     private Canvas playerInventoryCanvas;
 
     @FXML
     private Label farmNameLabel;
+    
     @FXML
     private Label goldLabel;
+    
     @FXML
     private Label playerNameLabel;
 
@@ -35,14 +38,16 @@ public class InventoryController {
     private int frameX = 0;
     private Player player;
 
-
+    @FXML
     public void initialize() {
-        inventoryLabel.setText("Press E to Close");
-        
-        rootPane.setFocusTraversable(true);
-        rootPane.requestFocus();
+        inventoryPane.setFocusTraversable(true);
+        inventoryPane.requestFocus();
 
         gc = playerInventoryCanvas.getGraphicsContext2D();
+
+        if (inventoryGrid != null) {
+            createInventorySlots();
+        }
 
         animationTimer = new AnimationTimer() {
             @Override
@@ -53,16 +58,40 @@ public class InventoryController {
         animationTimer.start();
     }
     
-        public void setPlayer(Player player) {
+    private void createInventorySlots() {
+        inventoryGrid.getChildren().clear();
+        
+        for (int i = 0; i < 3; i++) { //row
+            for (int j = 0; j < 6; j++) { //column
+                StackPane slot = new StackPane();
+                slot.setPrefSize(64, 64);
+                slot.setStyle("-fx-background-color: transparent;");
+                
+                int finalRow = i;
+                int finalCol = j;
+
+                slot.setOnMouseEntered(e -> slot.setStyle("-fx-border-color: #ffcc00; -fx-border-width: 2; -fx-background-color: rgba(255, 255, 255, 0.1);"));
+                slot.setOnMouseExited(e -> slot.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;"));
+                slot.setOnMouseClicked(e -> System.out.println("Clicked on slot: " + finalRow + "," + finalCol));
+                
+                inventoryGrid.add(slot, i, j);
+            }
+        }
+    }
+    
+    public void setPlayer(Player player) {
         this.player = player;
         updatePlayerStats();
+        
+        // Tambahkan update inventory items disini jika perlu
+        // updateInventoryItems();
     }
 
     public void updatePlayerStats() {
         if (player != null) {
             playerNameLabel.setText(player.getName());
             farmNameLabel.setText(player.getFarmName());
-            goldLabel.setText("Current Gold: " + player.getGold());
+            goldLabel.setText("Current Gold: " + player.getGold() + "g");
         }
     }
 
@@ -74,23 +103,30 @@ public class InventoryController {
             frameX = (frameX + 1) % 2;
         }
 
-        gc.drawImage(Player.playerSpriteSheet, frameX * Player.playerFrameWidth, 0, Player.playerFrameHeight, Player.playerFrameWidth, 0, 0, playerInventoryCanvas.getWidth(), playerInventoryCanvas.getHeight());
+        gc.drawImage(Player.playerSpriteSheet, frameX * Player.playerFrameWidth, 0, Player.playerFrameWidth, Player.playerFrameHeight, 0, 0, playerInventoryCanvas.getWidth(), playerInventoryCanvas.getHeight());
     }
     
-
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        if (event.getCode() == KeyCode.E) {
-            if (farmController != null) {
-                animationTimer.stop();
-                farmController.toggleInventory();
-            }
+        if (event.getCode() == KeyCode.E || event.getCode() == KeyCode.ESCAPE) {
+            closeInventory();
             event.consume();
+        }
+    }
+    
+    @FXML
+    public void handleClose() {
+        closeInventory();
+    }
+    
+    private void closeInventory() {
+        if (farmController != null) {
+            animationTimer.stop();
+            farmController.toggleInventory();
         }
     }
     
     public void setFarmController(FarmController controller) {
         this.farmController = controller;
     }
-    
 }

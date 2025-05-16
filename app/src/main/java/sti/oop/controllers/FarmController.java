@@ -41,6 +41,14 @@ public class FarmController {
   private final int scale = 4;
   private final int tileSize = originalTileSize * scale;
 
+  private long lastTime = 0;
+  private int inGameHour = 6;
+  private int inGameMinute = 0;
+  private String timeOfDay = "AM";
+  private boolean timeFrozen = false;
+
+  private final int MINUTES_PER_SECOND = 5; //5 Minute for each Second
+
   private Scene scene;
   private GraphicsContext gc;
 
@@ -150,13 +158,22 @@ public class FarmController {
   public void render() {
     // gc.setFill(Color.GREEN);
     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    gc.drawImage(Player.playerSpriteSheet, Player.sourceX(), Player.sourceY(), Player.playerFrameWidth, Player.playerFrameHeight, farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, 128, 128);
+
+    gc.setFill(Color.WHITE);
+    gc.fillRect(canvas.getWidth() - 120, 10, 110, 30);
+    gc.setFill(Color.BLACK);
+    gc.fillText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay), canvas.getWidth() - 110, 30);
+
+    /* Render each NPC into the World */
     gc.drawImage(mayorTadi.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, mayorTadi.getLocation().x, mayorTadi.getLocation().y, 128, 128);
     gc.drawImage(abigail.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, abigail.getLocation().x, abigail.getLocation().y, 128, 128);
     gc.drawImage(caroline.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, caroline.getLocation().x, caroline.getLocation().y, 128, 128);
     gc.drawImage(emily.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, emily.getLocation().x, emily.getLocation().y, 128, 128);
     gc.drawImage(dasco.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, dasco.getLocation().x, dasco.getLocation().y, 128, 128);
     gc.drawImage(perry.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, perry.getLocation().x, perry.getLocation().y, 128, 128);
+    
+    /* Render Player Last into the World */
+    gc.drawImage(Player.playerSpriteSheet, Player.sourceX(), Player.sourceY(), Player.playerFrameWidth, Player.playerFrameHeight, farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, 128, 128);
     // gc.setStroke(Color.RED); 
     // Rectangle2D playerHitbox = new Rectangle2D(farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, 128, 128);
     // gc.strokeRect(playerHitbox.getMinX(), playerHitbox.getMinY(), playerHitbox.getWidth(), playerHitbox.getHeight());
@@ -206,16 +223,62 @@ public class FarmController {
     });
 
     AnimationTimer gameTime = new AnimationTimer() {
-      
-      @Override
-      public void handle(long now) {
-        // System.out.println(now);
-        KeyHandler();
-        render();
-      }
+        @Override
+        public void handle(long now) {
+            // System.out.println(now);
+            if (lastTime == 0) {
+                lastTime = now;
+            }
+
+            long diffTime = now - lastTime;
+            if (diffTime >= 1_000_000_000) {
+                updateGameTime();
+                lastTime = now;
+            }
+            KeyHandler();
+            render();
+        }
     };
 
     gameTime.start();
+  }
+
+  public void updateGameTime() {
+    if (timeFrozen) {
+        return;
+    }
+
+    inGameMinute += MINUTES_PER_SECOND;
+
+    if (inGameMinute >= 60) {
+        inGameHour += inGameMinute / 60;
+        inGameMinute %= 60;
+
+        if (inGameHour == 12) {
+            if (timeOfDay.equals("AM")) {
+                timeOfDay = "PM";
+            }
+            else {
+                timeOfDay = "AM";
+            }
+        }
+        else if (inGameHour > 12) {
+            inGameHour %= 12;
+            if (inGameHour == 0) {
+                inGameHour = 12;
+            }
+        }
+
+        /* Can update with a message whenever new Day --> (inGameHour == 12 && timeOfDay.equals("AM")) */
+    }
+  }
+
+  public void freezeTime() {
+    timeFrozen = true;
+  }
+
+  public void unfreezeTime() {
+    timeFrozen = false;
   }
 
   public void toggleInventory() {
@@ -225,10 +288,12 @@ public class FarmController {
         System.out.println("Closing inventory...");
         hud.getChildren().remove(inventoryPane);
         inventoryOpened = false;
+        unfreezeTime();
         System.out.println("Inventory closed");
     }
     else {
         System.out.println("Opening inventory...");
+        freezeTime();
         keyLeftPressed = false;
         keyRightPressed = false;
         keyUpPressed = false;
@@ -244,7 +309,7 @@ public class FarmController {
             inventoryController.setPlayer(farm.getPlayer());
             
 
-            inventoryPane.setMaxSize(696, 400);
+            inventoryPane.setMaxSize(800, 400);
             inventoryPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-border-color: white; -fx-border-width: 2px;");
             
             BorderPane.setAlignment(inventoryPane, javafx.geometry.Pos.CENTER);
