@@ -30,10 +30,7 @@ public class Player {
   public static final int playerFrameHeight = 256;
   public static int frameX = 0;
   public static int frameY = 0;
-  // public static int sourceX = frameX * playerFrameWidth;
-  // public static int sourceY = frameY * playerFrameHeight;
-  
-  // private Image currentsprite;
+
   public static int sourceX() {
     return frameX * playerFrameWidth;
   }
@@ -63,27 +60,35 @@ public class Player {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
   public int getEnergy() {
     return energy;
   }
+
   public void setEnergy(int energy) {
     this.energy = energy > maxEnergy ? maxEnergy : energy < 0 ? 0 : energy;
   }
+
   public Gender getGender() {
     return gender;
   }
+
   public String getFarmName() {
     return farmName;
   }
+
   public void setFarmName(String farmName) {
     this.farmName = farmName;
   }
+
   public String getPartner() {
     return partner;
   }
+
   public void setPartner(String partner) {
     if (getPartner() == null) {
         this.partner = partner;
@@ -92,33 +97,43 @@ public class Player {
       throw new IllegalStateException("Player already has a partner! This game doesn't support polygamy!");
     }
   }
+
   public int getGold() {
     return gold;
   }
+
   public void setGold(int gold) {
     this.gold = gold;
   }
+
   public CurrentMap getCurrentMap() {
     return currentMap;
   }
+
   public void setCurrentMap(CurrentMap currentMap) {
     this.currentMap = currentMap;
   }
+
   public Point getLocation() {
     return location;
   }
+
   public void setLocation(Point location) {
     this.location = location;
   }
+
   public int getSpeed(){
     return speed;
   }
+
   public boolean getRun() {
     return run;
   }
+
   public void setRun(boolean state) {
     run = state;
   }
+
   public void moveRight() {
     if (run) {
       location.x += speed*1.5;
@@ -127,6 +142,7 @@ public class Player {
       location.x +=speed;
     }
   }
+
   public void moveLeft() {
     if (run) {
       location.x -= speed*1.5;
@@ -135,6 +151,7 @@ public class Player {
       location.x -=speed;
     }
   }
+
   public void moveUp() {
     if (run) {
       location.y -= speed*1.5;
@@ -143,6 +160,7 @@ public class Player {
       location.y -=speed;
     }
   }
+
   public void moveDown() {
     if (run) {
       location.y += speed*1.5;
@@ -151,6 +169,7 @@ public class Player {
       location.y +=speed;
     }
   }
+  
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
   //   if (!inventory.getListOwnedItems().contains(itemName)) {
   //     throw new IllegalStateException("You don't have " + itemName + " in your inventory!");

@@ -2,8 +2,7 @@ package sti.oop.models;
 
 import javafx.scene.image.Image;
 import java.util.List;
-import java.util.ArrayList;
-import javafx.geometry.Rectangle2D;
+
 
 public class NPC {
     private final int maxHeartPoints = 150;
@@ -111,12 +110,15 @@ public class NPC {
     public String getName() {
         return name;
     }
+
     public Point getLocation() {
         return location;
     }
+
     public int getHeartPoints() {
         return heartPoints;
     }
+
     public void setHeartPoints(int heartPoints){
         if (heartPoints > maxHeartPoints) {
             this.heartPoints = maxHeartPoints;
@@ -128,32 +130,34 @@ public class NPC {
             this.heartPoints = heartPoints;
         }
     }
+
     public void increaseHeartPoints(int heartPointsValue) {
         setHeartPoints(getHeartPoints() + heartPointsValue);
     }
+
     public void decreaseHeartPoints(int heartPointsValue) {
         setHeartPoints(getHeartPoints() - heartPointsValue);
     }
+
     public List<String> getLovedItems() {
         return lovedItems;
     }
+
     public List<String> getLikedItems() {
         return likedItems;
     }
+
     public List<String> getHatedItems() {
         return hatedItems;
     }
+
     public String getRelationshipStatus() {
         return relationshipStatus;
     }
+
     public void setRelationshipStatus(String relationshipStatus) {
         this.relationshipStatus = relationshipStatus;
     }
-    // public Rectangle2D getHitbox() {
-    //     return hitbox;
-    // }
-
-    /* Method for HatedItem */
 
     public boolean hatedItems(String itemName) {
         if (this.getName().equals("MayorTadi")) {
@@ -163,21 +167,6 @@ public class NPC {
             return hatedItems.contains(itemName);
         }
     }
-
-    // public String getReactionItem(String itemName) {
-    //     if (lovedItems.contains(itemName)) {
-    //         return "Loved";
-    //     }
-    //     else if (likedItems.contains(itemName)){
-    //         return "Liked";
-    //     }
-    //     else if (hatedItems.contains(itemName)){
-    //         return "Hated";
-    //     }
-    //     else {
-    //         return "Neutral";
-    //     }
-    // }
 
     public int getHeartPointsforItems(String itemName) {
         if (lovedItems.contains(itemName)) {

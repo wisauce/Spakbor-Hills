@@ -1,14 +1,9 @@
 package sti.oop.models;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Collections;
-
-import javafx.scene.image.Image;
 
 public class OwnedItem {
     // Change all of String to Items whenever is available
