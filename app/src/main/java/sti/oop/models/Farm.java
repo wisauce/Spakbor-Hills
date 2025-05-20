@@ -1,14 +1,5 @@
 package sti.oop.models;
 
-import javafx.scene.paint.*;
-
-import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-import sti.oop.App;
-
 public class Farm {
   private String name;
   private Player player;

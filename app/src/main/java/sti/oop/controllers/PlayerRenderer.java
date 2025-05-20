@@ -1,114 +1,123 @@
 package sti.oop.controllers;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import sti.oop.models.Constants;
 import sti.oop.models.Player;
 
-public class PlayerController {
-  private boolean keyLeftPressed = false;
-  private boolean keyRightPressed = false;
-  private boolean keyDownPressed = false;
-  private boolean keyUpPressed = false;
-  private boolean keyUporDownJustPressed = false;
+public class PlayerRenderer {
+  private GraphicsContext gc;
+  private int spriteCounter = 0;
+  
+  private int idleCounter = 0;
+  private boolean isIdle = true;
+  
+  private final int screenX = Constants.SCREEN_WIDTH/ 2 - Constants.TILE_SIZE/2;
+  private final int screenY = Constants.SCREEN_HEIGHT/ 2 - Constants.TILE_SIZE/2;
+  private final int playerFrameWidth = 256;
+  private final int playerFrameHeight = 256;
+  private Image playerSpriteSheet;
 
-  private Scene scene;
-  private Player player;
-  private PlayerRenderer playerRenderer;
-
-
-  public PlayerController(Scene scene, Player player, PlayerRenderer playerRenderer) {
-    this.scene = scene;
-    this.player = player;
-    this.playerRenderer = playerRenderer;
+  private final int hitboxOffsetX = 11*4;
+  private final int hitboxOffsetY = 23*4;
+  private final int hitboxWidth = 10*4;
+  private final int hitboxHeight = 9*4;
+  // private final int hitboxTopLeftX = hitboxOffsetX;
+  // private final int hitboxTopLeftY = hitboxOffsetY;
+  // private final int hitboxTopRightX = hitboxOffsetX + hitboxWidth;
+  // private final int hitboxTopRightY = hitboxOffsetY;
+  // private final int hitboxDownLeftX = hitboxOffsetX;
+  // private final int hitboxDownLeftY = hitboxOffsetY + hitboxHeight;
+  // private final int hitboxDownRightX = hitboxOffsetX + hitboxWidth;
+  // private final int hitboxDownRightY = hitboxOffsetY + hitboxHeight;
+  
+  private int frameX = 0;
+  private int frameY = 0;
+  
+  public void setFrameX(int frameX) {
+    this.frameX = frameX;
   }
 
-  public void inputMovementHandler() {
-    scene.setOnKeyPressed(e -> {
-      switch (e.getCode()) {
-        case KeyCode.A -> {
-          keyLeftPressed = true;
-        }
-        case KeyCode.W -> {
-          keyUpPressed = true;
-        }
-        case KeyCode.S -> {
-          keyDownPressed = true;
-        }
-        case KeyCode.D -> {
-          keyRightPressed = true;
-        }
-        default -> {}
-      }
-    });     
-
-    scene.setOnKeyReleased(e -> {
-      switch (e.getCode()) {
-        case KeyCode.A -> {
-          keyLeftPressed = false;
-        }
-        case KeyCode.W -> {
-          keyUpPressed = false;
-          keyUporDownJustPressed = true;
-        }
-        case KeyCode.S -> {
-          keyDownPressed = false;
-          keyUporDownJustPressed = true;
-        }
-        case KeyCode.D -> {
-          keyRightPressed = false;
-        }
-        default -> {}
-      }
-    });
+  public PlayerRenderer(GraphicsContext gc) {
+    this.gc = gc;
+    playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/new.png"));
   }
-
-  public void playerUpdate(CollisionController collisionController, GraphicsContext gc) {
-    playerRenderer.renderPlayer();
-
-    int intersectPoint1X = 0;
-    int intersectPoint1Y = 0;
-    int intersectPoint2X = 0;
-    int intersectPoint2Y = 0;
-
-
+  
+  public int sourceX() {
+    return frameX * playerFrameWidth;
+  }
+  
+  public int sourceY() {
+    return frameY * playerFrameHeight;
+  }
+  
+  public void playerMovementHandler(Player player, boolean keyLeftPressed, boolean keyRightPressed, boolean keyUpPressed, boolean keyDownPressed, boolean keyUporDownJustPressed) {
+    if (keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed) {
+      spriteCounter = (spriteCounter + 1) % 10;
+      isIdle = false;
+    } else {
+      isIdle = true;
+    }
     if (keyLeftPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() - player.getSpeed();
-      intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
+      frameY = 1;
+      if (spriteCounter == 9) frameX = ((frameX+1) % 2);
+    } 
+    if (keyRightPressed) {
+      frameY = 3;
+      if (spriteCounter == 9) frameX = ((frameX + 1) %2);
     }
-    else if (keyUpPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() - player.getSpeed();
-      intersectPoint2Y = intersectPoint1Y;
-    } 
-    else if (keyRightPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() + playerRenderer.getHitboxWidth() + player.getSpeed();
-      intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
-    } 
-    else if (keyDownPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() + playerRenderer.getHitboxHeight() + player.getSpeed();
-      intersectPoint2Y = intersectPoint1Y;
-    } 
-
-    if (!collisionController.isCollision(intersectPoint1X, intersectPoint1Y) && !collisionController.isCollision(intersectPoint2X, intersectPoint2Y)) {
-      playerRenderer.playerMovementHandler(player, keyLeftPressed, keyRightPressed, keyUpPressed, keyDownPressed, keyUporDownJustPressed);
-      player.move(keyLeftPressed, keyUpPressed, keyDownPressed, keyRightPressed);
+    if (keyUpPressed) {
+      frameY = 2;
+      if (spriteCounter == 9) frameX = (2 + (frameX+1) %2);
     }
+    if (keyDownPressed) {
+      frameY = 0;
+      if (spriteCounter == 9) frameX = (2 + (frameX + 1) % 2); 
+    }
+    if (isIdle) {
+      if (frameY == 0 || frameY == 2) {
+        idleCounter = (idleCounter + 1) % 50;
+        if (idleCounter == 49) frameX = (frameX + 1) % 2;
+      } else {
+        frameX = 1;
+      }
+    } else {
+      idleCounter = 0;
+    }
+    
     if (keyUporDownJustPressed) {
-      keyUporDownJustPressed = false;
+      frameX = 0;
     }
-
-    gc.setFill(Color.RED);
-    gc.rect(intersectPoint1X, intersectPoint1Y, 2, 2);
-    gc.rect(intersectPoint2X, intersectPoint2Y, 2, 2);
   }
+  
+  public void renderPlayer() {
+    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, screenX, screenY, 128, 128);
+  }
+
+  public int getHitboxOffsetX() {
+    return hitboxOffsetX;
+  }
+
+  public int getHitboxOffsetY() {
+    return hitboxOffsetY;
+  }
+
+  public int getHitboxWidth() {
+    return hitboxWidth;
+  }
+
+  public int getHitboxHeight() {
+    return hitboxHeight;
+  }
+
+  public int getScreenX() {
+    return screenX;
+  }
+
+  public int getScreenY() {
+    return screenY;
+  }
+  
+  
+  
 }

@@ -7,16 +7,14 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import sti.oop.models.Farm;
+import sti.oop.models.Player;
+import sti.oop.models.Player.Gender;
 
 import sti.oop.models.Abigail;
 import sti.oop.models.Caroline;

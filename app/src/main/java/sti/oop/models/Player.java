@@ -51,7 +51,7 @@ public class Player {
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
   }
-
+  
   public int getX() {
     return x;
   }

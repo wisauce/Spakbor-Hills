@@ -1,8 +1,6 @@
 package sti.oop.models;
 
-import javafx.scene.image.Image;
 import java.util.List;
-
 
 public class NPC {
     private final int maxHeartPoints = 150;

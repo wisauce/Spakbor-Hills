@@ -1,12 +1,6 @@
 package sti.oop.models;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import sti.oop.App;
 
 public class FarmMap extends StackPane {
   //nanti ini buat nyimpen gridnya
