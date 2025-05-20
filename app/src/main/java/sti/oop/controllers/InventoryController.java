@@ -32,7 +32,8 @@ public class InventoryController {
     private Label playerNameLabel;
 
     private GraphicsContext gc;
-    private FarmController farmController;
+    // Ubah ini dari FarmController ke PlayerController
+    private PlayerController playerController;
     private AnimationTimer animationTimer;
     private int animationCounter = 0;
     private int frameX = 0;
@@ -103,7 +104,21 @@ public class InventoryController {
             frameX = (frameX + 1) % 2;
         }
 
-        gc.drawImage(Player.playerSpriteSheet, frameX * Player.playerFrameWidth, 0, Player.playerFrameWidth, Player.playerFrameHeight, 0, 0, playerInventoryCanvas.getWidth(), playerInventoryCanvas.getHeight());
+        // Ubah bagian ini untuk menggunakan sprite sheet dari playerRenderer
+        if (playerController != null) {
+            // Menggunakan sprite sheet dari player
+            gc.drawImage(
+                player.getPlayerSpriteSheet(),
+                frameX * 256, // playerFrameWidth = 256
+                0,
+                256, // playerFrameWidth
+                256, // playerFrameHeight
+                0, 
+                0, 
+                playerInventoryCanvas.getWidth(), 
+                playerInventoryCanvas.getHeight()
+            );
+        }
     }
     
     @FXML
@@ -120,13 +135,14 @@ public class InventoryController {
     }
     
     private void closeInventory() {
-        if (farmController != null) {
+        if (playerController != null) {
             animationTimer.stop();
-            farmController.toggleInventory();
+            playerController.toggleInventory();
         }
     }
     
-    public void setFarmController(FarmController controller) {
-        this.farmController = controller;
+    // Ubah method ini untuk menerima PlayerController
+    public void setPlayerController(PlayerController controller) {
+        this.playerController = controller;
     }
 }

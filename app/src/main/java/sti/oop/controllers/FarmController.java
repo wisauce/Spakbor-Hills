@@ -56,9 +56,6 @@ public class FarmController {
 
     private final int MINUTES_PER_SECOND = 5;
 
-    private boolean inventoryOpened = false;
-    private StackPane inventoryPane;
-
     private NPC mayorTadi;
     private NPC abigail;
     private NPC caroline;
@@ -192,7 +189,7 @@ public class FarmController {
             scene = hud.getScene();
             gc = canvas.getGraphicsContext2D();
             playerRenderer = new PlayerRenderer(gc);
-            playerController = new PlayerController(scene, player, playerRenderer);
+            playerController = new PlayerController(scene, player, playerRenderer, this);
             mapController = new MapController(gc,"/tileSheet/farm/cek2.png","/tileSheet/farm/pond.txt", 128 );
             collisionController = new CollisionController("/tileSheet/farm/pondCollision.txt");
             playerController.inputMovementHandler();
@@ -297,57 +294,8 @@ public class FarmController {
         timeFrozen = false;
     }
 
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
 
-    /* Inventory Logics */
-    // public void toggleInventory() {
-    //     System.out.println("Toggling Inventory... Current state: " + (inventoryOpened ? "Open" : "Closed"));
-
-    //     if (inventoryOpened) {
-    //         System.out.println("Closing inventory...");
-    //         hud.getChildren().remove(inventoryPane);
-    //         inventoryOpened = false;
-    //         unfreezeTime();
-    //         System.out.println("Inventory closed");
-    //     }
-        
-    //     else {
-    //         System.out.println("Opening inventory...");
-    //         freezeTime(); // freeze time
-
-    //         /* Player can't move whilst inventory is opened */
-    //         keyLeftPressed = false;
-    //         keyRightPressed = false;
-    //         keyUpPressed = false;
-    //         keyDownPressed = false;
-            
-    //         /* Inventory GUI render */
-    //         try {
-    //             FXMLLoader inventoryLoader = new FXMLLoader(getClass().getResource("/views/Inventory.fxml"));
-    //             Parent inventoryParent = inventoryLoader.load();
-    //             inventoryPane = (StackPane) inventoryParent;
-                
-    //             InventoryController inventoryController = inventoryLoader.getController();
-    //             inventoryController.setFarmController(this);
-    //             inventoryController.setPlayer(farm.getPlayer());
-                
-
-    //             inventoryPane.setMaxSize(800, 400);
-    //             inventoryPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-border-color: white; -fx-border-width: 2px;");
-                
-    //             BorderPane.setAlignment(inventoryPane, javafx.geometry.Pos.CENTER);
-    //             hud.setCenter(inventoryPane);
-
-    //             inventoryPane.requestFocus();
-                
-    //             inventoryOpened = true;
-    //             System.out.println("Inventory opened");
-    //         } catch (IOException e) {
-    //             e.printStackTrace();
-    //             System.out.println("Failed to load Inventory.fxml: " + e.getMessage());
-    //         } catch (Exception e) {
-    //             e.printStackTrace();
-    //             System.out.println("Unexpected error: " + e.getMessage());
-    //         }
-    //     }
-    // }
 }
