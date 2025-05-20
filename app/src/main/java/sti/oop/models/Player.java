@@ -3,47 +3,40 @@ package sti.oop.models;
 import javafx.scene.image.Image;
 
 public class Player {
-  private final int maxEnergy = 100;
-  private String name;
   public enum Gender {
     MALE,
     FEMALE
   }
+
+  private final int maxEnergy = 100;
+  
+  private String name;
   private Gender gender;
-  private int energy;
   private String farmName;
   private String partner;
   private int gold;
+  private int energy;
   private OwnedItem inventory;
-  private Point location;
   private enum CurrentMap{
     FARM,
     HOUSE,
     WORLD
   }
+
+  private int speed;
+  private int x;
+  private int y;
   private CurrentMap currentMap;
-  private int speed = 4;
   private boolean run = false;
   
-  public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
-  public static final int playerFrameWidth = 256;
-  public static final int playerFrameHeight = 256;
-  public static int frameX = 0;
-  public static int frameY = 0;
 
-  public static int sourceX() {
-    return frameX * playerFrameWidth;
-  }
-
-  public static int sourceY() {
-    return frameY * playerFrameHeight;
-  }
-
-  public Player(String name, Gender gender, String farmName) {
+  public Player(String name, Gender gender, String farmName, int gold, int speed) {
     this.name = name;
     this.gender = gender;
     this.farmName = farmName;
-    this.gold = 0;
+    this.gold = gold;
+    this.speed = speed;
+
     partner = null;
     inventory = new OwnedItem();
     inventory.addItem("Hoe", 1);
@@ -51,10 +44,34 @@ public class Player {
     inventory.addItem("Pickaxe", 1);
     inventory.addItem("Fishing Rod", 1);
     inventory.addItem("Parsnip Seeds", 15);
+    
     currentMap = CurrentMap.FARM;
-    location = new Point(0,0);
+    x = 0;
+    y = 0;
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
+
+  private final Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
+
+  public Image getPlayerSpriteSheet() {
+    return playerSpriteSheet;
   }
 
   public String getName() {
@@ -70,7 +87,7 @@ public class Player {
   }
 
   public void setEnergy(int energy) {
-    this.energy = energy > maxEnergy ? maxEnergy : energy < 0 ? 0 : energy;
+    this.energy = Math.clamp(energy, 0, maxEnergy);  
   }
 
   public Gender getGender() {
@@ -114,15 +131,50 @@ public class Player {
     this.currentMap = currentMap;
   }
 
-  public Point getLocation() {
-    return location;
+  public void moveRight() {
+    if (run) {
+      x += speed * 1.5;
+    }
+    else {
+      x += speed;
+    }
   }
 
-  public void setLocation(Point location) {
-    this.location = location;
+  public void moveLeft() {
+    if (run) {
+      x -= speed * 1.5;
+    }
+    else {
+      x -= speed;
+    }
   }
 
-  public int getSpeed(){
+  public void moveUp() {
+    if (run) {
+      y -= speed * 1.5;
+    }
+    else {
+      y -= speed;
+    }
+  }
+
+  public void moveDown() {
+    if (run) {
+      y += speed * 1.5;
+    }
+    else {
+      y += speed;
+    }
+  }
+
+  public void move(boolean left, boolean up, boolean down, boolean right) {
+    if (left) moveLeft();
+    if (up) moveUp();
+    if (down) moveDown();
+    if (right) moveRight();
+  }
+
+    public int getSpeed(){
     return speed;
   }
 
@@ -132,42 +184,6 @@ public class Player {
 
   public void setRun(boolean state) {
     run = state;
-  }
-
-  public void moveRight() {
-    if (run) {
-      location.x += speed*1.5;
-    }
-    else {
-      location.x +=speed;
-    }
-  }
-
-  public void moveLeft() {
-    if (run) {
-      location.x -= speed*1.5;
-    }
-    else {
-      location.x -=speed;
-    }
-  }
-
-  public void moveUp() {
-    if (run) {
-      location.y -= speed*1.5;
-    }
-    else {
-      location.y -=speed;
-    }
-  }
-
-  public void moveDown() {
-    if (run) {
-      location.y += speed*1.5;
-    }
-    else {
-      location.y +=speed;
-    }
   }
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
