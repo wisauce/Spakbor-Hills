@@ -187,11 +187,11 @@ public class FarmController {
     public void initialize() {
 
         /* Initialize Player */
-        Player player = new Player("Asep", Gender.MALE, "Asep's diary", 50, 20);
+        player = new Player("Asep", Gender.MALE, "Asep's diary", 50, 20);
         farm = new Farm(player);
         /* Delay until scene is ready */
         Platform.runLater(() -> {
-            scene = hud.getParent().getScene();
+            scene = hud.getScene();
             gc = canvas.getGraphicsContext2D();
             playerRenderer = new PlayerRenderer(gc);
             playerController = new PlayerController(scene, player, playerRenderer);
