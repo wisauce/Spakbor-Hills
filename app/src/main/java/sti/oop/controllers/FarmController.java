@@ -180,61 +180,14 @@ public class FarmController {
 
     @FXML
     public void initialize() {
-
         /* Initialize Player */
         player = new Player("Asep", Gender.MALE, "Asep's diary", 50, 20);
         farm = new Farm(player);
-        /* Delay until scene is ready */
-        Platform.runLater(() -> {
-            scene = hud.getScene();
-            gc = canvas.getGraphicsContext2D();
-            playerRenderer = new PlayerRenderer(gc);
-            playerController = new PlayerController(scene, player, playerRenderer, this);
-            mapController = new MapController(gc,"/tileSheet/farm/cek2.png","/tileSheet/farm/pond.txt", 128 );
-            collisionController = new CollisionController("/tileSheet/farm/pondCollision.txt");
-            playerController.inputMovementHandler();
-        });
         
-        // /* Key Press Toggle Controls */
-        // scene.setOnKeyPressed(e -> {
-        //     System.out.println("Key pressed: " + e.getCode());
-        //     switch (e.getCode()) {
-        //         case KeyCode.A -> keyLeftPressed = true;
-        //         case KeyCode.W -> keyUpPressed = true;
-        //         case KeyCode.S -> keyDownPressed = true;
-        //         case KeyCode.D -> keyRightPressed = true;
-        //         case KeyCode.E -> toggleInventory();
-        //         case KeyCode.SHIFT -> player.setRun(true);
-        //         default -> {}
-        //     }
-        // });
-
-        // /* Key Release Toggle Controls */
-        // scene.setOnKeyReleased(e -> {
-        //         switch (e.getCode()) {
-        //             case KeyCode.A -> keyLeftPressed = false;
-        //             case KeyCode.W -> {keyUpPressed = false; Player.frameX = 0;}
-        //             case KeyCode.S -> {keyDownPressed = false; Player.frameX = 0;}
-        //             case KeyCode.D -> keyRightPressed = false;
-        //             case KeyCode.SHIFT -> player.setRun(false);
-        //             default -> {}
-        //         }
-        //     });
-        // });
-        //             case KeyCode.A -> keyLeftPressed = false;
-        //             case KeyCode.W -> {keyUpPressed = false; Player.frameX = 0;}
-        //             case KeyCode.S -> {keyDownPressed = false; Player.frameX = 0;}
-        //             case KeyCode.D -> keyRightPressed = false;
-        //             case KeyCode.SHIFT -> player.setRun(false);
-        //             default -> {}
-        //         }
-        //     });
-        // });
-
+        // Create but don't start the AnimationTimer yet
         AnimationTimer gameTime = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // System.out.println(now);
                 if (lastTime == 0) {
                     lastTime = now;
                 }
@@ -249,8 +202,20 @@ public class FarmController {
                 render();
             }
         };
-
-        gameTime.start();
+        
+        /* Delay until scene is ready */
+        Platform.runLater(() -> {
+            scene = hud.getScene();
+            gc = canvas.getGraphicsContext2D();
+            playerRenderer = new PlayerRenderer(gc);
+            playerController = new PlayerController(scene, player, playerRenderer, this);
+            mapController = new MapController(gc,"/tileSheet/farm/cek2.png","/tileSheet/farm/pond.txt", 128);
+            collisionController = new CollisionController("/tileSheet/farm/pondCollision.txt");
+            playerController.inputMovementHandler();
+            
+            // Start the animation timer only after initialization is complete
+            gameTime.start();
+        });
     }
     
 
