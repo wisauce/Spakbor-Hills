@@ -1,6 +1,7 @@
 package sti.oop.models;
 
 import java.util.List;
+import java.util.Collections;
 
 public class MayorTadi extends NPC {
 
@@ -10,7 +11,7 @@ public class MayorTadi extends NPC {
             new Point(0, 0), //location
             List.of("Legend"), //lovedItems
             List.of("Angler, Crimsonfish, Glacierfish"), //likedItems
-            List.of("Else") //hatedItems
+            Collections.emptyList() //hatedItems
         );
     }
 }

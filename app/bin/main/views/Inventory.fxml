@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="inventoryPane" onKeyPressed="#handleKeyPress" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: rgba(0, 0, 0, 0.7);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.InventoryController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="696.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+         <image>
+            <Image url="@../images/inventoryGUI.png" />
+         </image>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </ImageView>
+      
+      <Label text="Inventory" textFill="#6b4c1a" StackPane.alignment="TOP_LEFT">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+         <StackPane.margin>
+            <Insets left="200.0" top="20.0" />
+         </StackPane.margin>
+      </Label>
+      
+      <GridPane fx:id="inventoryGrid" alignment="TOP_CENTER" hgap="8.0" maxHeight="234.0" maxWidth="453.0" prefHeight="180.0" prefWidth="400.0" vgap="8" StackPane.alignment="TOP_LEFT">
+         <padding>
+            <Insets left="20" right="20" top="70" />
+         </padding>
+         <StackPane.margin>
+            <Insets left="32.0" top="129.0" />
+         </StackPane.margin>
+      </GridPane>
+      
+      <VBox alignment="TOP_LEFT" maxWidth="250.0" StackPane.alignment="TOP_LEFT">
+         <children>
+            <Label fx:id="farmNameLabel" text="Farm Name" textFill="#6b4c1a">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            
+            <Label fx:id="playerNameLabel" text="Player Name" textFill="#6b4c1a">
+               <font>
+                  <Font name="Comic Sans MS" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            
+            <Label fx:id="goldLabel" text="Current Gold: 0g" textFill="#6b4c1a">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </Label>
+            <Canvas fx:id="playerInventoryCanvas" height="128.0" width="128.0">
+               <VBox.margin>
+                  <Insets left="60.0" top="40.0" />
+               </VBox.margin>
+            </Canvas>
+         </children>
+         <StackPane.margin>
+            <Insets left="535.0" top="90.0" />
+         </StackPane.margin>
+      </VBox>
+      
+      
+      <Button onAction="#handleClose" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #e6c16e; -fx-text-fill: #6b4c1a; -fx-font-weight: bold; -fx-background-radius: 8px;" text="Close" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin>
+            <Insets bottom="20.0" left="535.0" top="20.0" />
+         </StackPane.margin>
+      </Button>
+      
+      <StackPane prefWidth="160.0" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin>
+            <Insets left="20" top="220.0" />
+         </StackPane.margin>
+      </StackPane>
+   </children>
+</StackPane>
