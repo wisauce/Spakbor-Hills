@@ -12,6 +12,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Player.Gender;
@@ -40,7 +42,7 @@ public class FarmController {
     private Scene scene;
     private GraphicsContext gc;
 
-    private Farm farm;
+
     private Player player;
     private MapController mapController;
     private CollisionController collisionController;
@@ -55,6 +57,9 @@ public class FarmController {
 
 
     private final int MINUTES_PER_SECOND = 5;
+
+    private long lastFrameTime = 0; 
+    private double diffTime;
 
     private NPC mayorTadi;
     private NPC abigail;
@@ -71,123 +76,73 @@ public class FarmController {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         mapController.render(player.getX(), player.getY(), playerRenderer.getScreenX(), playerRenderer.getScreenY());
-        playerController.playerUpdate(collisionController, gc);
+        playerController.playerUpdate(collisionController, gc, diffTime);
+
+        // Calculate the camera offset
+        int offsetX = playerRenderer.getScreenX() - player.getX();
+        int offsetY = playerRenderer.getScreenY() - player.getY();
+        
+        // Draw NPCs with offset applied
+        gc.drawImage(mayorTadi.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    mayorTadi.getLocation().x + offsetX, mayorTadi.getLocation().y + offsetY, 128, 128);
+        gc.drawImage(abigail.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    abigail.getLocation().x + offsetX, abigail.getLocation().y + offsetY, 128, 128);
+        gc.drawImage(caroline.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    caroline.getLocation().x + offsetX, caroline.getLocation().y + offsetY, 128, 128);
+        gc.drawImage(emily.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    emily.getLocation().x + offsetX, emily.getLocation().y + offsetY, 128, 128);
+        gc.drawImage(dasco.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    dasco.getLocation().x + offsetX, dasco.getLocation().y + offsetY, 128, 128);
+        gc.drawImage(perry.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, 
+                    perry.getLocation().x + offsetX, perry.getLocation().y + offsetY, 128, 128);
+        
+        // Draw clock
+        String hourString = (inGameHour < 10) ? "0" + inGameHour : String.valueOf(inGameHour);
+        String minuteString = (inGameMinute < 10) ? "0" + inGameMinute : String.valueOf(inGameMinute);
+        String timeString = hourString + ":" + minuteString + " " + timeOfDay;
+        
+        // Draw clock background
+        gc.setFill(new Color(0, 0, 0, 0.6));  // Semi-transparent black
+        gc.fillRoundRect(canvas.getWidth() - 110, 10, 100, 30, 10, 10);
+        
+        // Draw clock text
+        gc.setFill(Color.WHITE);
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        gc.fillText(timeString, canvas.getWidth() - 100, 30);
     }
-
-    // public void KeyHandler() {
-    //     if (inventoryOpened) {
-    //         return;
-    //     }
-        
-    //     boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
-    //     if (isMoving) {
-    //         spriteCounter = (spriteCounter + 1) % 10;
-    //         isIdle = false;
-    //     } else {
-    //         isIdle = true;
-    //     }
-
-    //     boolean directionChanged = false;
-        
-    //     if (keyUpPressed) {
-    //         farm.getPlayer().moveUp();
-    //         if (Player.frameY != 2) {
-    //             Player.frameY = 2;
-    //             Player.frameX = 2; 
-    //             directionChanged = true;
-    //         }
-    //         if (spriteCounter == 9 && !directionChanged) {
-    //             Player.frameX = 2 + (Player.frameX + 1) % 2;
-    //         }
-    //     }
-    //     else if (keyDownPressed) {
-    //         farm.getPlayer().moveDown();
-    //         if (Player.frameY != 0) {
-    //             Player.frameY = 0;
-    //             Player.frameX = 2;
-    //             directionChanged = true;
-    //         }
-    //         if (spriteCounter == 9 && !directionChanged) {
-    //             Player.frameX = 2 + (Player.frameX + 1) % 2;
-    //         }
-    //     }
-
-    //     if (keyLeftPressed) {
-    //         farm.getPlayer().moveLeft();
-    //         if (!keyUpPressed && !keyDownPressed) {
-    //             if (Player.frameY != 1 || Player.frameX >= 2) {
-    //                 Player.frameY = 1;
-    //                 Player.frameX = 0;
-    //                 directionChanged = true;
-    //             }
-    //             if (spriteCounter == 9 && !directionChanged) {
-    //                 Player.frameX = (Player.frameX + 1) % 2;
-    //             }
-    //         }
-    //     } 
-    //     if (keyRightPressed) {
-    //         farm.getPlayer().moveRight();
-    //         if (!keyUpPressed && !keyDownPressed) {
-    //             if (Player.frameY != 1 || Player.frameX < 2) {
-    //                 Player.frameY = 1;
-    //                 Player.frameX = 2;
-    //                 directionChanged = true;
-    //             }
-    //             if (spriteCounter == 9 && !directionChanged) {
-    //                 Player.frameX = 2 + (Player.frameX + 1) % 2;
-    //             }
-    //         }
-    //     }
-        
-    //     if (isIdle) {
-    //         idleCounter = (idleCounter + 1) % 50;
-    //         if (idleCounter == 49) {
-    //             if (Player.frameY == 0 || Player.frameY == 2) {
-    //                 Player.frameX = (Player.frameX + 1) % 2;
-    //             } else {
-    //                 if (Player.frameX < 2) {
-    //                     Player.frameX = (Player.frameX + 1) % 2;
-    //                 } else {
-    //                     Player.frameX = 2 + (Player.frameX + 1) % 2;
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //         idleCounter = 0;
-    //     }
-    // }
-
-    // public void render() {
-    //     // gc.setFill(Color.GREEN);
-    //     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-    //     gc.setFill(Color.WHITE);
-    //     gc.fillRect(canvas.getWidth() - 120, 10, 110, 30);
-    //     gc.setFill(Color.BLACK);
-    //     gc.fillText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay), canvas.getWidth() - 110, 30);
-
-    //     /* Render each NPC into the World */
-    //     gc.drawImage(mayorTadi.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, mayorTadi.getLocation().x, mayorTadi.getLocation().y, 128, 128);
-    //     gc.drawImage(abigail.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, abigail.getLocation().x, abigail.getLocation().y, 128, 128);
-    //     gc.drawImage(caroline.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, caroline.getLocation().x, caroline.getLocation().y, 128, 128);
-    //     gc.drawImage(emily.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, emily.getLocation().x, emily.getLocation().y, 128, 128);
-    //     gc.drawImage(dasco.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, dasco.getLocation().x, dasco.getLocation().y, 128, 128);
-    //     gc.drawImage(perry.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, perry.getLocation().x, perry.getLocation().y, 128, 128);
-        
-    //     /* Render Player Last into the World */
-    //     gc.drawImage(Player.playerSpriteSheet, Player.sourceX(), Player.sourceY(), Player.playerFrameWidth, Player.playerFrameHeight, farm.getPlayer().getLocation().x, farm.getPlayer().getLocation().y, 128, 128);
-    // }
 
     @FXML
     public void initialize() {
         /* Initialize Player */
-        player = new Player("Asep", Gender.MALE, "Asep's diary", 50, 20);
-        farm = new Farm(player);
+        player = new Player("Asep", Gender.MALE, "Asep's diary", 50, 4);
+
         
-        // Create but don't start the AnimationTimer yet
+
+        /* Initialize NPC */
+
+        mayorTadi = new MayorTadi();
+        abigail = new Abigail();
+        caroline = new Caroline();  
+        emily = new Emily();
+        dasco = new Dasco();
+        perry = new Perry();
+
         AnimationTimer gameTime = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (lastFrameTime == 0) {
+                    lastFrameTime = now;
+                }
+                
+                diffTime = (now - lastFrameTime) / 1_000_000_000.0;
+                lastFrameTime = now;
+                
+                if (diffTime > 0.1) {
+                    diffTime = 0.1;
+                }
+                
+                playerController.playerUpdate(collisionController, gc, diffTime);
+
                 if (lastTime == 0) {
                     lastTime = now;
                 }

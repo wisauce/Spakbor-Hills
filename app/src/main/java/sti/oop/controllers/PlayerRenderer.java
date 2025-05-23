@@ -30,6 +30,10 @@ public class PlayerRenderer {
   // private final int hitboxDownLeftY = hitboxOffsetY + hitboxHeight;
   // private final int hitboxDownRightX = hitboxOffsetX + hitboxWidth;
   // private final int hitboxDownRightY = hitboxOffsetY + hitboxHeight;
+
+  private double animationTimeAccumulator = 0;
+  private final double HORIZONTAL_FRAME_DURATION = 0.30;
+  private final double VERTICAL_FRAME_DURATION = 0.15;
   
   private int frameX = 0;
   private int frameY = 0;
@@ -51,40 +55,48 @@ public class PlayerRenderer {
     return frameY * playerFrameHeight;
   }
   
-  public void playerMovementHandler(Player player, boolean keyLeftPressed, boolean keyRightPressed, boolean keyUpPressed, boolean keyDownPressed, boolean keyUporDownJustPressed) {
+  public void playerMovementHandler(Player player, boolean keyLeftPressed, boolean keyRightPressed, boolean keyUpPressed, boolean keyDownPressed, boolean keyUporDownJustPressed, double diffTime) {
     if (keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed) {
-      spriteCounter = (spriteCounter + 1) % 10;
-      isIdle = false;
+        animationTimeAccumulator += diffTime;
+        
+        double typeFrameDuration = (keyLeftPressed || keyRightPressed) ? HORIZONTAL_FRAME_DURATION : VERTICAL_FRAME_DURATION;
+
+        if (animationTimeAccumulator >= typeFrameDuration) {
+            if (keyUpPressed || keyDownPressed) frameX = (frameX + 1) % 4;
+            else frameX = (frameX + 1) % 2;
+
+            animationTimeAccumulator = 0;
+        }
+        
+        isIdle = false;
     } else {
-      isIdle = true;
-    }
-    if (keyLeftPressed) {
-      frameY = 1;
-      if (spriteCounter == 9) frameX = ((frameX+1) % 2);
-    } 
-    if (keyRightPressed) {
-      frameY = 3;
-      if (spriteCounter == 9) frameX = ((frameX + 1) %2);
-    }
-    if (keyUpPressed) {
-      frameY = 2;
-      if (spriteCounter == 9) frameX = (2 + (frameX+1) %2);
-    }
-    if (keyDownPressed) {
-      frameY = 0;
-      if (spriteCounter == 9) frameX = (2 + (frameX + 1) % 2); 
-    }
-    if (isIdle) {
-      if (frameY == 0 || frameY == 2) {
-        idleCounter = (idleCounter + 1) % 50;
-        if (idleCounter == 49) frameX = (frameX + 1) % 2;
-      } else {
-        frameX = 1;
-      }
-    } else {
-      idleCounter = 0;
+        isIdle = true;
     }
     
+    if (keyLeftPressed) {
+        frameY = 1;
+    } 
+    if (keyRightPressed) {
+        frameY = 3;
+    }
+    if (keyUpPressed) {
+        frameY = 2;
+    }
+    if (keyDownPressed) {
+        frameY = 0;
+    }
+
+    if (isIdle) {
+        if (frameY == 0 || frameY == 2) {
+            idleCounter = (idleCounter + 1) % 50;
+            if (idleCounter == 49) frameX = (frameX + 1) % 2;
+        } else {
+            frameX = 1;
+        }
+    } else {
+        idleCounter = 0;
+    }
+
     if (keyUporDownJustPressed) {
       frameX = 0;
     }
