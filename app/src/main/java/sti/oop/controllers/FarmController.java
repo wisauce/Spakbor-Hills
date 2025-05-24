@@ -102,7 +102,8 @@ public class FarmController {
         /* Initialize Player */
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
-        PlayerController playerController = new PlayerController(player);
+        CollisionController collisionController = new CollisionController("/tilesheets/farm/pondCollision.txt");
+        PlayerController playerController = new PlayerController(player, collisionController);
         MapController mapController = new MapController(player,"/tilesheets/farm/cek2.png","/tilesheets/farm/pond.txt", 128 );
 
         /* Initialize NPC */
@@ -136,7 +137,6 @@ public class FarmController {
             }
               render();
               mapController.render(gc);
-              playerController.update();
               playerController.render(gc);
             }
         };

@@ -10,7 +10,7 @@ import sti.oop.utils.Constants;
 
 public class PlayerController implements Renderable {
   private Player player;
-
+  private CollisionController collisionController;
   // key
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
@@ -28,8 +28,16 @@ public class PlayerController implements Renderable {
   private final int playerFrameHeight = 256;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
 
-  public PlayerController(Player player) {
+  // collision
+  private final int hitboxOffsetX = 11*4;
+  private final int hitboxOffsetY = 23*4;
+  private final int hitboxWidth = 10*4;
+  private final int hitboxHeight = 9*4;
+
+
+  public PlayerController(Player player, CollisionController collisionController) {
     this.player = player;
+    this.collisionController = collisionController;
   }
 
   public int sourceX() {
@@ -54,7 +62,67 @@ public class PlayerController implements Renderable {
 
     boolean directionChanged = false;
 
+    int intersectPoint1X = 0;
+    int intersectPoint1Y = 0;
+    int intersectPoint2X = 0;
+    int intersectPoint2Y = 0;
+
+    boolean canMoveLeft = true;
+    boolean canMoveRight = true;
+    boolean canMoveUp = true;
+    boolean canMoveDown = true;
+
+    if (keyLeftPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX - player.getSpeed();
+      intersectPoint2X = intersectPoint1X;
+      intersectPoint1Y = player.getY() + hitboxOffsetY;
+      intersectPoint2Y = intersectPoint1Y + hitboxHeight;
+
+      canMoveLeft = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+                    &&
+                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
+
+    if (keyRightPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX + hitboxWidth + player.getSpeed();
+      intersectPoint2X = intersectPoint1X;
+      intersectPoint1Y = player.getY() + hitboxOffsetY;
+      intersectPoint2Y = intersectPoint1Y + hitboxHeight;
+      
+      canMoveRight = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+                    &&
+                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    } 
+
     if (keyUpPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX;
+      intersectPoint2X = intersectPoint1X + hitboxWidth;
+      intersectPoint1Y = player.getY() + hitboxOffsetY - player.getSpeed();
+      intersectPoint2Y = intersectPoint1Y;
+
+      canMoveUp = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+                    &&
+                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    } 
+
+
+    if (keyDownPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX;
+      intersectPoint2X = intersectPoint1X + hitboxWidth;
+      intersectPoint1Y = player.getY() + hitboxOffsetY + hitboxHeight + player.getSpeed();
+      intersectPoint2Y = intersectPoint1Y;
+
+      canMoveDown = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+                    &&
+                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    } 
+
+    boolean leftMovement = keyLeftPressed && canMoveLeft;
+    boolean rightMovement = keyRightPressed && canMoveRight;
+    boolean upMovement = keyUpPressed && canMoveUp;
+    boolean downMovement = keyDownPressed && canMoveDown;
+
+    if (upMovement) {
       player.moveUp();
       if (frameY != 2) {
         frameY = 2;
@@ -64,7 +132,8 @@ public class PlayerController implements Renderable {
       if (spriteCounter == 9 && !directionChanged) {
         frameX = 2 + (frameX + 1) % 2;
       }
-    } else if (keyDownPressed) {
+    } 
+     if (downMovement) {
       player.moveDown();
       if (frameY != 0) {
         frameY = 0;
@@ -76,7 +145,7 @@ public class PlayerController implements Renderable {
       }
     }
 
-    if (keyLeftPressed) {
+    if (leftMovement) {
       player.moveLeft();
       if (!keyUpPressed && !keyDownPressed) {
         if (frameY != 1 || frameX >= 2) {
@@ -89,7 +158,7 @@ public class PlayerController implements Renderable {
         }
       }
     }
-    if (keyRightPressed) {
+    if (rightMovement) {
       player.moveRight();
       if (!keyUpPressed && !keyDownPressed) {
         if (frameY != 1 || frameX < 2) {
@@ -156,12 +225,10 @@ public class PlayerController implements Renderable {
     });
   }
 
-  public void update() {
-    keyHandler();
-  }
-
+  
   @Override
   public void render(GraphicsContext gc) {
+    keyHandler();
     gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, Constants.PLAYER_SCREEN_X,
         Constants.PLAYER_SCREEN_Y, Constants.TILE_SIZE, Constants.TILE_SIZE);
   }
