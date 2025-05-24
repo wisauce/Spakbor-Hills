@@ -103,6 +103,7 @@ public class FarmController {
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
         PlayerController playerController = new PlayerController(player);
+        MapController mapController = new MapController(player,"/tilesheets/farm/cek2.png","/tilesheets/farm/pond.txt", 128 );
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();
@@ -134,6 +135,7 @@ public class FarmController {
               lastTime = now;
             }
               render();
+              mapController.render(gc);
               playerController.update();
               playerController.render(gc);
             }

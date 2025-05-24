@@ -1,16 +1,14 @@
 package sti.oop.controllers;
 
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
+import sti.oop.interfaces.Renderable;
 import sti.oop.models.Player;
 import sti.oop.utils.Constants;
 
-public class PlayerController {
-  private Scene scene;
+public class PlayerController implements Renderable {
   private Player player;
 
   // key
@@ -26,8 +24,6 @@ public class PlayerController {
   private int idleCounter = 0;
   private boolean isIdle = true;
   private boolean inventoryOpened = false;
-  private final int screenX = Constants.SCREEN_WIDTH/ 2 - Constants.TILE_SIZE/2;
-  private final int screenY = Constants.SCREEN_HEIGHT/ 2 - Constants.TILE_SIZE/2;
   private final int playerFrameWidth = 256;
   private final int playerFrameHeight = 256;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
@@ -164,7 +160,9 @@ public class PlayerController {
     keyHandler();
   }
 
+  @Override
   public void render(GraphicsContext gc) {
-    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, player.getX(), player.getY(), Constants.TILE_SIZE, Constants.TILE_SIZE);
+    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, Constants.PLAYER_SCREEN_X,
+        Constants.PLAYER_SCREEN_Y, Constants.TILE_SIZE, Constants.TILE_SIZE);
   }
 }
