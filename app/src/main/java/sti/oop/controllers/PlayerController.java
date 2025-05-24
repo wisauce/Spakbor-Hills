@@ -47,7 +47,6 @@ public class PlayerController {
     this.playerRenderer = playerRenderer;
     this.farmController = farmController;
 
-    // Debug the scene structure
     System.out.println("Scene root: " + scene.getRoot().getClass().getName());
     
     this.hud = new BorderPane();
@@ -121,86 +120,149 @@ public class PlayerController {
     playerRenderer.renderPlayer();
 
     if (inventoryOpened) {
-      return;
+        return;
     }
 
-    int frameAdjustedSpeed = (int)Math.round(player.getSpeed() * diffTime * 60);
-
-    if (frameAdjustedSpeed < 1) {
-      frameAdjustedSpeed = 1;
+    int adjustedSpeed = (int)Math.round(player.getSpeed() * diffTime * 60);
+    if (adjustedSpeed < 1) {
+        adjustedSpeed = 1;
     }
+    
+    int hitboxLeftEdge = player.getX() + playerRenderer.getHitboxOffsetX();
+    int hitboxRightEdge = hitboxLeftEdge + playerRenderer.getHitboxWidth();
+    int hitboxTopEdge = player.getY() + playerRenderer.getHitboxOffsetY();
+    int hitboxBottomEdge = hitboxTopEdge + playerRenderer.getHitboxHeight();
 
-    int intersectPoint1X = 0;
-    int intersectPoint1Y = 0;
-    int intersectPoint2X = 0;
-    int intersectPoint2Y = 0;
 
     boolean canMoveLeft = true;
     boolean canMoveRight = true;
-    boolean canMoveUp = true;
-    boolean canMoveDown = true;
-
+    
     if (keyLeftPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() - frameAdjustedSpeed;
-      intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
-
-      canMoveLeft = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+        int leftTestPoint = hitboxLeftEdge - 1; 
+        canMoveLeft = !collisionController.isCollision(leftTestPoint, hitboxTopEdge) && !collisionController.isCollision(leftTestPoint, hitboxTopEdge + playerRenderer.getHitboxHeight()/2) && !collisionController.isCollision(leftTestPoint, hitboxBottomEdge);
     }
 
     if (keyRightPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() + playerRenderer.getHitboxWidth() + frameAdjustedSpeed;
-      intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
-      
-      canMoveRight = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
+        int rightTestPoint = hitboxRightEdge + 1; 
+        canMoveRight = !collisionController.isCollision(rightTestPoint, hitboxTopEdge) && !collisionController.isCollision(rightTestPoint, hitboxTopEdge + playerRenderer.getHitboxHeight()/2) && !collisionController.isCollision(rightTestPoint, hitboxBottomEdge);
+    }
 
+    boolean canMoveUp = true;
+    boolean canMoveDown = true;
+    
     if (keyUpPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() - frameAdjustedSpeed;
-      intersectPoint2Y = intersectPoint1Y;
-
-      canMoveUp = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
-
+        int topTestPoint = hitboxTopEdge - 1; 
+        canMoveUp = !collisionController.isCollision(hitboxLeftEdge, topTestPoint) && !collisionController.isCollision(hitboxLeftEdge + playerRenderer.getHitboxWidth()/2, topTestPoint) && !collisionController.isCollision(hitboxRightEdge, topTestPoint);
+    }
 
     if (keyDownPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() + playerRenderer.getHitboxHeight() + frameAdjustedSpeed;
-      intersectPoint2Y = intersectPoint1Y;
+        int bottomTestPoint = hitboxBottomEdge + 1; 
+        canMoveDown = !collisionController.isCollision(hitboxLeftEdge, bottomTestPoint) && !collisionController.isCollision(hitboxLeftEdge + playerRenderer.getHitboxWidth()/2, bottomTestPoint) && !collisionController.isCollision(hitboxRightEdge, bottomTestPoint);
+    }
 
-      canMoveDown = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
+    int horizontalMovement = 0;
+    int verticalMovement = 0;
 
-    boolean leftMovement = keyLeftPressed && canMoveLeft;
-    boolean rightMovement = keyRightPressed && canMoveRight;
-    boolean upMovement = keyUpPressed && canMoveUp;
-    boolean downMovement = keyDownPressed && canMoveDown;
-
-    playerRenderer.playerMovementHandler(player, leftMovement, rightMovement, upMovement, downMovement, keyUporDownJustPressed, diffTime);
+    if (keyLeftPressed && canMoveLeft) {
+        horizontalMovement = -adjustedSpeed;
+    }
     
-    player.move(leftMovement, upMovement, downMovement, rightMovement);
+    else if (keyRightPressed && canMoveRight) {
+        horizontalMovement = adjustedSpeed;
+    }
+
+    if (keyUpPressed && canMoveUp) {
+        verticalMovement = -adjustedSpeed;
+    } 
+    
+    else if (keyDownPressed && canMoveDown) {
+        verticalMovement = adjustedSpeed;
+    }
+
+
+    if (horizontalMovement != 0) {
+        int stepDirection;
+        if (horizontalMovement > 0) {
+          stepDirection = 1;
+        }
+
+        else{
+          stepDirection = -1;
+        } 
+
+        for (int i = 0; i < Math.abs(horizontalMovement); i++) {
+            int nextPixelPosition;
+            
+            if (horizontalMovement > 0) {
+              nextPixelPosition = hitboxRightEdge + i + 1;
+            }
+            else {
+              nextPixelPosition = hitboxLeftEdge - i - 1;
+            }
+            
+            boolean pathClear = !collisionController.isCollision(nextPixelPosition, hitboxTopEdge) && !collisionController.isCollision(nextPixelPosition, hitboxTopEdge + playerRenderer.getHitboxHeight()/2) && !collisionController.isCollision(nextPixelPosition, hitboxBottomEdge);
+            
+            if (pathClear) {
+                player.setX(player.getX() + stepDirection);
+            } else {
+                break; 
+            }
+        }
+    }
+
+
+    if (verticalMovement != 0) {
+        int stepDirection;
+        
+        if (verticalMovement > 0) {
+          stepDirection = 1;
+        }
+        else {
+          stepDirection = -1;
+        }
+
+        for (int i = 0; i < Math.abs(verticalMovement); i++) {
+            int nextPixelPosition;
+            
+            if (verticalMovement > 0) {
+              nextPixelPosition = hitboxBottomEdge + i + 1;
+            }
+            else {
+              nextPixelPosition = hitboxTopEdge - i - 1;
+            }
+            
+            
+            boolean pathClear = !collisionController.isCollision(hitboxLeftEdge, nextPixelPosition) && !collisionController.isCollision(hitboxLeftEdge + playerRenderer.getHitboxWidth()/2, nextPixelPosition) && !collisionController.isCollision(hitboxRightEdge, nextPixelPosition);
+            
+            if (pathClear) {
+                player.setY(player.getY() + stepDirection);
+            } else {
+                break; 
+            }
+        }
+    }
+    
+
+    int debugPointX1 = hitboxLeftEdge;
+    int debugPointY1 = hitboxTopEdge;
+    int debugPointX2 = hitboxRightEdge;
+    int debugPointY2 = hitboxBottomEdge;
+    
+
+    boolean movingLeft = keyLeftPressed && canMoveLeft;
+    boolean movingRight = keyRightPressed && canMoveRight;
+    boolean movingUp = keyUpPressed && canMoveUp;
+    boolean movingDown = keyDownPressed && canMoveDown;
+    
+    playerRenderer.playerMovementHandler(player, movingLeft, movingRight, movingUp, movingDown, keyUporDownJustPressed, diffTime);
     
     if (keyUporDownJustPressed) {
-      keyUporDownJustPressed = false;
+        keyUporDownJustPressed = false;
     }
 
     gc.setFill(Color.RED);
-    gc.rect(intersectPoint1X, intersectPoint1Y, 2, 2);
-    gc.rect(intersectPoint2X, intersectPoint2Y, 2, 2);
+    gc.fillRect(debugPointX1, debugPointY1, 2, 2);
+    gc.fillRect(debugPointX2, debugPointY2, 2, 2);
   }
 
   /* Inventory Logics */
@@ -209,7 +271,7 @@ public class PlayerController {
 
     if (inventoryOpened) {
         System.out.println("Closing inventory...");
-        // Get the root StackPane and remove the inventory overlay
+
         if (scene.getRoot() instanceof StackPane) {
             StackPane root = (StackPane) scene.getRoot();
             root.getChildren().remove(inventoryPane);
@@ -245,12 +307,11 @@ public class PlayerController {
             inventoryController.setPlayerController(this);
             inventoryController.setPlayer(player);
 
-            // Style and configure the inventory
             inventoryPane.setMaxSize(800, 400);
             inventoryPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-border-color: yellow; -fx-border-width: 5px;");
             inventoryPane.setVisible(true);
             
-            // Add directly to the scene's root StackPane
+
             if (scene.getRoot() instanceof StackPane) {
                 StackPane root = (StackPane) scene.getRoot();
                 root.getChildren().add(inventoryPane);

@@ -31,12 +31,15 @@ public class PlayerRenderer {
   // private final int hitboxDownRightX = hitboxOffsetX + hitboxWidth;
   // private final int hitboxDownRightY = hitboxOffsetY + hitboxHeight;
 
+  /* Attributes for FPS cap */
   private double animationTimeAccumulator = 0;
   private final double HORIZONTAL_FRAME_DURATION = 0.30;
   private final double VERTICAL_FRAME_DURATION = 0.15;
   
   private int frameX = 0;
   private int frameY = 0;
+
+  private boolean wasDiagonal = false;
   
   public void setFrameX(int frameX) {
     this.frameX = frameX;
@@ -56,13 +59,37 @@ public class PlayerRenderer {
   }
   
   public void playerMovementHandler(Player player, boolean keyLeftPressed, boolean keyRightPressed, boolean keyUpPressed, boolean keyDownPressed, boolean keyUporDownJustPressed, double diffTime) {
+
+    /* Attributes for switching vertical to diagonal */
+    boolean wasVerticalOnly = !isIdle && !wasDiagonal && (frameX == 2 || frameX == 3);
+    boolean isHorizontal = keyLeftPressed || keyRightPressed;
+    boolean isVertical = keyUpPressed || keyDownPressed;
+    boolean isDiagonal = isHorizontal && isVertical;
+    boolean wasDiagonal = isDiagonal;
+    
     if (keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed) {
         animationTimeAccumulator += diffTime;
         
         double typeFrameDuration = (keyLeftPressed || keyRightPressed) ? HORIZONTAL_FRAME_DURATION : VERTICAL_FRAME_DURATION;
 
         if (animationTimeAccumulator >= typeFrameDuration) {
-            if (keyUpPressed || keyDownPressed) frameX = (frameX + 1) % 4;
+            if (isDiagonal && wasVerticalOnly) {
+                frameX = 0;
+            }
+            else if (keyUpPressed || keyDownPressed) {
+                if (!keyLeftPressed && !keyRightPressed) {
+                  if (frameX == 2) {
+                    frameX = 3;
+                  }
+                  else{
+                    frameX = 2;
+                  }
+
+                } 
+                else {
+                    frameX = (frameX + 1) % 2;
+                }
+            }
             else frameX = (frameX + 1) % 2;
 
             animationTimeAccumulator = 0;
@@ -76,29 +103,39 @@ public class PlayerRenderer {
     if (keyLeftPressed) {
         frameY = 1;
     } 
-    if (keyRightPressed) {
+    else if (keyRightPressed) {
         frameY = 3;
     }
-    if (keyUpPressed) {
+    else if (keyUpPressed) {
         frameY = 2;
     }
-    if (keyDownPressed) {
+    else if (keyDownPressed) {
         frameY = 0;
     }
 
     if (isIdle) {
-        if (frameY == 0 || frameY == 2) {
-            idleCounter = (idleCounter + 1) % 50;
-            if (idleCounter == 49) frameX = (frameX + 1) % 2;
-        } else {
-            frameX = 1;
+        idleCounter = (idleCounter + 1) % 50;
+        if (idleCounter == 49) {
+            if (frameY == 0 || frameY == 2) {
+                frameX = (frameX + 1) % 2;
+            } else {
+                frameX = 1;
+            }
         }
     } else {
         idleCounter = 0;
     }
 
     if (keyUporDownJustPressed) {
-      frameX = 0;
+        if (keyLeftPressed || keyRightPressed) {
+            frameX = 0; 
+        } else {
+            frameX = 2; 
+        }
+    }
+    
+    if (!keyUporDownJustPressed && wasVerticalOnly && isHorizontal) {
+        frameX = 0; 
     }
   }
   
