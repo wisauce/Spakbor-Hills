@@ -24,9 +24,10 @@ public class Player {
   private int gold;
   private CurrentMap currentMap;
   private OwnedItem inventory;
-  private int speed = 4;
-  private boolean run = false;
+  private final int walkingSpeed = 4;
+  private int speed = walkingSpeed;
   private double runBoost = 1.5;
+  private final int runningSpeed = (int) (walkingSpeed * runBoost);
   private int x = 0;
   private int y = 0;
   
@@ -124,28 +125,28 @@ public class Player {
     return speed;
   }
 
-  public boolean getRun() {
-    return run;
-  }
-
   public void setRun(boolean state) {
-    run = state;
+    if (state) {
+      speed = runningSpeed;
+    } else {
+      speed = walkingSpeed;
+    }
   }
 
   public void moveRight() {
-    x += run ? speed*runBoost : speed;
+    x += speed;
   }
 
   public void moveLeft() {
-    x -= run ? speed*runBoost : speed;
+    x -= speed;
   }
 
   public void moveUp() {
-    y -= run ? speed*runBoost : speed;
+    y -= speed;
   }
 
   public void moveDown() {
-    y += run ? speed*runBoost : speed;
+    y += speed;
   }
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{

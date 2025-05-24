@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1024.0" prefWidth="1780.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.FarmController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="896.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.FarmController">
    <children>
-      <Canvas fx:id="canvas" height="1024.0" width="1024.0" />
-      <BorderPane fx:id="hud" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1780.0">
+      <Canvas fx:id="canvas" height="896.0" width="896.0" />
+      <BorderPane fx:id="hud" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="896.0">
          <top>
-            <HBox prefHeight="62.0" prefWidth="585.0" BorderPane.alignment="CENTER" />
+            <HBox alignment="TOP_RIGHT" prefHeight="62.0" prefWidth="585.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="timeDisplay" alignment="CENTER" prefHeight="205.0" prefWidth="186.0" textFill="WHITE">
+                     <font>
+                        <Font name="JetBrains Mono SemiBold" size="16.0" />
+                     </font>
+                  </Label>
+               </children></HBox>
          </top>
       </BorderPane>
    </children>

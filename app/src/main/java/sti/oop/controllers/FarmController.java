@@ -3,21 +3,17 @@ package sti.oop.controllers;
 import java.io.IOException;
 
 import javafx.animation.AnimationTimer;
-
 import javafx.application.Platform;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-
 import sti.oop.models.Abigail;
 import sti.oop.models.Caroline;
 import sti.oop.models.Dasco;
@@ -32,6 +28,9 @@ import sti.oop.models.Player.Gender;
 
 
 public class FarmController {
+    @FXML
+    private Label timeDisplay;
+
     @FXML
     private BorderPane hud;
 
@@ -78,10 +77,11 @@ public class FarmController {
         // gc.setFill(Color.GREEN);
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.WHITE);  
         gc.fillRect(canvas.getWidth() - 120, 10, 110, 30);
         gc.setFill(Color.BLACK);
         gc.fillText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay), canvas.getWidth() - 110, 30);
+        timeDisplay.setText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay));
 
         /* Render each NPC into the World */
         gc.drawImage(mayorTadi.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, mayorTadi.getLocation().x, mayorTadi.getLocation().y, 128, 128);
@@ -135,9 +135,9 @@ public class FarmController {
               updateGameTime();
               lastTime = now;
             }
-              render();
-              mapController.render(gc);
-              playerController.render(gc);
+            render();
+            mapController.render(gc);
+            playerController.render(gc);
             }
         };
 
