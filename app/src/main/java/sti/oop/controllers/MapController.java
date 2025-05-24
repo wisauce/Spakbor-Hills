@@ -2,6 +2,7 @@ package sti.oop.controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,25 @@ public class MapController {
     }
     maxTileHorizonal = ctr;
     maxTileVertical = ctr;
-    this.tileSet = new Image(getClass().getResourceAsStream(tileSetSrc));
+    InputStream streamTile = getClass().getResourceAsStream(tileSetSrc);
+    if (streamTile == null) {
+      System.err.println("FATAL ERROR: MapController - TileSet resource NOT FOUND: " + tileSetSrc);
+      // It's crucial to stop here or throw, as 'tileSet' will be invalid.
+      throw new RuntimeException("Failed to load TileSet resource. Path: " + tileSetSrc);
+    }
+    this.tileSet = new Image(streamTile);
+    if (this.tileSet.isError()) {
+        System.err.println("FATAL ERROR: MapController - Failed to load TileSet image from: " + tileSetSrc);
+        Exception imageException = this.tileSet.getException();
+        if (imageException != null) {
+            System.err.println("Image loading exception:");
+            imageException.printStackTrace();
+        }
+        // Again, crucial to stop or throw
+        throw new RuntimeException("Error occurred while loading TileSet image. Path: " + tileSetSrc, imageException);
+    } else {
+        System.out.println("MapController: TileSet loaded successfully - " + tileSetSrc + " (Width: " + this.tileSet.getWidth() + ")");
+    }
     tileSetWidth = (int) (tileSet.getWidth() / tileSize);
   }
 
