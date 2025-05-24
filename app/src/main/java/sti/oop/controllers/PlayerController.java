@@ -11,6 +11,7 @@ import sti.oop.utils.Constants;
 public class PlayerController implements Renderable {
   private Player player;
   private CollisionController collisionController;
+  private FarmController farmController;
   // key
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
@@ -23,7 +24,6 @@ public class PlayerController implements Renderable {
   private int spriteCounter = 0;
   private int idleCounter = 0;
   private boolean isIdle = true;
-  private boolean inventoryOpened = false;
   private final int playerFrameWidth = 256;
   private final int playerFrameHeight = 256;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
@@ -35,9 +35,10 @@ public class PlayerController implements Renderable {
   private final int hitboxHeight = 9*4;
 
 
-  public PlayerController(Player player, CollisionController collisionController) {
+  public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {
     this.player = player;
     this.collisionController = collisionController;
+    this.farmController = farmController;
   }
 
   public int sourceX() {
@@ -48,8 +49,12 @@ public class PlayerController implements Renderable {
     return frameY * playerFrameHeight;
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                            INPUT KEYBOARD LOGICS                           */
+  /* -------------------------------------------------------------------------- */
+
   public void keyHandler() {
-    if (inventoryOpened) {
+    if (farmController.getStatusInventory()) {
       return;
     }
     boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
@@ -133,7 +138,8 @@ public class PlayerController implements Renderable {
         frameX = 2 + (frameX + 1) % 2;
       }
     } 
-     if (downMovement) {
+
+    if (downMovement) {
       player.moveDown();
       if (frameY != 0) {
         frameY = 0;
@@ -198,7 +204,7 @@ public class PlayerController implements Renderable {
         case KeyCode.W -> keyUpPressed = true;
         case KeyCode.S -> keyDownPressed = true;
         case KeyCode.D -> keyRightPressed = true;
-        // case KeyCode.E -> toggleInventory();
+        case KeyCode.E -> farmController.toggleInventory(); 
         case KeyCode.SHIFT -> player.setRun(true);
         default -> {
         }
@@ -224,6 +230,11 @@ public class PlayerController implements Renderable {
       }
     });
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                            INPUT KEYBOARD LOGICS                           */
+  /* -------------------------------------------------------------------------- */
+
 
   
   @Override

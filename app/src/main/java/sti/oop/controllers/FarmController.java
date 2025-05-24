@@ -24,6 +24,7 @@ import sti.oop.models.NPC;
 import sti.oop.models.Perry;
 import sti.oop.models.Player;
 import sti.oop.models.Player.Gender;
+import sti.oop.utils.Constants;
 
 
 
@@ -52,11 +53,6 @@ public class FarmController {
     private Scene scene;
     private GraphicsContext gc;
 
-    private boolean keyLeftPressed;
-    private boolean keyUpPressed;
-    private boolean keyDownPressed;
-    private boolean keyRightPressed;
-
     private boolean inventoryOpened = false;
     private StackPane inventoryPane;
 
@@ -73,28 +69,7 @@ public class FarmController {
     int idleCounter = 0;
     boolean isIdle = true;
 
-    public void render() {
-        // gc.setFill(Color.GREEN);
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-        gc.setFill(Color.WHITE);  
-        gc.fillRect(canvas.getWidth() - 120, 10, 110, 30);
-        gc.setFill(Color.BLACK);
-        gc.fillText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay), canvas.getWidth() - 110, 30);
-        timeDisplay.setText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay));
-
-        /* Render each NPC into the World */
-        gc.drawImage(mayorTadi.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, mayorTadi.getLocation().x, mayorTadi.getLocation().y, 128, 128);
-        gc.drawImage(abigail.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, abigail.getLocation().x, abigail.getLocation().y, 128, 128);
-        gc.drawImage(caroline.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, caroline.getLocation().x, caroline.getLocation().y, 128, 128);
-        gc.drawImage(emily.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, emily.getLocation().x, emily.getLocation().y, 128, 128);
-        gc.drawImage(dasco.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, dasco.getLocation().x, dasco.getLocation().y, 128, 128);
-        gc.drawImage(perry.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, perry.getLocation().x, perry.getLocation().y, 128, 128);
-        
-        /* Render Player Last into the World */
-        
-        // gc.drawImage(Player.playerSpriteSheet, Player.sourceX(), Player.sourceY(), Player.playerFrameWidth, Player.playerFrameHeight, farm.getPlayer().getX(), farm.getPlayer().getY(), 128, 128);
-    }
+    public void render() {}
 
     @FXML
     public void initialize() {
@@ -103,7 +78,7 @@ public class FarmController {
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
         CollisionController collisionController = new CollisionController("/tilesheets/farm/pondCollision.txt");
-        PlayerController playerController = new PlayerController(player, collisionController);
+        PlayerController playerController = new PlayerController(player, collisionController, this);
         MapController mapController = new MapController(player,"/tilesheets/farm/test.png","/tilesheets/farm/test.txt", 64 );
 
         /* Initialize NPC */
@@ -114,37 +89,77 @@ public class FarmController {
         dasco = new Dasco();
         perry = new Perry();
 
+/* <------------------------------------------SEPERATOR------------------------------------------------> */
+
         AnimationTimer gameTime = new AnimationTimer() {
-          @Override
-          public void handle(long now) {
-            // System.out.println(now);
+            @Override
+            public void handle(long now) {
+
             if (lastTime == 0) {
-              lastTime = now;
+                lastTime = now;
             }
             
             long diffTime = now - lastTime;
-            
             if (diffTime >= 1_000_000_000) {
-              updateGameTime();
-              lastTime = now;
+                updateGameTime();
+                lastTime = now;
             }
-            render();
+
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
             mapController.render(gc);
+
+            timeDisplay.setText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay));
+
+            renderNPCs();
+
             playerController.render(gc);
             }
         };
         /* Delay until scene is ready */
         Platform.runLater(() -> {
-          scene = hud.getParent().getScene();
-          gc = canvas.getGraphicsContext2D();
-          playerController.keyMapper(scene);
-          gameTime.start();
+            scene = hud.getParent().getScene();
+            gc = canvas.getGraphicsContext2D();
+            playerController.keyMapper(scene);
+            gameTime.start();
         });
-        
-
     }
 
-    /* In game time logics */
+    /* -------------------------------------------------------------------------- */
+    /*                              Render NPC Logics                             */
+    /* -------------------------------------------------------------------------- */
+
+    private void renderNPCs() {
+        int x_player = farm.getPlayer().getX();
+        int y_player = farm.getPlayer().getY();
+
+        renderNPC(mayorTadi, x_player, y_player);
+        renderNPC(abigail, x_player, y_player);
+        renderNPC(caroline, x_player, y_player);
+        renderNPC(emily, x_player, y_player);
+        renderNPC(dasco, x_player, y_player);
+        renderNPC(perry, x_player, y_player);
+    }
+
+    private void renderNPC(NPC NPCname, int x_player, int y_player) {
+        int x_screen = NPCname.getLocation().x - x_player + Constants.PLAYER_SCREEN_X;
+        int y_screen = NPCname.getLocation().y - y_player + Constants.PLAYER_SCREEN_Y;
+
+        if (x_screen > -128 && x_screen < canvas.getWidth() + 128 && y_screen > -128 && y_screen < canvas.getHeight() + 128) {
+            gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, 128, 128);
+        }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Render NPC Logics                             */
+    /* -------------------------------------------------------------------------- */
+
+/* <------------------------------------------SEPERATOR------------------------------------------------> */
+
+    /* -------------------------------------------------------------------------- */
+    /*                             In Game Time Logics                            */
+    /* -------------------------------------------------------------------------- */
+
     public void updateGameTime() {
         if (timeFrozen) {
             return;
@@ -184,6 +199,15 @@ public class FarmController {
         timeFrozen = false;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                             In Game Time Logics                            */
+    /* -------------------------------------------------------------------------- */
+
+/* <------------------------------------------SEPERATOR------------------------------------------------> */
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Inventory Logics                              */
+    /* -------------------------------------------------------------------------- */
 
     /* Inventory Logics */
     public void toggleInventory() {
@@ -201,12 +225,6 @@ public class FarmController {
             System.out.println("Opening inventory...");
             freezeTime(); // freeze time
 
-            /* Player can't move whilst inventory is opened */
-            keyLeftPressed = false;
-            keyRightPressed = false;
-            keyUpPressed = false;
-            keyDownPressed = false;
-            
             /* Inventory GUI render */
             try {
                 FXMLLoader inventoryLoader = new FXMLLoader(getClass().getResource("/views/Inventory.fxml"));
@@ -237,4 +255,13 @@ public class FarmController {
             }
         }
     }
+
+    public boolean getStatusInventory() {
+        return inventoryOpened;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Inventory Logics                              */
+    /* -------------------------------------------------------------------------- */
+
 }
