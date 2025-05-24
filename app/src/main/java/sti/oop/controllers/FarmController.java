@@ -114,13 +114,6 @@ public class FarmController {
         dasco = new Dasco();
         perry = new Perry();
 
-        /* Delay until scene is ready */
-        Platform.runLater(() -> {
-          scene = hud.getParent().getScene();
-          gc = canvas.getGraphicsContext2D();
-          playerController.keyMapper(scene);
-        });
-        
         AnimationTimer gameTime = new AnimationTimer() {
           @Override
           public void handle(long now) {
@@ -140,8 +133,15 @@ public class FarmController {
             playerController.render(gc);
             }
         };
+        /* Delay until scene is ready */
+        Platform.runLater(() -> {
+          scene = hud.getParent().getScene();
+          gc = canvas.getGraphicsContext2D();
+          playerController.keyMapper(scene);
+          gameTime.start();
+        });
+        
 
-        gameTime.start();
     }
 
     /* In game time logics */
