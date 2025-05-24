@@ -104,7 +104,7 @@ public class FarmController {
         farm = new Farm(player);
         CollisionController collisionController = new CollisionController("/tilesheets/farm/pondCollision.txt");
         PlayerController playerController = new PlayerController(player, collisionController);
-        MapController mapController = new MapController(player,"/tilesheets/farm/cek2.png","/tilesheets/farm/pond.txt", 128 );
+        MapController mapController = new MapController(player,"/tilesheets/farm/test.png","/tilesheets/farm/test.txt", 64 );
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();
