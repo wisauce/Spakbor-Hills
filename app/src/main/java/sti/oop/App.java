@@ -26,6 +26,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.out.println("Prism MaxVRAM set to: " + System.getProperty("prism.maxvram"));
+        System.out.println("Prism MinVRAM set to: " + System.getProperty("prism.minvram"));
         Parent root = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
         stage.setScene(new Scene(root));
         stage.setTitle("Spakbor Hills");
