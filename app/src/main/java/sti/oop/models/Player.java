@@ -3,41 +3,36 @@ package sti.oop.models;
 import javafx.scene.image.Image;
 
 public class Player {
-  private final int maxEnergy = 100;
-  private String name;
   public enum Gender {
     MALE,
     FEMALE
   }
-  private Gender gender;
-  private int energy;
-  private String farmName;
-  private String partner;
-  private int gold;
-  private OwnedItem inventory;
-  private Point location;
+  
   private enum CurrentMap{
     FARM,
     HOUSE,
     WORLD
   }
+
+  private final int maxEnergy = 100;
+  
+  private String name;
+  private Gender gender;
+  private int energy;
+  private String farmName;
+  private String partner;
+  private int gold;
   private CurrentMap currentMap;
+  private OwnedItem inventory;
   private int speed = 4;
   private boolean run = false;
+  private double runBoost = 1.5;
+  private int x = 0;
+  private int y = 0;
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
   public static final int playerFrameWidth = 256;
   public static final int playerFrameHeight = 256;
-  public static int frameX = 0;
-  public static int frameY = 0;
-
-  public static int sourceX() {
-    return frameX * playerFrameWidth;
-  }
-
-  public static int sourceY() {
-    return frameY * playerFrameHeight;
-  }
 
   public Player(String name, Gender gender, String farmName) {
     this.name = name;
@@ -52,9 +47,24 @@ public class Player {
     inventory.addItem("Fishing Rod", 1);
     inventory.addItem("Parsnip Seeds", 15);
     currentMap = CurrentMap.FARM;
-    location = new Point(0,0);
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public int getY() {
+    return y;
+  }
+
+  public void setY(int y) {
+    this.y = y;
   }
 
   public String getName() {
@@ -70,7 +80,7 @@ public class Player {
   }
 
   public void setEnergy(int energy) {
-    this.energy = energy > maxEnergy ? maxEnergy : energy < 0 ? 0 : energy;
+    this.energy = Math.clamp(energy, 0, maxEnergy);
   }
 
   public Gender getGender() {
@@ -90,12 +100,8 @@ public class Player {
   }
 
   public void setPartner(String partner) {
-    if (getPartner() == null) {
-        this.partner = partner;
-    }
-    else {
-      throw new IllegalStateException("Player already has a partner! This game doesn't support polygamy!");
-    }
+    if (this.partner != null) throw new IllegalStateException("Player already has a partner! This game doesn't support polygamy!");
+    this.partner = partner;
   }
 
   public int getGold() {
@@ -114,14 +120,6 @@ public class Player {
     this.currentMap = currentMap;
   }
 
-  public Point getLocation() {
-    return location;
-  }
-
-  public void setLocation(Point location) {
-    this.location = location;
-  }
-
   public int getSpeed(){
     return speed;
   }
@@ -135,39 +133,19 @@ public class Player {
   }
 
   public void moveRight() {
-    if (run) {
-      location.x += speed*1.5;
-    }
-    else {
-      location.x +=speed;
-    }
+    x += run ? speed*runBoost : speed;
   }
 
   public void moveLeft() {
-    if (run) {
-      location.x -= speed*1.5;
-    }
-    else {
-      location.x -=speed;
-    }
+    x -= run ? speed*runBoost : speed;
   }
 
   public void moveUp() {
-    if (run) {
-      location.y -= speed*1.5;
-    }
-    else {
-      location.y -=speed;
-    }
+    y -= run ? speed*runBoost : speed;
   }
 
   public void moveDown() {
-    if (run) {
-      location.y += speed*1.5;
-    }
-    else {
-      location.y +=speed;
-    }
+    y += run ? speed*runBoost : speed;
   }
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
