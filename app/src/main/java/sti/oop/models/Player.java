@@ -23,7 +23,7 @@ public class Player {
   private String partner;
   private int gold;
   private CurrentMap currentMap;
-  private OwnedItem inventory;
+  private Inventory inventory;
   private final int walkingSpeed = 4;
   private int speed = walkingSpeed;
   private double runBoost = 1.5;
@@ -41,7 +41,7 @@ public class Player {
     this.farmName = farmName;
     this.gold = 0;
     partner = null;
-    inventory = new OwnedItem();
+    inventory = new Inventory();
     inventory.addItem("Hoe", 1);
     inventory.addItem("Watering Can", 1);
     inventory.addItem("Pickaxe", 1);
@@ -150,7 +150,7 @@ public class Player {
   }
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
-  //   if (!inventory.getListOwnedItems().contains(itemName)) {
+  //   if (!inventory.getListInventorys().contains(itemName)) {
   //     throw new IllegalStateException("You don't have " + itemName + " in your inventory!");
   //   }
   //   if (!inventory.getListCount().c)

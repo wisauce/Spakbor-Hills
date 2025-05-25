@@ -38,17 +38,7 @@ public class FarmController {
     @FXML
     private Canvas canvas;
 
-    private final int originalTileSize = 16;
-    private final int scale = 4;
-    private final int tileSize = originalTileSize * scale;
-
     private long lastTime = 0;
-    private int inGameHour = 6;
-    private int inGameMinute = 0;
-    private String timeOfDay = "AM";
-    private boolean timeFrozen = false;
-
-    private final int MINUTES_PER_SECOND = 5; //5 Minute for each Second
 
     private Scene scene;
     private GraphicsContext gc;
@@ -65,6 +55,8 @@ public class FarmController {
     private NPC dasco;
     private NPC perry;
 
+    private TimeController timeController;
+
     int spriteCounter = 0;
     int idleCounter = 0;
     boolean isIdle = true;
@@ -80,6 +72,7 @@ public class FarmController {
         CollisionController collisionController = new CollisionController("/tilesheets/farm/pondCollision.txt");
         PlayerController playerController = new PlayerController(player, collisionController, this);
         MapController mapController = new MapController(player,"/tilesheets/farm/test.png","/tilesheets/farm/test.txt", 64 );
+        timeController = new TimeController(6, 0, "AM", timeDisplay);
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();
@@ -98,10 +91,10 @@ public class FarmController {
             if (lastTime == 0) {
                 lastTime = now;
             }
-            
-            long diffTime = now - lastTime;
-            if (diffTime >= 1_000_000_000) {
-                updateGameTime();
+
+            if (now - lastTime >= 1_000_000_000) {
+                timeController.update();
+                timeController.render(gc);
                 lastTime = now;
             }
 
@@ -109,7 +102,6 @@ public class FarmController {
 
             mapController.render(gc);
 
-            timeDisplay.setText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay));
 
             renderNPCs();
 
@@ -154,54 +146,6 @@ public class FarmController {
     /*                              Render NPC Logics                             */
     /* -------------------------------------------------------------------------- */
 
-/* <------------------------------------------SEPERATOR------------------------------------------------> */
-
-    /* -------------------------------------------------------------------------- */
-    /*                             In Game Time Logics                            */
-    /* -------------------------------------------------------------------------- */
-
-    public void updateGameTime() {
-        if (timeFrozen) {
-            return;
-        }
-
-        inGameMinute += MINUTES_PER_SECOND;
-
-        if (inGameMinute >= 60) {
-            inGameHour += inGameMinute / 60;
-            inGameMinute %= 60;
-
-            if (inGameHour == 12) {
-                if (timeOfDay.equals("AM")) {
-                    timeOfDay = "PM";
-                }
-                else {
-                    timeOfDay = "AM";
-                }
-            }
-            else if (inGameHour > 12) {
-                inGameHour %= 12;
-                if (inGameHour == 0) {
-                    inGameHour = 12;
-                }
-            }
-
-            /* Can update with a message whenever new Day --> (inGameHour == 12 && timeOfDay.equals("AM")) */
-        }
-    }
-    
-    /* timeFrozen setters */
-    public void freezeTime() {
-        timeFrozen = true;
-    }
-
-    public void unfreezeTime() {
-        timeFrozen = false;
-    }
-
-    /* -------------------------------------------------------------------------- */
-    /*                             In Game Time Logics                            */
-    /* -------------------------------------------------------------------------- */
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
 
@@ -217,13 +161,13 @@ public class FarmController {
             System.out.println("Closing inventory...");
             hud.getChildren().remove(inventoryPane);
             inventoryOpened = false;
-            unfreezeTime();
+            timeController.setTimeFrozen(false);
             System.out.println("Inventory closed");
         }
         
         else {
             System.out.println("Opening inventory...");
-            freezeTime(); // freeze time
+            timeController.setTimeFrozen(true);
 
             /* Inventory GUI render */
             try {
