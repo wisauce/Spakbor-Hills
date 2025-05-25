@@ -59,22 +59,30 @@ public class InventoryController {
     
     private void createInventorySlots() {
         inventoryGrid.getChildren().clear();
-        
-        for (int i = 0; i < 3; i++) { //row
-            for (int j = 0; j < 6; j++) { //column
+
+
+        inventoryGrid.setHgap(7.5);
+        inventoryGrid.setVgap(13.3);
+
+        inventoryGrid.setPadding(new javafx.geometry.Insets(0, 0, 39, -2));
+
+        for (int i = 0; i < 6; i++) { //column
+            for (int j = 0; j < 3; j++) { //row
                 StackPane slotsInventory= new StackPane();
-                slotsInventory.setPrefSize(64, 64);
-                slotsInventory.setStyle("-fx-background-color: transparent;");
+                slotsInventory.setPrefSize(69, 69);
+                slotsInventory.setMinSize(69, 69);
+                slotsInventory.setMaxSize(69, 69);
+                slotsInventory.setPickOnBounds(true);
 
-                slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0.3); -fx-border-width: 1;");
+                slotsInventory.setStyle("-fx-background-color: transparent; -fx-border-color: rgb(139, 69, 19); -fx-border-width: 1;");
                 
-                int row = i;
-                int column = j;
+                int column = i;
+                int row = j;
 
-                slotsInventory.setOnMouseEntered(e -> slotsInventory.setStyle("-fx-border-color: #ffcc00; -fx-border-width: 2; -fx-background-color: rgba(255, 204, 0, 0.1);"));
-                slotsInventory.setOnMouseExited(e -> slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0.3); -fx-border-width: 1;"));
+                slotsInventory.setOnMouseEntered(e -> slotsInventory.setStyle("-fx-border-color:#B52121; -fx-border-width: 1;"));
+                slotsInventory.setOnMouseExited(e -> slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 1;"));
                 slotsInventory.setOnMouseClicked(e -> { 
-                    System.out.println("Slot: " + row + "," + column + "Selected");
+                    System.out.println("Slot: " + row + "," + column + " Selected");
 
                     // handleItemSelection(row, column);
                 });
