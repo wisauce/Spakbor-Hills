@@ -74,15 +74,15 @@ public class InventoryController {
                 slotsInventory.setMaxSize(69, 69);
                 slotsInventory.setPickOnBounds(true);
 
-                slotsInventory.setStyle("-fx-background-color: transparent; -fx-border-color: rgb(139, 69, 19); -fx-border-width: 1;");
+                slotsInventory.setStyle("-fx-background-color: transparent; -fx-border-color: rgb(139, 69, 19); -fx-border-width: 0;");
                 
                 int column = i;
                 int row = j;
 
                 slotsInventory.setOnMouseEntered(e -> slotsInventory.setStyle("-fx-border-color:#B52121; -fx-border-width: 1;"));
-                slotsInventory.setOnMouseExited(e -> slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 1;"));
+                slotsInventory.setOnMouseExited(e -> slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;"));
                 slotsInventory.setOnMouseClicked(e -> { 
-                    System.out.println("Slot: " + row + "," + column + " Selected");
+                    System.out.println("Slot: " + (row + 1) + "," + (column + 1) + " Selected");
 
                     // handleItemSelection(row, column);
                 });
