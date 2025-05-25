@@ -48,44 +48,59 @@ public class InventoryController {
     if (inventoryGrid != null) {
       createInventorySlots();
     }
-
-    animationTimer = new AnimationTimer() {
-      @Override
-      public void handle(long now) {
-        renderPlayerinInventory();
-      }
-    };
-    animationTimer.start();
-  }
-
-  private void createInventorySlots() {
-    inventoryGrid.getChildren().clear();
-
-    for (int i = 0; i < 3; i++) { // row
-      for (int j = 0; j < 6; j++) { // column
-        StackPane slot = new StackPane();
-        slot.setPrefSize(64, 64);
-        slot.setStyle("-fx-background-color: transparent;");
-
-        int finalRow = i;
-        int finalCol = j;
-
-        slot.setOnMouseEntered(e -> slot.setStyle(
-            "-fx-border-color: #ffcc00; -fx-border-width: 2; -fx-background-color: rgba(255, 255, 255, 0.1);"));
-        slot.setOnMouseExited(e -> slot.setStyle("-fx-border-color: transparent; -fx-background-color: transparent;"));
-        slot.setOnMouseClicked(e -> System.out.println("Clicked on slot: " + finalRow + "," + finalCol));
-
-        inventoryGrid.add(slot, i, j);
-      }
+        animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                renderPlayerinInventory();
+            }
+        };
+        animationTimer.start();
     }
-  }
+    
+    private void createInventorySlots() {
+        inventoryGrid.getChildren().clear();
+        
+        for (int i = 0; i < 3; i++) { //row
+            for (int j = 0; j < 6; j++) { //column
+                StackPane slotsInventory= new StackPane();
+                slotsInventory.setPrefSize(64, 64);
+                slotsInventory.setStyle("-fx-background-color: transparent;");
 
-  public void setPlayer(PlayerController playerController) {
-    this.playerController = playerController;
-    updatePlayerStats();
-    // Tambahkan update inventory items disini jika perlu
-    // updateInventoryItems();
-  }
+                slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0.3); -fx-border-width: 1;");
+                
+                int row = i;
+                int column = j;
+
+                slotsInventory.setOnMouseEntered(e -> slotsInventory.setStyle("-fx-border-color: #ffcc00; -fx-border-width: 2; -fx-background-color: rgba(255, 204, 0, 0.1);"));
+                slotsInventory.setOnMouseExited(e -> slotsInventory.setStyle("-fx-border-color: rgba(139, 69, 19, 0.3); -fx-border-width: 1;"));
+                slotsInventory.setOnMouseClicked(e -> { 
+                    System.out.println("Slot: " + row + "," + column + "Selected");
+
+                    // handleItemSelection(row, column);
+                });
+                
+                inventoryGrid.add(slotsInventory, i, j);
+            }
+        }
+    }
+
+    // private void handleItemSelection(int i, int j) {
+    //     if (player != null && player.getInventory() != null) {
+    //         int idx_slotsInventory = i * 6 + j; 
+
+    //         Set<String> allItems = 
+    //     }
+    // }
+    
+
+    
+    
+    public void setPlayer(PlayerController playerController) {
+      this.playerController = playerController;
+      updatePlayerStats();
+      // Tambahkan update inventory items disini jika perlu
+      // updateInventoryItems();
+    }
 
   public void updatePlayerStats() {
     if (playerController != null) {

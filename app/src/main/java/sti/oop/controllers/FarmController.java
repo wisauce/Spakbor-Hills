@@ -1,6 +1,8 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -14,15 +16,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import sti.oop.models.Abigail;
-import sti.oop.models.Caroline;
-import sti.oop.models.Dasco;
-import sti.oop.models.Emily;
 import sti.oop.models.Farm;
-import sti.oop.models.MayorTadi;
-import sti.oop.models.NPC;
-import sti.oop.models.Perry;
+import sti.oop.models.NPC.NPC;
 import sti.oop.models.Player;
+import sti.oop.models.NPC.Abigail;
+import sti.oop.models.NPC.Caroline;
+import sti.oop.models.NPC.Dasco;
+import sti.oop.models.NPC.Emily;
+import sti.oop.models.NPC.MayorTadi;
+import sti.oop.models.NPC.Perry;
 import sti.oop.models.Player.Gender;
 import sti.oop.utils.Constants;
 
@@ -76,6 +78,7 @@ public class FarmController {
         playerController = new PlayerController(player, collisionController, this);
         gameMapController = new GameMapController(player);
         timeController = new TimeController(6, 0, "AM", timeDisplay);
+        timeController.render(gc);
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();
@@ -84,6 +87,8 @@ public class FarmController {
         emily = new Emily();
         dasco = new Dasco();
         perry = new Perry();
+
+
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
 
@@ -142,7 +147,7 @@ public class FarmController {
         int y_screen = NPCname.getLocation().y - y_player + Constants.PLAYER_SCREEN_Y;
 
         if (x_screen > -128 && x_screen < canvas.getWidth() + 128 && y_screen > -128 && y_screen < canvas.getHeight() + 128) {
-            gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, 128, 128);
+            gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, Constants.TILE_SIZE, Constants.TILE_SIZE);
         }
     }
 

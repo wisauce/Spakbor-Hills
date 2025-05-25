@@ -1,6 +1,9 @@
-package sti.oop.models;
+package sti.oop.models.NPC;
 
 import javafx.scene.image.Image;
+import sti.oop.models.Player;
+import sti.oop.models.Point;
+
 import java.util.List;
 
 

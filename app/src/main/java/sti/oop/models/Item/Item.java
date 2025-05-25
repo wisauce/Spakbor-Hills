@@ -1,4 +1,4 @@
-package sti.oop.models;
+package sti.oop.models.Item;
 
 public class Item {
     private String itemName;
