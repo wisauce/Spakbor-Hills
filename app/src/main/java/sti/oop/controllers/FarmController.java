@@ -1,6 +1,8 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -84,6 +86,8 @@ public class FarmController {
         dasco = new Dasco();
         perry = new Perry();
 
+
+
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
 
         AnimationTimer gameTime = new AnimationTimer() {
@@ -140,7 +144,7 @@ public class FarmController {
         int y_screen = NPCname.getLocation().y - y_player + Constants.PLAYER_SCREEN_Y;
 
         if (x_screen > -128 && x_screen < canvas.getWidth() + 128 && y_screen > -128 && y_screen < canvas.getHeight() + 128) {
-            gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, 128, 128);
+            gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, Constants.TILE_SIZE, Constants.TILE_SIZE);
         }
     }
 
