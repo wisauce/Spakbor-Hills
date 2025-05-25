@@ -1,13 +1,6 @@
 package sti.oop.models;
 
-import javafx.scene.paint.*;
-
-import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-import sti.oop.App;
+import java.util.Random;
 
 public class Farm {
   private String name;
@@ -31,11 +24,17 @@ public class Farm {
   }
 
   private Season season = Season.SPRING;
+
+  private enum Weather {
+    SUNNY,
+    RAINY
+  }
   // private housemap
   // private worldmap
-  // day nanti dulu juga
-  // season
-  // weather
+  
+  private Weather weather = Weather.SUNNY;
+
+  private Random random = new Random();
 
   public Farm(Player player) {
     this.player = player;
@@ -57,6 +56,10 @@ public class Farm {
   public void setPlayer(Player player) {
     this.player = player;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 TIME LOGICS                                */
+  /* -------------------------------------------------------------------------- */
 
   public void updateTime() {
     if (timeFrozen) return;
@@ -82,6 +85,10 @@ public class Farm {
     }
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                                 DAY LOGICS                                 */
+  /* -------------------------------------------------------------------------- */
+
   private boolean is31Days(int worldMonth) {
     return 
     worldMonth == 1 || worldMonth == 3 || 
@@ -92,6 +99,8 @@ public class Farm {
   private void nextDay() {
     worldDay++;
     boolean newMonth = false;
+
+    randomizedDailyWeather();
 
     if (worldMonth == 2) {
         if (worldDay > 28) {
@@ -134,6 +143,30 @@ public class Farm {
       nextSeason();
     }
   }
+  
+  public int getWorldDay() {
+    return worldDay;
+  }
+
+  public int getWorldMonth() {
+    return worldMonth;
+  }
+
+  public int getInGameHour() {
+    return inGameHour;
+  }
+  
+  public int getInGameMinute() {
+    return inGameMinute;
+  }
+
+  public String getTimeOfDay() {
+    return timeOfDay;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                               SEASONS LOGICS                               */
+  /* -------------------------------------------------------------------------- */
 
   private void nextSeason() {
     switch (worldMonth) {
@@ -155,26 +188,6 @@ public class Farm {
     }
   }
 
-  public int getWorldDay() {
-    return worldDay;
-  }
-
-  public int getWorldMonth() {
-    return worldMonth;
-  }
-
-  public int getInGameHour() {
-    return inGameHour;
-  }
-  
-  public int getInGameMinute() {
-    return inGameMinute;
-  }
-
-  public String getTimeOfDay() {
-    return timeOfDay;
-  }
-
   public String getSeason(){
     switch (season) {
       case SPRING:
@@ -194,6 +207,34 @@ public class Farm {
     }
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                               WEATHER LOGICS                               */
+  /* -------------------------------------------------------------------------- */
+
+  private void randomizedDailyWeather() {
+    double rainChance = 0.183;
+
+    if (random.nextDouble() < rainChance) {
+      weather = Weather.RAINY;
+    }
+    else {
+      weather = Weather.SUNNY;
+    }
+  }
+
+  public String getWeather() {
+    switch (weather) {
+      case SUNNY:
+        return "Sunny";
+      
+      case RAINY:
+        return "Rainy";
+        
+      default:
+        return "NULL";
+    }
+  }
+
   public void setTimeFrozen(boolean freeze) {
     timeFrozen = freeze;
   }
@@ -202,12 +243,16 @@ public class Farm {
     return timeFrozen;
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                               STRING FORMATS                               */
+  /* -------------------------------------------------------------------------- */
+  
   public String getFormatTimeNow() {
     return String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay);
   }
 
   public String getFormatDateMonthSeason() {
-    return String.format("Day %d, Month %d \n%s", worldDay, worldMonth, getSeason());
+    return String.format("Day %d, Month %d \n%s, %s", worldDay, worldMonth, getSeason(), getWeather());
   }
 
   // public FarmMap getFarmMap() {
