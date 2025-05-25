@@ -11,7 +11,7 @@ public class Farm {
   /* Time Attributes */
   private int inGameHour = 6;
   private int inGameMinute = 0;
-  private String timeOfDay = "PM";
+  private String timeOfDay = "AM";
   private boolean timeFrozen = false;
   private final int MINUTES_PER_SECOND = 5; 
 
