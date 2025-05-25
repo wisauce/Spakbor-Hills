@@ -121,6 +121,10 @@ public class Player {
     this.currentMap = currentMap;
   }
 
+  public Inventory getInventory() {
+    return inventory;
+  }
+
   public int getSpeed(){
     return speed;
   }

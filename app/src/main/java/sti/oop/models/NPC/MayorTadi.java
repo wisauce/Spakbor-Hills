@@ -1,6 +1,7 @@
-package sti.oop.models;
+package sti.oop.models.NPC;
 
 import java.util.List;
+import sti.oop.models.Point;
 import java.util.Collections;
 
 public class MayorTadi extends NPC {

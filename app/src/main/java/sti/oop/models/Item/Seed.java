@@ -1,6 +1,5 @@
-package sti.oop.models;
+package sti.oop.models.Item;
 
-import sti.oop.models.Item;
 import sti.oop.interfaces.Valuable;
 
 public class Seed extends Item implements Valuable{
@@ -27,10 +26,12 @@ public class Seed extends Item implements Valuable{
         return daysToHarvest;
     }
 
+    @Override
     public int getBuyPrice() {
         return buyPrice;
     }
 
+    @Override
     public int getSellPrice() {
         return sellPrice;
     }

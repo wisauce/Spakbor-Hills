@@ -14,15 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import sti.oop.models.Abigail;
-import sti.oop.models.Caroline;
-import sti.oop.models.Dasco;
-import sti.oop.models.Emily;
 import sti.oop.models.Farm;
-import sti.oop.models.MayorTadi;
-import sti.oop.models.NPC;
-import sti.oop.models.Perry;
+import sti.oop.models.NPC.NPC;
 import sti.oop.models.Player;
+import sti.oop.models.NPC.Abigail;
+import sti.oop.models.NPC.Caroline;
+import sti.oop.models.NPC.Dasco;
+import sti.oop.models.NPC.Emily;
+import sti.oop.models.NPC.MayorTadi;
+import sti.oop.models.NPC.Perry;
 import sti.oop.models.Player.Gender;
 import sti.oop.utils.Constants;
 
@@ -72,7 +72,9 @@ public class FarmController {
         CollisionController collisionController = new CollisionController();
         PlayerController playerController = new PlayerController(player, collisionController, this);
         MapController mapController = new MapController(player);
+        
         timeController = new TimeController(6, 0, "AM", timeDisplay);
+        timeController.render(gc);
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();

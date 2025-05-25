@@ -1,8 +1,7 @@
-package sti.oop.models;
+package sti.oop.models.NPC;
 
 import java.util.List;
-
-import javafx.scene.image.Image;
+import sti.oop.models.Point;
 
 public class Abigail extends NPC {
     
