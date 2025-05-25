@@ -34,7 +34,7 @@ public class Farm {
   // private housemap
   // private worldmap
   
-  private Weather weather = Weather.RAINY;
+  private Weather weather = Weather.SUNNY;
 
   private Random random = new Random();
 
