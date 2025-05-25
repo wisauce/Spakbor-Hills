@@ -29,10 +29,10 @@ public class PlayerController implements Renderable {
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
 
   // collision
-  private final int hitboxOffsetX = 11*4;
-  private final int hitboxOffsetY = 23*4;
-  private final int hitboxWidth = 10*4;
-  private final int hitboxHeight = 9*4;
+  private final int hitboxOffsetX = (int) (11*4 / 2 );
+  private final int hitboxOffsetY = (int) (23*4 / 2);
+  private final int hitboxWidth = (int) (10*4 / 2 );
+  private final int hitboxHeight = (int) (9*4 / 2);
 
 
   public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {

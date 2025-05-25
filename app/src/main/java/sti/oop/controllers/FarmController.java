@@ -69,9 +69,9 @@ public class FarmController {
         /* Initialize Player */
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
-        CollisionController collisionController = new CollisionController("/tilesheets/farm/pondCollision.txt");
+        CollisionController collisionController = new CollisionController();
         PlayerController playerController = new PlayerController(player, collisionController, this);
-        MapController mapController = new MapController(player,"/tilesheets/farm/test.png","/tilesheets/farm/test.txt", 64 );
+        MapController mapController = new MapController(player);
         timeController = new TimeController(6, 0, "AM", timeDisplay);
 
         /* Initialize NPC */

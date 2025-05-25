@@ -12,7 +12,6 @@ import sti.oop.App;
 public class Farm {
   private String name;
   private Player player;
-  private FarmMap farmMap;
   // private housemap
   // private worldmap
   // time kayanya nanti dulu
@@ -23,7 +22,6 @@ public class Farm {
   public Farm(Player player) {
     this.player = player;
     name = player.getFarmName();
-    farmMap = new FarmMap();
   }
 
   public String getName() {
@@ -42,12 +40,12 @@ public class Farm {
     this.player = player;
   }
 
-  public FarmMap getFarmMap() {
-    return farmMap;
-  }
+  // public FarmMap getFarmMap() {
+  //   return farmMap;
+  // }
 
-  public void setFarmMap(FarmMap farmMap) {
-    this.farmMap = farmMap;
-  }
+  // public void setFarmMap(FarmMap farmMap) {
+  //   this.farmMap = farmMap;
+  // }
 
 }
