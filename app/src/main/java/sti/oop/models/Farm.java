@@ -2,6 +2,8 @@ package sti.oop.models;
 
 import java.util.Random;
 
+import javafx.scene.paint.Color;
+
 public class Farm {
   private String name;
   private Player player;
@@ -32,7 +34,7 @@ public class Farm {
   // private housemap
   // private worldmap
   
-  private Weather weather = Weather.SUNNY;
+  private Weather weather = Weather.RAINY;
 
   private Random random = new Random();
 
@@ -232,6 +234,73 @@ public class Farm {
         
       default:
         return "NULL";
+    }
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                         COLORING TIME OF DAY LOGICS                        */
+  /* -------------------------------------------------------------------------- */
+
+  public Color timeOfDayColor() {
+    int hour = inGameHour;
+    String period = timeOfDay;
+
+    int hour_24 = hour;
+    if (period.equals("AM") && hour == 12) {
+        hour_24 = 0;
+    }
+    else if (period.equals("PM") && hour != 12) {
+        hour_24 += 12;
+    } 
+
+    if (hour_24 >= 6 && hour_24 < 8) {
+        return Color.rgb(173, 51, 4, 0.2);
+    }
+    
+    else if (hour_24 >= 8 && hour_24 < 17) {
+        return Color.rgb(255, 255, 255, 0.0);
+    }
+    
+    else if (hour_24 >= 17 && hour_24 < 19) {
+        return Color.rgb(231, 90, 10, 0.3);
+    }
+    else {
+        return Color.rgb(72, 52, 117, 0.6);
+    }
+  }
+
+  public Color weatherColor() {
+    if (weather == Weather.RAINY) {
+        return Color.rgb(81, 95, 122, 0.44);
+    }
+    return Color.TRANSPARENT;
+  }
+
+  public String getNameOfTime() {
+    int hour = inGameHour;
+    String period = timeOfDay;
+
+    int hour_24 = hour;
+    if (period.equals("AM") && hour == 12) {
+        hour_24 = 0;
+    }
+    else if (period.equals("PM") && hour != 12) {
+        hour_24 += 12;
+    } 
+
+    if (hour_24 >= 6 && hour_24 < 8) {
+        return "Morning";
+    }
+    
+    else if (hour_24 >= 8 && hour_24 < 17) {
+        return "Day";
+    }
+    
+    else if (hour_24 >= 17 && hour_24 < 19) {
+        return "Evening";
+    }
+    else {
+        return "Night";
     }
   }
 

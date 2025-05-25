@@ -101,38 +101,57 @@ public class FarmController {
         AnimationTimer gameTime = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (lastTime == 0) {
+                    lastTime = now;
+                }
 
-            if (lastTime == 0) {
-                lastTime = now;
-            }
+                if (now - lastTime >= 1_000_000_000) {
+                    timeController.update();
+                    timeController.render();
+                    lastTime = now;
+                }
 
-            if (now - lastTime >= 1_000_000_000) {
-                timeController.update();
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                gameMapController.render(gc);
+
+
+                renderNPCs();
+
+                playerController.render(gc);
+
+                    applyTimeOfDayLighting();
+                }
+            };
+    
+            /* Delay until scene is ready */
+            Platform.runLater(() -> {
+                scene = hud.getParent().getScene();
+                gc = canvas.getGraphicsContext2D();
+                gc.setImageSmoothing(false);
+                playerController.keyMapper(scene);
+                
                 timeController.render();
-                lastTime = now;
-            }
-
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-            gameMapController.render(gc);
-
-
-            renderNPCs();
-
-            playerController.render(gc);
-            }
-        };
-        /* Delay until scene is ready */
-        Platform.runLater(() -> {
-            scene = hud.getParent().getScene();
-            gc = canvas.getGraphicsContext2D();
-            gc.setImageSmoothing(false);
-            playerController.keyMapper(scene);
+    
+                gameTime.start();
+            });
+        }
+    
+        private void applyTimeOfDayLighting() {
+            Color timeColor = farm.timeOfDayColor();
+    
+            Color originalColor = (Color) gc.getFill();
             
-            timeController.render();
+            gc.setFill(timeColor);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    
+            Color weatherColor = farm.weatherColor();
+            if (!weatherColor.equals(Color.TRANSPARENT)) {
+                gc.setFill(weatherColor);
+                gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            }
 
-            gameTime.start();
-        });
+            gc.setFill(originalColor);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -159,10 +178,6 @@ public class FarmController {
             gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, Constants.TILE_SIZE, Constants.TILE_SIZE);
         }
     }
-
-    /* -------------------------------------------------------------------------- */
-    /*                              Render NPC Logics                             */
-    /* -------------------------------------------------------------------------- */
 
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
@@ -222,8 +237,9 @@ public class FarmController {
         return inventoryOpened;
     }
 
-    /* -------------------------------------------------------------------------- */
-    /*                              Inventory Logics                              */
-    /* -------------------------------------------------------------------------- */
+
+/* <------------------------------------------SEPERATOR------------------------------------------------> */
+
+
 
 }
