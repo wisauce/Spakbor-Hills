@@ -37,7 +37,7 @@ public class Player {
     this.name = name;
     this.gender = gender;
     this.farmName = farmName;
-    this.gold = 0;
+    this.gold = 50;
     partner = null;
     inventory = new Inventory();
     inventory.addItem("Hoe", 1);

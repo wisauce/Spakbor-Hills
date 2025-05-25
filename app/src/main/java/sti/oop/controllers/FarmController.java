@@ -35,6 +35,9 @@ public class FarmController {
     private Label timeDisplay;
 
     @FXML
+    private Label dateDisplay;
+
+    @FXML
     private BorderPane hud;
 
     @FXML
@@ -74,11 +77,14 @@ public class FarmController {
         /* Initialize Player */
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
+
+        /* Initialize Contoller */
         collisionController = new CollisionController();
         playerController = new PlayerController(player, collisionController, this);
         gameMapController = new GameMapController(player);
-        timeController = new TimeController(6, 0, "AM", timeDisplay);
-        timeController.render(gc);
+        timeController = new TimeController(farm, timeDisplay, dateDisplay);
+
+        timeController.render();
 
         /* Initialize NPC */
         mayorTadi = new MayorTadi();
@@ -102,7 +108,7 @@ public class FarmController {
 
             if (now - lastTime >= 1_000_000_000) {
                 timeController.update();
-                timeController.render(gc);
+                timeController.render();
                 lastTime = now;
             }
 
@@ -122,6 +128,9 @@ public class FarmController {
             gc = canvas.getGraphicsContext2D();
             gc.setImageSmoothing(false);
             playerController.keyMapper(scene);
+            
+            timeController.render();
+
             gameTime.start();
         });
     }

@@ -1,54 +1,39 @@
 package sti.oop.controllers;
 
+import  sti.oop.models.Farm;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 
 public class TimeController {
-  private int inGameHour = 6;
-  private int inGameMinute = 0;
-  private String timeOfDay = "AM";
-  private boolean timeFrozen = false;
-  private final int MINUTES_PER_SECOND = 5; 
+  private Farm farm;
   private Label timeDisplay;
+  private Label dateDisplay;
 
-  public TimeController(int inGameHour, int inGameMinute, String timeOfDay, Label timeDisplay) {
-    this.inGameHour = inGameHour;
-    this.inGameMinute = inGameMinute;
-    this.timeOfDay = timeOfDay;
+  public TimeController(Farm farm, Label timeDisplay, Label dateDisplay) {
+    this.farm = farm;
     this.timeDisplay = timeDisplay;
+    this.dateDisplay = dateDisplay;
   }
 
   public void update() {
-    if (timeFrozen) return;
-    inGameMinute += MINUTES_PER_SECOND;
-    if (inGameMinute >= 60) {
-      inGameHour += inGameMinute / 60;
-      inGameMinute %= 60;
+   farm.updateTime();
+  }
 
-      if (inGameHour == 12) {
-        if (timeOfDay.equals("AM")) {
-          timeOfDay = "PM";
-        } else {
-          timeOfDay = "AM";
-        }
-      } else if (inGameHour > 12) {
-        inGameHour %= 12;
-        if (inGameHour == 0) {
-          inGameHour = 12;
-        }
-      }
+  public void render() {
+    if (timeDisplay != null) {
+      timeDisplay.setText(farm.getFormatTimeNow());
+    }
+    if (dateDisplay != null) {
+      dateDisplay.setText(farm.getFormatDateMonthSeason());
     }
   }
 
-  public void render(GraphicsContext gc) {
-    timeDisplay.setText(String.format("%d:%02d %s", inGameHour, inGameMinute, timeOfDay));
-  }
-
   public void setTimeFrozen(boolean freeze) {
-    timeFrozen = freeze;
+    farm.setTimeFrozen(freeze);
   }
 
   public boolean isTimeFrozen() {
-    return timeFrozen;
+    return farm.isTimeFrozen();
   }
 }
