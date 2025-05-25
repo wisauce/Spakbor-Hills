@@ -11,7 +11,7 @@ public class Farm {
   /* Time Attributes */
   private int inGameHour = 6;
   private int inGameMinute = 0;
-  private String timeOfDay = "AM";
+  private String timeOfDay = "PM";
   private boolean timeFrozen = false;
   private final int MINUTES_PER_SECOND = 5; 
 
@@ -245,7 +245,7 @@ public class Farm {
     int hour = inGameHour;
     String period = timeOfDay;
 
-    int hour_24 = hour;
+    double hour_24 = hour;
     if (period.equals("AM") && hour == 12) {
         hour_24 = 0;
     }
@@ -253,19 +253,24 @@ public class Farm {
         hour_24 += 12;
     } 
 
+    hour_24 += inGameMinute / 60.0;
+
     if (hour_24 >= 6 && hour_24 < 8) {
-        return Color.rgb(173, 51, 4, 0.2);
+        return colorTransitionator(Color.rgb(72, 52, 117, 0.6), Color.rgb(173, 51, 4, 0.2), (hour_24 - 5.0) / 3.0);
     }
     
     else if (hour_24 >= 8 && hour_24 < 17) {
-        return Color.rgb(255, 255, 255, 0.0);
+        return colorTransitionator(Color.rgb(173, 51, 4, 0.2),Color.rgb(255, 255, 255, 0.0), (hour_24 - 8.0) / 9.0);
     }
     
     else if (hour_24 >= 17 && hour_24 < 19) {
-        return Color.rgb(231, 90, 10, 0.3);
+        return colorTransitionator(Color.rgb(255, 255, 255, 0.0), Color.rgb(231, 90, 10, 0.3), (hour_24 - 17.0) / 2.0);
+    }
+    else if (hour_24 >= 19 && hour_24 < 22) {
+        return colorTransitionator(Color.rgb(231, 90, 10, 0.3), Color.rgb(72, 52, 117, 0.6), (hour_24 - 19.0) / 3.0);
     }
     else {
-        return Color.rgb(72, 52, 117, 0.6);
+      return Color.rgb(72, 52, 117, 0.6);
     }
   }
 
@@ -302,6 +307,36 @@ public class Farm {
     else {
         return "Night";
     }
+  }
+
+  private double smoothProgression(double progression) {
+    /* https://stackoverflow.com/questions/13462001/ease-in-and-ease-out-animation-formula */
+
+    return progression * progression * (3.0 - 2.0 * progression);
+  }
+
+  private Color colorTransitionator(Color color1, Color color2, double progression) {
+    progression = smoothProgression(Math.max(0, Math.min(1, progression))); // 0 -> 1  
+
+    double red1 = color1.getRed();
+    double green1 = color1.getGreen();
+    double blue1 = color1.getBlue();
+    double alpha1 = color1.getOpacity();
+
+    double red2 = color2.getRed();
+    double green2 = color2.getGreen();
+    double blue2 = color2.getBlue();
+    double alpha2 = color2.getOpacity();
+
+    /* https://stackoverflow.com/questions/19841477/java-smooth-color-transition */
+    /* Use Formula --> Old + (Delta * i) / steps  --> i / steps = progression (0 -> 1)*/
+
+    double red = red1 + (red2 - red1) * progression;
+    double green = green1 + (green2 - green1) * progression;
+    double blue = blue1 + (blue2 - blue1) * progression;
+    double alpha = alpha1 + (alpha2 - alpha1) * progression;
+
+    return Color.color(red, green, blue, alpha);
   }
 
   public void setTimeFrozen(boolean freeze) {
