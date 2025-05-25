@@ -2,7 +2,7 @@ package sti.oop.controllers;
 
 import java.util.Map;
 
-import sti.oop.controllers.MapController.MapName;
+import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.CollisionMap;
 import sti.oop.utils.Constants;
 

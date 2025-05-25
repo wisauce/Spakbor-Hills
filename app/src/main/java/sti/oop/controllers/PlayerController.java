@@ -24,15 +24,15 @@ public class PlayerController implements Renderable {
   private int spriteCounter = 0;
   private int idleCounter = 0;
   private boolean isIdle = true;
-  private final int playerFrameWidth = 256;
-  private final int playerFrameHeight = 256;
+  private final int playerFrameWidth = 32;
+  private final int playerFrameHeight = 32;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
 
   // collision
-  private final int hitboxOffsetX = (int) (11*4 / 2 );
-  private final int hitboxOffsetY = (int) (23*4 / 2);
-  private final int hitboxWidth = (int) (10*4 / 2 );
-  private final int hitboxHeight = (int) (9*4 / 2);
+  private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxOffsetY = (int) (23 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxWidth = (int) (10 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxHeight = (int) (9 * Constants.TILE_SIZE / playerFrameHeight);
 
 
   public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {
@@ -183,12 +183,6 @@ public class PlayerController implements Renderable {
       if (idleCounter == 49) {
         if (frameY == 0 || frameY == 2) {
           frameX = (frameX + 1) % 2;
-        } else {
-          if (frameX < 2) {
-            frameX = (frameX + 1) % 2;
-          } else {
-            frameX = 2 + (frameX + 1) % 2;
-          }
         }
       }
     } else {
@@ -236,6 +230,7 @@ public class PlayerController implements Renderable {
   /* -------------------------------------------------------------------------- */
 
 
+
   
   @Override
   public void render(GraphicsContext gc) {
@@ -243,4 +238,23 @@ public class PlayerController implements Renderable {
     gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, Constants.PLAYER_SCREEN_X,
         Constants.PLAYER_SCREEN_Y, Constants.TILE_SIZE, Constants.TILE_SIZE);
   }
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public int getPlayerFrameWidth() {
+    return playerFrameWidth;
+  }
+
+  public int getPlayerFrameHeight() {
+    return playerFrameHeight;
+  }
+
+  public Image getPlayerSpriteSheet() {
+    return playerSpriteSheet;
+  }
+  
+
+  
 }

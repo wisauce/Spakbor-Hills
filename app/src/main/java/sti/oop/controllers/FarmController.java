@@ -56,6 +56,9 @@ public class FarmController {
     private NPC perry;
 
     private TimeController timeController;
+    private CollisionController collisionController;
+    private PlayerController playerController;
+    private GameMapController gameMapController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -69,9 +72,9 @@ public class FarmController {
         /* Initialize Player */
         Player player = new Player("Asep", Gender.MALE, "Asep's diary");
         farm = new Farm(player);
-        CollisionController collisionController = new CollisionController();
-        PlayerController playerController = new PlayerController(player, collisionController, this);
-        MapController mapController = new MapController(player);
+        collisionController = new CollisionController();
+        playerController = new PlayerController(player, collisionController, this);
+        gameMapController = new GameMapController(player);
         timeController = new TimeController(6, 0, "AM", timeDisplay);
 
         /* Initialize NPC */
@@ -100,7 +103,7 @@ public class FarmController {
 
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-            mapController.render(gc);
+            gameMapController.render(gc);
 
 
             renderNPCs();
@@ -112,6 +115,7 @@ public class FarmController {
         Platform.runLater(() -> {
             scene = hud.getParent().getScene();
             gc = canvas.getGraphicsContext2D();
+            gc.setImageSmoothing(false);
             playerController.keyMapper(scene);
             gameTime.start();
         });
@@ -177,7 +181,7 @@ public class FarmController {
                 
                 InventoryController inventoryController = inventoryLoader.getController();
                 inventoryController.setFarmController(this);
-                inventoryController.setPlayer(farm.getPlayer());
+                inventoryController.setPlayer(playerController);
                 
 
                 inventoryPane.setMaxSize(800, 400);

@@ -6,7 +6,7 @@ import sti.oop.models.GameMap;
 import sti.oop.models.Player;
 import sti.oop.utils.Constants;
 
-public class MapController {
+public class GameMapController {
   public enum MapName{
     FARM,
     HOUSE,
@@ -18,10 +18,10 @@ public class MapController {
   Player player;
 
 
-  public MapController(Player player) {
+  public GameMapController(Player player) {
     this.player = player;
     mapOfGameMaps = Map.ofEntries(
-      Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 64, 17 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE)),
+      Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 16, 17 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE)),
       Map.entry(MapName.HOUSE, new GameMap("/maps/house.png", "/maps/house.txt",16, 32 * 12, 32 * 23))
     );
     setCurrentMap(MapName.FARM);

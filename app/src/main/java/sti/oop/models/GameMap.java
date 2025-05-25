@@ -36,7 +36,7 @@ public class GameMap {
     }
     maxTileHorizonal = matrixOfGid.getFirst().size();
     maxTileVertical = matrixOfGid.size();
-    this.tileSet = new Image(getClass().getResourceAsStream(tileSetSrc));
+    this.tileSet = new Image(getClass().getResourceAsStream(tileSetSrc),0,0,true, false);
     numberOfTilesInTileSetRow = (int) (tileSet.getWidth() / tileSize);
     this.playerStartingPositionX = playerStartingPositionX;
     this.playerStartingPositionY = playerStartingPositionY;

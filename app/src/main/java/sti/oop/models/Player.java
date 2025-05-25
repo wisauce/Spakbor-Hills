@@ -32,8 +32,6 @@ public class Player {
   private int y = 0;
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
-  public static final int playerFrameWidth = 256;
-  public static final int playerFrameHeight = 256;
 
   public Player(String name, Gender gender, String farmName) {
     this.name = name;
