@@ -30,6 +30,7 @@ public class App extends Application {
         System.out.println("Prism MinVRAM set to: " + System.getProperty("prism.minvram"));
         Parent root = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
         stage.setScene(new Scene(root));
+        stage.setFullScreen(true);
         stage.setTitle("Spakbor Hills");
         stage.show();
 

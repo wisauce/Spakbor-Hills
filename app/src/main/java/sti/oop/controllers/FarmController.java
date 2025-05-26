@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -36,6 +37,9 @@ public class FarmController {
 
     @FXML
     private Label dateDisplay;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private BorderPane hud;
@@ -73,73 +77,76 @@ public class FarmController {
 
     @FXML
     public void initialize() {
-
-        /* Initialize Player */
-        Player player = new Player("Asep", Gender.MALE, "Asep's diary");
-        farm = new Farm(player);
-
-        /* Initialize Contoller */
-        collisionController = new CollisionController();
-        playerController = new PlayerController(player, collisionController, this);
-        gameMapController = new GameMapController(player);
-        timeController = new TimeController(farm, timeDisplay, dateDisplay);
-
-        timeController.render();
-
-        /* Initialize NPC */
-        mayorTadi = new MayorTadi();
-        abigail = new Abigail();
-        caroline = new Caroline();  
-        emily = new Emily();
-        dasco = new Dasco();
-        perry = new Perry();
-
-
-
-/* <------------------------------------------SEPERATOR------------------------------------------------> */
-
+      canvas.widthProperty().bind(anchorPane.widthProperty());
+      canvas.heightProperty().bind(anchorPane.heightProperty());
+      // canvas.widthProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
+      // canvas.heightProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
+      /* Initialize Player */
+      Player player = new Player("Asep", Gender.MALE, "Asep's diary");
+      farm = new Farm(player);
+      
+      /* Initialize Contoller */
+      collisionController = new CollisionController();
+      playerController = new PlayerController(player, collisionController, this);
+      gameMapController = new GameMapController(player);
+      timeController = new TimeController(farm, timeDisplay, dateDisplay);
+      
+      timeController.render();
+      
+      /* Initialize NPC */
+      mayorTadi = new MayorTadi();
+      abigail = new Abigail();
+      caroline = new Caroline();  
+      emily = new Emily();
+      dasco = new Dasco();
+      perry = new Perry();
+      
+      
+      
+      /* <------------------------------------------SEPERATOR------------------------------------------------> */
+      
         AnimationTimer gameTime = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (lastTime == 0) {
-                    lastTime = now;
-                }
-
-                if (now - lastTime >= 1_000_000_000) {
-                    timeController.update();
-                    timeController.render();
-                    lastTime = now;
-                }
-
-                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-                gameMapController.render(gc);
-
-
-                renderNPCs();
-
-                playerController.render(gc);
-
-                    applyTimeOfDayLighting();
-                }
-            };
-    
-            /* Delay until scene is ready */
-            Platform.runLater(() -> {
-                scene = hud.getParent().getScene();
-                gc = canvas.getGraphicsContext2D();
-                gc.setImageSmoothing(false);
-                playerController.keyMapper(scene);
-                
-                timeController.render();
-    
-                gameTime.start();
-            });
-        }
-    
-        private void applyTimeOfDayLighting() {
-            Color timeColor = farm.timeOfDayColor();
-    
+          @Override
+          public void handle(long now) {
+            if (lastTime == 0) {
+              lastTime = now;
+            }
+            
+            if (now - lastTime >= 1_000_000_000) {
+              timeController.update();
+              timeController.render();
+              lastTime = now;
+            }
+            
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            
+            gameMapController.render(gc);
+            
+            
+            renderNPCs();
+            
+            playerController.render(gc);
+            
+            applyTimeOfDayLighting();
+          }
+        };
+        
+        /* Delay until scene is ready */
+        Platform.runLater(() -> {
+          scene = hud.getParent().getScene();
+          gc = canvas.getGraphicsContext2D();
+          gc.setImageSmoothing(false);
+          playerController.keyMapper(scene);
+          
+          timeController.render();
+          
+          gameTime.start();
+        });
+      }
+      
+      private void applyTimeOfDayLighting() {
+        Color timeColor = farm.timeOfDayColor();
+        
             Color originalColor = (Color) gc.getFill();
             
             gc.setFill(timeColor);
@@ -171,8 +178,13 @@ public class FarmController {
     }
 
     private void renderNPC(NPC NPCname, int x_player, int y_player) {
-        int x_screen = NPCname.getLocation().x - x_player + Constants.PLAYER_SCREEN_X;
-        int y_screen = NPCname.getLocation().y - y_player + Constants.PLAYER_SCREEN_Y;
+        Canvas canvas = gc.getCanvas();
+        double canvasWidth = canvas.getWidth();
+        double canvasHeight = canvas.getHeight();
+        int playerScreenX = (int) (canvasWidth / 2) - (Constants.TILE_SIZE / 2);
+        int playerScreenY = (int) (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
+        int x_screen = NPCname.getLocation().x - x_player + playerScreenX;
+        int y_screen = NPCname.getLocation().y - y_player + playerScreenY;
 
         if (x_screen > -128 && x_screen < canvas.getWidth() + 128 && y_screen > -128 && y_screen < canvas.getHeight() + 128) {
             gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight, x_screen, y_screen, Constants.TILE_SIZE, Constants.TILE_SIZE);

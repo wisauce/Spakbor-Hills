@@ -1,6 +1,7 @@
 package sti.oop.controllers;
 import java.util.Map;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import sti.oop.models.GameMap;
 import sti.oop.models.Player;
@@ -34,13 +35,19 @@ public class GameMapController {
   }
 
   public void render(GraphicsContext gc) {
-    int minRow = Math.max((player.getY() - Constants.PLAYER_SCREEN_Y) / Constants.TILE_SIZE,0);
-    int maxRow = Math.min((player.getY() + Constants.PLAYER_SCREEN_Y + Constants.TILE_SIZE*2) / Constants.TILE_SIZE, currentMap.getMaxTileHorizonal());
-    int minCol = Math.max((player.getX() - Constants.PLAYER_SCREEN_X) / Constants.TILE_SIZE, 0);
-    int maxCol = Math.min((player.getX() + Constants.PLAYER_SCREEN_X + Constants.TILE_SIZE*2) / Constants.TILE_SIZE, currentMap.getMaxTileVertical());
+    Canvas canvas = gc.getCanvas();
+    double canvasWidth = canvas.getWidth();
+    double canvasHeight = canvas.getHeight();
+
+    int playerScreenX = (int) (canvasWidth / 2) - (Constants.TILE_SIZE / 2);
+    int playerScreenY = (int) (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
+    int minRow = Math.max((player.getY() - playerScreenY) / Constants.TILE_SIZE,0);
+    int maxRow = Math.min((player.getY() + playerScreenY + Constants.TILE_SIZE*2) / Constants.TILE_SIZE, currentMap.getMaxTileHorizonal());
+    int minCol = Math.max((player.getX() - playerScreenX) / Constants.TILE_SIZE, 0);
+    int maxCol = Math.min((player.getX() + playerScreenX + Constants.TILE_SIZE*2) / Constants.TILE_SIZE, currentMap.getMaxTileVertical());
     for (int row = minRow; row < maxRow; row++) {
         for (int col = minCol; col < maxCol; col++) {
-          drawTile(currentMap.getMatrixOfGid().get(row).get(col), col * Constants.TILE_SIZE - player.getX() + Constants.PLAYER_SCREEN_X, row * Constants.TILE_SIZE - player.getY() + Constants.PLAYER_SCREEN_Y, gc);          
+          drawTile(currentMap.getMatrixOfGid().get(row).get(col), col * Constants.TILE_SIZE - player.getX() + playerScreenX, row * Constants.TILE_SIZE - player.getY() + playerScreenY, gc);          
         }
     }
   }

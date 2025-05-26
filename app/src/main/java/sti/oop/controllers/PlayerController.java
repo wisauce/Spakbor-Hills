@@ -1,6 +1,7 @@
 package sti.oop.controllers;
 
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -34,7 +35,6 @@ public class PlayerController implements Renderable {
   private final int hitboxWidth = (int) (10 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxHeight = (int) (9 * Constants.TILE_SIZE / playerFrameHeight);
 
-
   public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {
     this.player = player;
     this.collisionController = collisionController;
@@ -50,7 +50,7 @@ public class PlayerController implements Renderable {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                            INPUT KEYBOARD LOGICS                           */
+  /* INPUT KEYBOARD LOGICS */
   /* -------------------------------------------------------------------------- */
 
   public void keyHandler() {
@@ -84,8 +84,8 @@ public class PlayerController implements Renderable {
       intersectPoint2Y = intersectPoint1Y + hitboxHeight;
 
       canMoveLeft = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
     }
 
     if (keyRightPressed) {
@@ -93,11 +93,11 @@ public class PlayerController implements Renderable {
       intersectPoint2X = intersectPoint1X;
       intersectPoint1Y = player.getY() + hitboxOffsetY;
       intersectPoint2Y = intersectPoint1Y + hitboxHeight;
-      
+
       canMoveRight = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
 
     if (keyUpPressed) {
       intersectPoint1X = player.getX() + hitboxOffsetX;
@@ -106,10 +106,9 @@ public class PlayerController implements Renderable {
       intersectPoint2Y = intersectPoint1Y;
 
       canMoveUp = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
-
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
 
     if (keyDownPressed) {
       intersectPoint1X = player.getX() + hitboxOffsetX;
@@ -118,9 +117,9 @@ public class PlayerController implements Renderable {
       intersectPoint2Y = intersectPoint1Y;
 
       canMoveDown = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
-                    &&
-                    !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
-    } 
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
 
     boolean leftMovement = keyLeftPressed && canMoveLeft;
     boolean rightMovement = keyRightPressed && canMoveRight;
@@ -137,7 +136,7 @@ public class PlayerController implements Renderable {
       if (spriteCounter == 9 && !directionChanged) {
         frameX = 2 + (frameX + 1) % 2;
       }
-    } 
+    }
 
     if (downMovement) {
       player.moveDown();
@@ -198,7 +197,7 @@ public class PlayerController implements Renderable {
         case KeyCode.W -> keyUpPressed = true;
         case KeyCode.S -> keyDownPressed = true;
         case KeyCode.D -> keyRightPressed = true;
-        case KeyCode.E -> farmController.toggleInventory(); 
+        case KeyCode.E -> farmController.toggleInventory();
         case KeyCode.SHIFT -> player.setRun(true);
         default -> {
         }
@@ -226,17 +225,24 @@ public class PlayerController implements Renderable {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                            INPUT KEYBOARD LOGICS                           */
+  /* INPUT KEYBOARD LOGICS */
   /* -------------------------------------------------------------------------- */
 
-
-
-  
   @Override
+  // Contoh di PlayerController.java
   public void render(GraphicsContext gc) {
     keyHandler();
-    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight, Constants.PLAYER_SCREEN_X,
-        Constants.PLAYER_SCREEN_Y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+    Canvas canvas = gc.getCanvas();
+    double canvasWidth = canvas.getWidth();
+    double canvasHeight = canvas.getHeight();
+
+    double playerScreenX = (canvasWidth / 2) - (Constants.TILE_SIZE / 2);
+    double playerScreenY = (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
+
+    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight,
+        playerScreenX, playerScreenY, // Gunakan posisi dinamis ini
+        Constants.TILE_SIZE, Constants.TILE_SIZE);
   }
 
   public Player getPlayer() {
@@ -254,7 +260,5 @@ public class PlayerController implements Renderable {
   public Image getPlayerSpriteSheet() {
     return playerSpriteSheet;
   }
-  
 
-  
 }
