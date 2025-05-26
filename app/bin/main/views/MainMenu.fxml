@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane onMouseClicked="#onAnywhereClick" prefHeight="1024.0" prefWidth="1780.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.MainMenuController">
+<StackPane onMouseClicked="#onAnywhereClick" prefHeight="1024.0" prefWidth="1780.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.MainMenuController">
    <children>
       <ImageView fitHeight="1024.0" fitWidth="1780.0" pickOnBounds="true" StackPane.alignment="CENTER">
          <image>

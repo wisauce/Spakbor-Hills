@@ -27,6 +27,7 @@ import sti.oop.models.NPC.MayorTadi;
 import sti.oop.models.NPC.Perry;
 import sti.oop.models.Player.Gender;
 import sti.oop.utils.Constants;
+import sti.oop.utils.SpriteManager;
 
 
 
@@ -79,8 +80,10 @@ public class FarmController {
     public void initialize() {
       canvas.widthProperty().bind(anchorPane.widthProperty());
       canvas.heightProperty().bind(anchorPane.heightProperty());
-      // canvas.widthProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
-      // canvas.heightProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
+
+      /* Load Item Sprites */
+      SpriteManager.preloadSprites();
+
       /* Initialize Player */
       Player player = new Player("Asep", Gender.MALE, "Asep's diary");
       farm = new Farm(player);
