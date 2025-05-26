@@ -1,8 +1,9 @@
 public class Tile {
     //atribut
-    /* Note *
+    /*Note*
      * Type : House = h, Pond = p, ShippingBin = s
      * occupied : 1 = true, 0 = false "blm terisi"
+     * 
      */
     int occupied;
     char type; 
@@ -12,6 +13,10 @@ public class Tile {
         this.type = '.';
     }
 
+    public char getType() {
+        return this.type;
+    }
+    
     public boolean isOcuppied() {
         if(this.occupied == 0){
             return false;
