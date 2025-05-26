@@ -1,9 +1,6 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,9 +14,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import sti.oop.models.Asset;
 import sti.oop.models.Farm;
 import sti.oop.models.NPC.NPC;
 import sti.oop.models.Player;
+import sti.oop.models.Teleport;
 import sti.oop.models.NPC.Abigail;
 import sti.oop.models.NPC.Caroline;
 import sti.oop.models.NPC.Dasco;
@@ -68,6 +67,7 @@ public class FarmController {
     private CollisionController collisionController;
     private PlayerController playerController;
     private GameMapController gameMapController;
+    private AssetController assetController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -86,10 +86,12 @@ public class FarmController {
       farm = new Farm(player);
       
       /* Initialize Contoller */
-      collisionController = new CollisionController();
+      assetController = new AssetController(player);
+      collisionController = new CollisionController(assetController.getAssets());
       playerController = new PlayerController(player, collisionController, this);
       gameMapController = new GameMapController(player);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
+      assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
       
       timeController.render();
       
@@ -125,9 +127,12 @@ public class FarmController {
             
             renderNPCs();
             
+            collisionController.checkAssetCollision(playerController);
+            assetController.render(gc);
             playerController.render(gc);
             
             applyTimeOfDayLighting();
+            
           }
         };
         

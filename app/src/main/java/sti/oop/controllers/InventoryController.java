@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import sti.oop.models.Player;
 
 public class InventoryController {
 
