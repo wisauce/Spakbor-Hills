@@ -1,13 +1,15 @@
 package sti.oop.models.NPC;
 
 import javafx.scene.image.Image;
+import sti.oop.action.ActionVisitor;
+import sti.oop.action.Visitable;
 import sti.oop.models.Player;
 import sti.oop.models.Point;
 
 import java.util.List;
 
 
-public class NPC {
+public class NPC implements Visitable {
     private final int maxHeartPoints = 150;
     private String name;
     private Point location;
@@ -184,6 +186,11 @@ public class NPC {
         else {
             return 0;
         }
+    }
+    @Override
+    public void accept(ActionVisitor actionVisitor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'accept'");
     }
 
 
