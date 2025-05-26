@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import sti.oop.models.Asset;
+import sti.oop.models.Interactable;
 import sti.oop.models.Player;
 import sti.oop.utils.Constants;
 
@@ -34,7 +35,9 @@ public class AssetController {
       assetScreenX = asset.getX() - player.getX() + playerScreenX;
       assetScreenY = asset.getY() - player.getY() + playerScreenY;
       asset.updateSolidArea();
-      gc.drawImage(asset.getImage(), assetScreenX, assetScreenY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+      if (asset.getImage() != null) {
+        gc.drawImage(asset.getImage(), assetScreenX, assetScreenY, Constants.TILE_SIZE, Constants.TILE_SIZE);
+      }
     }
   }
 }

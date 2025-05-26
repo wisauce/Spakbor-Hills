@@ -49,6 +49,7 @@ public class PlayerController implements Renderable {
     this.farmController = farmController;
     this.solidArea = new Rectangle(player.getX() + hitboxOffsetX, player.getY() + hitboxOffsetY, hitboxWidth,
         hitboxHeight);
+    action = new Action(farmController.gameMapController, collisionController);
   }
 
   public void updateSolidArea() {
@@ -246,6 +247,7 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
+        case KeyCode.E -> keyEPressed = false;
         default -> {
         }
       }

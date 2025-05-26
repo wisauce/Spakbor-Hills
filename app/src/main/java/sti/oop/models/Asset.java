@@ -8,13 +8,19 @@ public class Asset {
   private int x,y;
   private Rectangle solidArea;
   private Image image;
-  private Boolean collision;
+  private boolean collision;
+
+  public Asset(int x, int y, int w, int h) {
+    this.x = x;
+    this.y = y;
+    solidArea = new Rectangle(x, y, w, h);
+  }
 
   public Asset(int x, int y, String imageSrc) {
     this.x = x;
     this.y = y;
     image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(0, 0, Constants.TILE_SIZE, Constants.TILE_SIZE);
+    solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
     collision = false;
   }
 
@@ -22,7 +28,7 @@ public class Asset {
     this.x = x;
     this.y = y;
     image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(0, 0, Constants.TILE_SIZE, Constants.TILE_SIZE);
+    solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
     this.collision = collision;
   }
 
@@ -30,7 +36,7 @@ public class Asset {
     this.x = x;
     this.y = y;
     image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(0,0,w,h);
+    solidArea = new Rectangle(x,y,w,h);
     collision = false;
   }
 
@@ -59,7 +65,8 @@ public class Asset {
     solidArea.setY(y);
   }
 
-  public boolean isCollisonOn() {
+  public boolean isCollisionOn() {
     return collision;
   }
+  
 }
