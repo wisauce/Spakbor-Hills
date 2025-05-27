@@ -16,6 +16,12 @@ public class Asset {
     solidArea = new Rectangle(x, y, w, h);
   }
 
+  public Asset(int x, int y) {
+    this.x = x;
+    this.y = y;
+    solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+  }
+
   public Asset(int x, int y, String imageSrc) {
     this.x = x;
     this.y = y;
@@ -28,7 +34,7 @@ public class Asset {
     this.x = x;
     this.y = y;
     image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+    solidArea = new Rectangle(x, y, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3);
     this.collision = collision;
   }
 

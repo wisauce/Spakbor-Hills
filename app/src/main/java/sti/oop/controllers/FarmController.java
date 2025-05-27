@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Asset;
 import sti.oop.models.Farm;
 import sti.oop.models.NPC.NPC;
@@ -46,6 +47,9 @@ public class FarmController {
 
     @FXML
     private Canvas canvas;
+
+    @FXML
+    private Label interactionNotification;
 
     private long lastTime = 0;
 
@@ -90,12 +94,12 @@ public class FarmController {
       
       /* Initialize Contoller */
       assetController = new AssetController(player);
-      collisionController = new CollisionController(assetController.getAssets());
+      collisionController = new CollisionController();
       gameMapController = new GameMapController(player);
       playerController = new PlayerController(player, collisionController, this);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
       // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
-      assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
+      // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
       
       timeController.render();
       
@@ -131,7 +135,7 @@ public class FarmController {
             
             renderNPCs();
             
-            collisionController.checkAssetCollision(playerController);
+            collisionController.checkAssetCollision(assetController.getAssets(),playerController);
             assetController.render(gc);
             playerController.render(gc);
             
@@ -257,6 +261,18 @@ public class FarmController {
     public boolean getStatusInventory() {
         return inventoryOpened;
     }
+
+    public void changeMap(MapName mapName) {
+      gameMapController.setCurrentMap(mapName);
+      collisionController.setCurrentCollisionMap(mapName);
+      assetController.setAssets(mapName);
+    }
+
+    public Label getInteractionNotification() {
+      return interactionNotification;
+    }
+
+    
 
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */

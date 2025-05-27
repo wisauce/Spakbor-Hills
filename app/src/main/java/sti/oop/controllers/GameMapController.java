@@ -22,8 +22,8 @@ public class GameMapController {
   public GameMapController(Player player) {
     this.player = player;
     mapOfGameMaps = Map.ofEntries(
-      Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 16, 17 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE)),
-      Map.entry(MapName.HOUSE, new GameMap("/maps/house.png", "/maps/house.txt",16, 32 * 12, 32 * 23))
+      Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 16, 16 * Constants.TILE_SIZE + Constants.TILE_SIZE/2, 17 * Constants.TILE_SIZE)),
+      Map.entry(MapName.HOUSE, new GameMap("/maps/house.png", "/maps/house.txt",16, 12 * Constants.TILE_SIZE + Constants.TILE_SIZE/2, 23 * Constants.TILE_SIZE))
     );
     setCurrentMap(MapName.FARM);
   }

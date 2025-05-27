@@ -49,7 +49,7 @@ public class PlayerController implements Renderable {
     this.farmController = farmController;
     this.solidArea = new Rectangle(player.getX() + hitboxOffsetX, player.getY() + hitboxOffsetY, hitboxWidth,
         hitboxHeight);
-    action = new Action(farmController.gameMapController, collisionController);
+    action = new Action(farmController);
   }
 
   public void updateSolidArea() {
@@ -212,8 +212,10 @@ public class PlayerController implements Renderable {
       idleCounter = 0;
     }
 
-    if (keyEPressed && canInteract) {
-
+    if (canInteract) {
+      farmController.getInteractionNotification().setVisible(true);
+    } else {
+      farmController.getInteractionNotification().setVisible(false);
     }
   }
 

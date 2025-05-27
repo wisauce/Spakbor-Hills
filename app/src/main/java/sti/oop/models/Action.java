@@ -1,20 +1,15 @@
 package sti.oop.models;
 
-import sti.oop.controllers.CollisionController;
-import sti.oop.controllers.GameMapController;
-import sti.oop.controllers.GameMapController.MapName;
+import sti.oop.controllers.FarmController;
 
-public class Action {
-  GameMapController gameMapController;
-  CollisionController collisionController;
+public class Action implements Actor {
+  FarmController farmController;
 
-  public Action(GameMapController gameMapController, CollisionController collisionController) {
-    this.gameMapController = gameMapController;
-    this.collisionController = collisionController;
+  public Action(FarmController farmController) {
+    this.farmController = farmController;
   }
 
-  public void visit(Teleporter visited) {
-    gameMapController.setCurrentMap(MapName.HOUSE);
-    collisionController.setCurrentCollisionMap(MapName.HOUSE);
+  public void act(Teleporter visited) {
+    farmController.changeMap(visited.getDestination());
   }
 }

@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Asset;
 import sti.oop.models.CollisionMap;
-import sti.oop.models.Teleporter;
+import sti.oop.models.Interactable;
 import sti.oop.utils.Constants;
 
 // import sti.oop.models.Constants;
@@ -15,10 +15,8 @@ import sti.oop.utils.Constants;
 public class CollisionController {
   private Map<MapName, CollisionMap> mapOfCollisionMaps;
   private CollisionMap currentCollisionMap;
-  private List<Asset> assets;
 
-  public CollisionController(List<Asset> assets) {
-    this.assets = assets;
+  public CollisionController() {
     mapOfCollisionMaps = Map.ofEntries(
         Map.entry(MapName.FARM, new CollisionMap("/maps/farmCollision.txt")),
         Map.entry(MapName.HOUSE, new CollisionMap("/maps/houseCollision.txt")));
@@ -35,7 +33,7 @@ public class CollisionController {
     currentCollisionMap = mapOfCollisionMaps.get(mapName);
   }
 
-  public void checkAssetCollision(PlayerController playerController) {
+  public void checkAssetCollision(List<Asset> assets, PlayerController playerController) {
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
     playerController.inInteractiveArea(false);
@@ -69,7 +67,7 @@ public class CollisionController {
         } else {
           playerController.inInteractiveArea(true);
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
-            ((Teleporter)asset).accept(playerController.getAction());
+            ((Interactable)asset).accept(playerController.getAction());
           }
         }
         break; // No need to check more if collision is found
@@ -77,15 +75,4 @@ public class CollisionController {
 
     }
   }
-
-  public boolean isFullyContained(Rectangle outer, Rectangle inner) {
-    return inner.getX() >= outer.getX()
-        && inner.getY() >= outer.getY()
-        && inner.getX() + inner.getWidth() <= outer.getX() + outer.getWidth()
-        && inner.getY() + inner.getHeight() <= outer.getY() + outer.getHeight();
-  }
-
-  // public boolean isCollideWithAsset(Player player, Asset asset) {
-
-  // }
 }
