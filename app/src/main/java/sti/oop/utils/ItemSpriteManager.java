@@ -20,7 +20,31 @@ public class ItemSpriteManager {
     private static final Map<String, SpritePosition> SPRITE_POSITIONS = new HashMap<>();
 
     static {
-        SPRITE_POSITIONS.put("EQUIPMENT_Pickaxe", new SpritePosition( 20,31));
+
+        // itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
+        // itemByCategory.put("FISH", new String[]{"Bullhead", "Carp", "Chub", "LargemouthBass", "RainbowTrout", "Sturgeon", "MidnightCarp", "Flounder", "Halibut", "Octopus", "Pufferfish", "Sardine", "SuperCucumber", "Catfish", "Salmon", "Angler", "Crimsonfish", "Glacierfish", "Legend"});
+        // itemByCategory.put("CROP", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
+        // itemByCategory.put("FOOD", new String[]{"FishNChips", "Baguette", "Sashimi", "Fugu", "Wine", "PumpkinPie", "VeggieSoup", "FishStew", "SpakborSalad", "FishSandwich", "TheLegendsOfSpakbor", "CookedPigsHead"});
+        // itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
+        // itemByCategory.put("MISC", new String[]{"Coal", "Firewood"});
+
+        /* Seed */
+
+        /* Fish */
+
+        /* Crop */
+
+        /* Food */
+
+        /* Equipment */
+        SPRITE_POSITIONS.put("EQUIPMENT_Hoe", new SpritePosition(22,27));
+        SPRITE_POSITIONS.put("EQUIPMENT_Pickaxe", new SpritePosition(20,31));
+        SPRITE_POSITIONS.put("EQUIPMENT_WateringCan", new SpritePosition(23,8));
+        SPRITE_POSITIONS.put("EQUIPMENT_FishingRod", new SpritePosition(11, 10));
+
+        /* Misc */
+
+       
     }
 
     private static void loadItemSpriteSheet() {
@@ -113,10 +137,9 @@ public class ItemSpriteManager {
         // itemByCategory.put("FISH", new String[]{"Bullhead", "Carp", "Chub", "LargemouthBass", "RainbowTrout", "Sturgeon", "MidnightCarp", "Flounder", "Halibut", "Octopus", "Pufferfish", "Sardine", "SuperCucumber", "Catfish", "Salmon", "Angler", "Crimsonfish", "Glacierfish", "Legend"});
         // itemByCategory.put("CROP", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
         // itemByCategory.put("FOOD", new String[]{"FishNChips", "Baguette", "Sashimi", "Fugu", "Wine", "PumpkinPie", "VeggieSoup", "FishStew", "SpakborSalad", "FishSandwich", "TheLegendsOfSpakbor", "CookedPigsHead"});
-        // itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
+        itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
         // itemByCategory.put("MISC", new String[]{"Coal", "Firewood"});
 
-        itemByCategory.put("EQUIPMENT", new String[]{"Pickaxe"});
 
         for (Map.Entry<String, String[]> itemEntry : itemByCategory.entrySet()) {
             String itemType = itemEntry.getKey();
