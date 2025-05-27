@@ -44,6 +44,8 @@ public class Player {
     
     inventory.addItem(new Equipment("Hoe"), 1);
     inventory.addItem(new Equipment("Pickaxe"), 1);
+    inventory.addItem(new Equipment("WateringCan"), 1);
+    inventory.addItem(new Equipment("FishingRod"), 1);
 
     for (int i = 1; i <= 30; i++) {
       inventory.addItem(new Equipment("TestTool" + i), i);
