@@ -4,6 +4,7 @@ import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.NPC.NPC;
 
+// ada kurang di bagian jam jam an
 public class Proposing {
     private static final int REQUIRED_HEART_POINTS = 150;
     private static final int ENERGY_COST_SUCCESS = 10;
@@ -13,7 +14,7 @@ public class Proposing {
         return player.getInventory().hasItem("Proposal Ring");
     }
     public void doProposing(Player player, Farm farm, NPC npc){
-        if (npc.getHeartPoints() == REQUIRED_HEART_POINTS && hasRequiredItems(player) && npc.getRelationshipStatus().equalsIgnoreCase("Single")){
+        if (npc.getHeartPoints() == REQUIRED_HEART_POINTS && hasRequiredItems(player) && npc.getRelationshipStatus().equalsIgnoreCase("Single") && player.getPartner() == null){
             int currEnergy = player.getEnergy() - ENERGY_COST_SUCCESS;
             player.setEnergy(currEnergy);
             npc.setRelationshipStatus("Fiance");
