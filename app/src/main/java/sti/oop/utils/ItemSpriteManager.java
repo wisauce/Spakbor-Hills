@@ -1,6 +1,7 @@
 package sti.oop.utils;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.PixelWriter;
 
@@ -8,70 +9,97 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SpriteManager {
+public class ItemSpriteManager {
     private static final Map<String, Image> spriteCache = new ConcurrentHashMap<>();
-    private static final String SPRITE_PATH = "/items/";
-    
+   
+    private static final String SPRITE_SHEET_PATH = "/items/itemSpriteSheet.png";
+    private static Image itemSpriteSheet;
+    private static final int ITEM_SPRITE_WIDTH = 64;
+    private static final int ITEM_SPRITE_HEIGHT = 64;
+
+    private static final Map<String, SpritePosition> SPRITE_POSITIONS = new HashMap<>();
+
+    static {
+        SPRITE_POSITIONS.put("EQUIPMENT_Pickaxe", new SpritePosition( 20,31));
+    }
+
+    private static void loadItemSpriteSheet() {
+        if (itemSpriteSheet == null) {
+            try {
+                itemSpriteSheet = new Image(ItemSpriteManager.class.getResourceAsStream(SPRITE_SHEET_PATH));
+                System.out.println("Sprite sheet loaded succesfully from " + SPRITE_SHEET_PATH);
+            } catch (Exception e) {
+                System.err.println("Failed to load sprite sheet: " + e.getMessage());
+                itemSpriteSheet = createPlaceholderSpriteSheet();
+            }
+        }
+    }
+
     /* -------------------------------------------------------------------------- */
     /*                             Item Sprite Logics                             */
     /* -------------------------------------------------------------------------- */
 
     public static Image getItemSprite(String itemID) {
         return spriteCache.computeIfAbsent(itemID, id -> {
-            try {
-                String itemPath = SPRITE_PATH + id + ".png";
-                Image itemSprite = new Image(SpriteManager.class.getResourceAsStream(itemPath));
+            loadItemSpriteSheet();
 
-                System.out.println("Successfully loaded: " + itemPath);
+            SpritePosition itemPosition = SPRITE_POSITIONS.get(id);
+            
+            if (itemPosition == null) {
+                System.err.println("No Sprite Found for: " + id);
+                return getDefaultSprite();
+            }
+
+            try {
+                int x = itemPosition.col * ITEM_SPRITE_WIDTH;
+                int y = itemPosition.row * ITEM_SPRITE_HEIGHT;
+
+                PixelReader reader = itemSpriteSheet.getPixelReader();
+                WritableImage itemSprite = new WritableImage(reader, x, y, ITEM_SPRITE_WIDTH, ITEM_SPRITE_HEIGHT);
+
                 return itemSprite;
             } catch (Exception e) {
-                System.err.println("Failed to load sprite for: " + id + " at path: " + SPRITE_PATH + id + ".png");
+                System.err.println("Failed to load sprite for: " + id + " with Position:  " + itemPosition.row + ", " + itemPosition.col);
                 return getDefaultSprite();
             }
         });
     }
-    
-    /* TODO: Comment Setelah Semua Item Sudah Ada */
+
+    /* -------------------------------------------------------------------------- */
+    /*                      Default Sprite If Null In Sprite                      */
+    /* -------------------------------------------------------------------------- */
+
     private static Image getDefaultSprite() {
         return spriteCache.computeIfAbsent("default", id -> {
-            try {
-                String[] defaultPaths = {
-                    "/items/default.png",
-                };
-                
-                for (String path : defaultPaths) {
-                    try {
-                        Image defaultImage = new Image(SpriteManager.class.getResourceAsStream(path));
-                        System.out.println("Default sprite loaded from: " + path);
-                        spriteCache.put("default", defaultImage);
-                        return defaultImage;
-                    } catch (Exception ignored) {}
+            WritableImage placeholder = new WritableImage(ITEM_SPRITE_WIDTH, ITEM_SPRITE_HEIGHT);
+            PixelWriter pw = placeholder.getPixelWriter();
+            
+            for (int x = 0; x < ITEM_SPRITE_WIDTH; x++) {
+                for (int y = 0; y < ITEM_SPRITE_HEIGHT; y++) {
+                    pw.setColor(x, y, javafx.scene.paint.Color.PURPLE);
                 }
-                
-                System.err.println("No default sprite found, creating placeholder");
-                spriteCache.put("default", createPlaceholderImage());
-                return createPlaceholderImage();
-
-            } catch (Exception e) {
-                System.err.println("Failed to load default sprite: " + e.getMessage());
-                return createPlaceholderImage();
             }
+            
+            return placeholder;
         });
     }
-    
-    private static Image createPlaceholderImage() {
-        WritableImage placeholder = new WritableImage(32, 32);
+
+    /* -------------------------------------------------------------------------- */
+    /*                           Make Blank Sprite Sheet                          */
+    /* -------------------------------------------------------------------------- */
+
+    private static Image createPlaceholderSpriteSheet() {
+        WritableImage placeholder = new WritableImage(ITEM_SPRITE_WIDTH, ITEM_SPRITE_HEIGHT);
         PixelWriter pw = placeholder.getPixelWriter();
         
-        for (int x = 0; x < 32; x++) {
-            for (int y = 0; y < 32; y++) {
+        for (int x = 0; x < ITEM_SPRITE_WIDTH; x++) {
+            for (int y = 0; y < ITEM_SPRITE_HEIGHT; y++) {
                 pw.setColor(x, y, javafx.scene.paint.Color.PURPLE);
             }
         }
         
         return placeholder;
     }
-    /* TODO: Comment Setelah Semua Item Sudah Ada */
 
 
     /* -------------------------------------------------------------------------- */
@@ -102,4 +130,13 @@ public class SpriteManager {
         
         System.out.println("Preloaded " + spriteCache.size() + " item sprites");
     }
+
+    private static class SpritePosition {
+        final int row, col;
+        SpritePosition(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+    
 }

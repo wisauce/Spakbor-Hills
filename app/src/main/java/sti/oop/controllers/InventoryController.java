@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 
 import sti.oop.models.Player;
 import sti.oop.models.Inventory;
-import sti.oop.utils.SpriteManager;
+import sti.oop.utils.ItemSpriteManager;
 import sti.oop.models.Item.Item;
 
 public class InventoryController {
@@ -165,7 +165,7 @@ public class InventoryController {
         System.out.println(itemID);
         int quantity = inventory.getItemCount(ownItem);
           
-        Image itemSprite = SpriteManager.getItemSprite(itemID);
+        Image itemSprite = ItemSpriteManager.getItemSprite(itemID);
           
         if (itemSprite != null) {
           VBox itemContainer = new VBox();
