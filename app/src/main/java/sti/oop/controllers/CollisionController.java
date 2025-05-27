@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.shape.Rectangle;
+import sti.oop.action.Marry;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Asset;
 import sti.oop.models.CollisionMap;
 import sti.oop.models.Interactable;
+import sti.oop.models.NPCArea;
 import sti.oop.utils.Constants;
 
 // import sti.oop.models.Constants;
@@ -66,9 +68,39 @@ public class CollisionController {
           playerController.setnoCollidingAsset(false);
         } else {
           playerController.inInteractiveArea(true);
+          if (asset instanceof NPCArea) {
+            if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
+              if (!playerController.isHasInteracted()) {
+                playerController.setMarryAcceptingKey(true);
+                playerController.setHasInteracted(true);
+              }
+            }
+            // System.out.println(playerController.isMarryAcceptingKey());
+            if (playerController.isMarryAcceptingKey()) {
+              if (playerController.isKey2Pressed() && playerController.isCanInteract()) {
+                if (!playerController.isHasInteracted()) {
+                  ((NPCArea) asset).setChoosen_act("Marry");
+                  ((NPCArea) asset).accept(playerController.getAction());
+                  playerController.setHasInteracted(true);
+
+                }
+              }
+
+              if (playerController.isKey1Pressed() && playerController.isCanInteract()) {
+                if (!playerController.isHasInteracted()) {
+                  ((NPCArea) asset).setChoosen_act("Propose");
+                  ((NPCArea) asset).accept(playerController.getAction());
+                  playerController.setHasInteracted(true);
+
+                }
+              }
+
+              
+            }
+          }
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
             if (!playerController.isHasInteracted()) {
-              ((Interactable)asset).accept(playerController.getAction());
+              ((Interactable) asset).accept(playerController.getAction());
               playerController.setHasInteracted(true);
             }
           }

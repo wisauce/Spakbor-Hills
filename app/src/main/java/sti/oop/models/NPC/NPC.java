@@ -43,7 +43,7 @@ public class NPC {
   public NPC(String name, Point location, List<String> lovedItems, List<String> likedItems, List<String> hatedItems) {
     this.name = name;
     this.location = location;
-    heartPoints = 0;
+    heartPoints = 150; // aslinya 0;
     this.lovedItems = lovedItems;
     this.likedItems = likedItems;
     this.hatedItems = hatedItems;

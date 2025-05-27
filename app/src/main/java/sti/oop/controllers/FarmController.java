@@ -211,6 +211,10 @@ public class FarmController {
     /*                              Inventory Logics                              */
     /* -------------------------------------------------------------------------- */
 
+    public PlayerController getPlayerController() {
+      return playerController;
+    }
+
     /* Inventory Logics */
     public void toggleInventory() {
         System.out.println("Toggling Inventory... Current state: " + (inventoryOpened ? "Open" : "Closed"));

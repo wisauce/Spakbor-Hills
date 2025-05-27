@@ -22,8 +22,21 @@ public class PlayerController implements Renderable {
   private boolean keyDownPressed = false;
   private boolean keyUpPressed = false;
   private boolean keyEPressed = false;
-
+  private boolean key1Pressed = false;
+  private boolean key2Pressed = false;
+  private boolean key3Pressed = false;
+  private boolean key4Pressed = false;
+  private boolean isMarryAcceptingKey = false;
+  
   private boolean canInteract = false;
+
+  public boolean isMarryAcceptingKey() {
+    return isMarryAcceptingKey;
+  }
+
+  public void setMarryAcceptingKey(boolean isMarryAcceptingKey) {
+    this.isMarryAcceptingKey = isMarryAcceptingKey;
+  }
 
   // render
   private int frameX = 0;
@@ -232,6 +245,10 @@ public class PlayerController implements Renderable {
         case KeyCode.F -> farmController.toggleInventory();
         case KeyCode.SHIFT -> player.setRun(true);
         case KeyCode.E -> keyEPressed = true;
+        case KeyCode.DIGIT1 -> key1Pressed = true;
+        case KeyCode.DIGIT2 -> key2Pressed = true;
+        case KeyCode.DIGIT3 -> key3Pressed = true;
+        case KeyCode.DIGIT4 -> key4Pressed = true;
         default -> {
         }
       }
@@ -252,6 +269,11 @@ public class PlayerController implements Renderable {
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
         case KeyCode.E -> {keyEPressed = false; hasInteracted =  false;}
+        case KeyCode.DIGIT1 -> {key1Pressed = false; hasInteracted =  false;}
+        case KeyCode.DIGIT2 -> {key2Pressed = false; hasInteracted =  false;}
+        case KeyCode.DIGIT3 -> {key3Pressed = false; hasInteracted =  false;}
+        case KeyCode.DIGIT4 -> {key4Pressed = false; hasInteracted =  false;}
+        
         default -> {
         }
       }
@@ -306,6 +328,22 @@ public class PlayerController implements Renderable {
 
   public boolean isKeyLeftPressed() {
     return keyLeftPressed;
+  }
+
+  public boolean isKey1Pressed() {
+    return key1Pressed;
+  }
+
+  public boolean isKey2Pressed() {
+    return key2Pressed;
+  }
+
+  public boolean isKey3Pressed() {
+    return key3Pressed;
+  }
+
+  public boolean isKey4Pressed() {
+    return key4Pressed;
   }
 
   public boolean isKeyRightPressed() {
