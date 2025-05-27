@@ -35,6 +35,7 @@ public class PlayerController implements Renderable {
   private final int playerFrameHeight = 32;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
   private boolean noCollidingAsset = true;
+  private boolean hasInteracted = false;
 
   // collision
   private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
@@ -56,6 +57,7 @@ public class PlayerController implements Renderable {
     solidArea.setX(player.getX() + hitboxOffsetX);
     solidArea.setY(player.getY() + hitboxOffsetY);
   }
+
 
   public Rectangle getSolidArea() {
     return solidArea;
@@ -249,7 +251,7 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
-        case KeyCode.E -> keyEPressed = false;
+        case KeyCode.E -> {keyEPressed = false; hasInteracted =  false;}
         default -> {
         }
       }
@@ -334,6 +336,11 @@ public class PlayerController implements Renderable {
     return action;
   }
 
-  
+  public boolean isHasInteracted() {
+    return hasInteracted;
+  }
 
+  public void setHasInteracted(boolean hasInteracted) {
+    this.hasInteracted = hasInteracted;
+  }
 }

@@ -67,7 +67,10 @@ public class CollisionController {
         } else {
           playerController.inInteractiveArea(true);
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
-            ((Interactable)asset).accept(playerController.getAction());
+            if (!playerController.isHasInteracted()) {
+              ((Interactable)asset).accept(playerController.getAction());
+              playerController.setHasInteracted(true);
+            }
           }
         }
         break; // No need to check more if collision is found
