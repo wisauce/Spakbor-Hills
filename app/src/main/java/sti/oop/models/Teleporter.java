@@ -1,9 +1,5 @@
 package sti.oop.models;
-import java.util.Map;
-
-import javafx.scene.shape.Rectangle;
 import sti.oop.controllers.GameMapController.MapName;
-import sti.oop.utils.Constants;
 
 public class Teleporter extends Asset implements Interactable{
   MapName destination;

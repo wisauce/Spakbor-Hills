@@ -12,4 +12,9 @@ public class Action implements Actor {
   public void act(Teleporter visited) {
     farmController.changeMap(visited.getDestination());
   }
+
+  @Override
+  public void act(MarryArea acted) {
+    
+  }
 }
