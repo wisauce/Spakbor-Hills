@@ -17,4 +17,9 @@ public class MayorTadi extends NPC {
             Collections.emptyList() //hatedItems
         );
     }
+
+    @Override
+    public boolean hatedItems(String itemName) {
+      return !getLovedItems().contains(itemName) && !getLikedItems().contains(itemName);
+    }
 }

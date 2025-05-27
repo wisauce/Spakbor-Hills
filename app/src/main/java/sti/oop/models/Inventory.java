@@ -1,42 +1,49 @@
 package sti.oop.models;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Collections;
+import sti.oop.models.Item.Item;
 
 public class Inventory {
-    // Change all of String to Items whenever is available
-    private Map<String, Integer> items;
+    private Map<Item, Integer> items;
 
     public Inventory() {
-        items = new HashMap<>();
+        items = new LinkedHashMap<>();
     }
 
-    public int getItemCount(String itemName) {
-        return items.getOrDefault(itemName, 0); //if itemName is not in items, return 0. Else, return Value of Key.
+    public int getItemCount(Item itemName) {
+        return items.getOrDefault(itemName, 0);
     }
 
-    public boolean hasItem(String itemName) {
+    public boolean hasItem(Item itemName) {
         return items.containsKey(itemName);
     }
     
-    public Set<String> getAllItemName() {
+    public Set<Item> getAllItem() {
         return Collections.unmodifiableSet(items.keySet());
     }
 
-    public void addItem(String itemName, int quantity) {
+    public void addItem(Item item, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity is not valid! Quantity must be over 0");
-        items.put(itemName, getItemCount(itemName) + quantity);
+        
+        if (items.containsKey(item)) {
+            items.put(item, getItemCount(item) + quantity);
+        }
+        
+        else {
+            items.put(item, quantity);
+        }
     }
 
-    public void removeItem(String itemName, int quantity) {
-        if (getItemCount(itemName) < quantity) throw new IllegalArgumentException("Not enough of item: " + itemName);
-        int newQuantity = getItemCount(itemName) - quantity;
+    public void removeItem(Item item, int quantity) {
+        if (getItemCount(item) < quantity) throw new IllegalArgumentException("Not enough of item: " + item);
+        int newQuantity = getItemCount(item) - quantity;
         if (newQuantity == 0) {
-            items.remove(itemName);
+            items.remove(item);
         } else {
-            items.put(itemName, newQuantity);
+            items.put(item, newQuantity);
         }
     }
 }

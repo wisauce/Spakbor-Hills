@@ -5,7 +5,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Rectangle;
 import sti.oop.interfaces.Renderable;
+import sti.oop.models.Action;
 import sti.oop.models.Player;
 import sti.oop.utils.Constants;
 
@@ -13,11 +15,15 @@ public class PlayerController implements Renderable {
   private Player player;
   private CollisionController collisionController;
   private FarmController farmController;
+  private Action action;
   // key
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
   private boolean keyDownPressed = false;
   private boolean keyUpPressed = false;
+  private boolean keyEPressed = false;
+
+  private boolean canInteract = false;
 
   // render
   private int frameX = 0;
@@ -28,17 +34,33 @@ public class PlayerController implements Renderable {
   private final int playerFrameWidth = 32;
   private final int playerFrameHeight = 32;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
+  private boolean noCollidingAsset = true;
+  private boolean hasInteracted = false;
 
   // collision
   private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxOffsetY = (int) (23 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxWidth = (int) (10 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxHeight = (int) (9 * Constants.TILE_SIZE / playerFrameHeight);
+  private Rectangle solidArea;
 
   public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {
     this.player = player;
     this.collisionController = collisionController;
     this.farmController = farmController;
+    this.solidArea = new Rectangle(player.getX() + hitboxOffsetX, player.getY() + hitboxOffsetY, hitboxWidth,
+        hitboxHeight);
+    action = new Action(farmController);
+  }
+
+  public void updateSolidArea() {
+    solidArea.setX(player.getX() + hitboxOffsetX);
+    solidArea.setY(player.getY() + hitboxOffsetY);
+  }
+
+
+  public Rectangle getSolidArea() {
+    return solidArea;
   }
 
   public int sourceX() {
@@ -121,10 +143,10 @@ public class PlayerController implements Renderable {
           !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
     }
 
-    boolean leftMovement = keyLeftPressed && canMoveLeft;
-    boolean rightMovement = keyRightPressed && canMoveRight;
-    boolean upMovement = keyUpPressed && canMoveUp;
-    boolean downMovement = keyDownPressed && canMoveDown;
+    boolean leftMovement = keyLeftPressed && canMoveLeft && noCollidingAsset;
+    boolean rightMovement = keyRightPressed && canMoveRight && noCollidingAsset;
+    boolean upMovement = keyUpPressed && canMoveUp && noCollidingAsset;
+    boolean downMovement = keyDownPressed && canMoveDown && noCollidingAsset;
 
     if (upMovement) {
       player.moveUp();
@@ -136,6 +158,7 @@ public class PlayerController implements Renderable {
       if (spriteCounter == 9 && !directionChanged) {
         frameX = 2 + (frameX + 1) % 2;
       }
+      updateSolidArea();
     }
 
     if (downMovement) {
@@ -148,6 +171,7 @@ public class PlayerController implements Renderable {
       if (spriteCounter == 9 && !directionChanged) {
         frameX = 2 + (frameX + 1) % 2;
       }
+      updateSolidArea();
     }
 
     if (leftMovement) {
@@ -162,6 +186,7 @@ public class PlayerController implements Renderable {
           frameX = (frameX + 1) % 2;
         }
       }
+      updateSolidArea();
     }
     if (rightMovement) {
       player.moveRight();
@@ -175,6 +200,7 @@ public class PlayerController implements Renderable {
           frameX = 2 + (frameX + 1) % 2;
         }
       }
+      updateSolidArea();
     }
 
     if (isIdle) {
@@ -187,6 +213,12 @@ public class PlayerController implements Renderable {
     } else {
       idleCounter = 0;
     }
+
+    if (canInteract) {
+      farmController.getInteractionNotification().setVisible(true);
+    } else {
+      farmController.getInteractionNotification().setVisible(false);
+    }
   }
 
   public void keyMapper(Scene scene) {
@@ -197,8 +229,9 @@ public class PlayerController implements Renderable {
         case KeyCode.W -> keyUpPressed = true;
         case KeyCode.S -> keyDownPressed = true;
         case KeyCode.D -> keyRightPressed = true;
-        case KeyCode.E -> farmController.toggleInventory();
+        case KeyCode.F -> farmController.toggleInventory();
         case KeyCode.SHIFT -> player.setRun(true);
+        case KeyCode.E -> keyEPressed = true;
         default -> {
         }
       }
@@ -218,6 +251,7 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
+        case KeyCode.E -> {keyEPressed = false; hasInteracted =  false;}
         default -> {
         }
       }
@@ -243,6 +277,11 @@ public class PlayerController implements Renderable {
     gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight,
         playerScreenX, playerScreenY, // Gunakan posisi dinamis ini
         Constants.TILE_SIZE, Constants.TILE_SIZE);
+    double screenHitboxX = playerScreenX + hitboxOffsetX;
+    double screenHitboxY = playerScreenY + hitboxOffsetY;
+
+    gc.setStroke(javafx.scene.paint.Color.RED);
+    gc.strokeRect(screenHitboxX, screenHitboxY, solidArea.getWidth(), solidArea.getHeight());
   }
 
   public Player getPlayer() {
@@ -261,4 +300,47 @@ public class PlayerController implements Renderable {
     return playerSpriteSheet;
   }
 
+  public void setnoCollidingAsset(boolean isColliding) {
+    noCollidingAsset = isColliding;
+  }
+
+  public boolean isKeyLeftPressed() {
+    return keyLeftPressed;
+  }
+
+  public boolean isKeyRightPressed() {
+    return keyRightPressed;
+  }
+
+  public boolean isKeyDownPressed() {
+    return keyDownPressed;
+  }
+
+  public boolean isKeyUpPressed() {
+    return keyUpPressed;
+  }
+
+  public void inInteractiveArea(boolean canInteract) {
+    this.canInteract = canInteract;
+  }
+
+  public boolean isKeyEPressed() {
+    return keyEPressed;
+  }
+
+  public boolean isCanInteract() {
+    return canInteract;
+  }
+
+  public Action getAction() {
+    return action;
+  }
+
+  public boolean isHasInteracted() {
+    return hasInteracted;
+  }
+
+  public void setHasInteracted(boolean hasInteracted) {
+    this.hasInteracted = hasInteracted;
+  }
 }

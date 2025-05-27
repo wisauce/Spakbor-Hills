@@ -1,6 +1,7 @@
 package sti.oop.models;
 
 import javafx.scene.image.Image;
+import sti.oop.models.Item.*;
 
 public class Player {
   public enum Gender {
@@ -40,11 +41,15 @@ public class Player {
     this.gold = 50;
     partner = null;
     inventory = new Inventory();
-    inventory.addItem("Hoe", 1);
-    inventory.addItem("Watering Can", 1);
-    inventory.addItem("Pickaxe", 1);
-    inventory.addItem("Fishing Rod", 1);
-    inventory.addItem("Parsnip Seeds", 15);
+    
+    inventory.addItem(new Equipment("Hoe"), 1);
+    inventory.addItem(new Equipment("Pickaxe"), 1);
+
+    for (int i = 1; i <= 30; i++) {
+      inventory.addItem(new Equipment("TestTool" + i), i);
+    }
+
+
     currentMap = CurrentMap.FARM;
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());

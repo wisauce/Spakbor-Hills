@@ -1,9 +1,6 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,9 +14,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import sti.oop.controllers.GameMapController.MapName;
+import sti.oop.models.Asset;
 import sti.oop.models.Farm;
 import sti.oop.models.NPC.NPC;
 import sti.oop.models.Player;
+import sti.oop.models.Teleporter;
 import sti.oop.models.NPC.Abigail;
 import sti.oop.models.NPC.Caroline;
 import sti.oop.models.NPC.Dasco;
@@ -28,6 +28,7 @@ import sti.oop.models.NPC.MayorTadi;
 import sti.oop.models.NPC.Perry;
 import sti.oop.models.Player.Gender;
 import sti.oop.utils.Constants;
+import sti.oop.utils.SpriteManager;
 
 
 
@@ -46,6 +47,9 @@ public class FarmController {
 
     @FXML
     private Canvas canvas;
+
+    @FXML
+    private Label interactionNotification;
 
     private long lastTime = 0;
 
@@ -67,7 +71,8 @@ public class FarmController {
     private TimeController timeController;
     private CollisionController collisionController;
     private PlayerController playerController;
-    private GameMapController gameMapController;
+    GameMapController gameMapController;
+    private AssetController assetController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -79,17 +84,22 @@ public class FarmController {
     public void initialize() {
       canvas.widthProperty().bind(anchorPane.widthProperty());
       canvas.heightProperty().bind(anchorPane.heightProperty());
-      // canvas.widthProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
-      // canvas.heightProperty().addListener((obs, oldVal, newVal) -> redrawCanvas());
+
+      /* Load Item Sprites */
+      SpriteManager.preloadSprites();
+
       /* Initialize Player */
       Player player = new Player("Asep", Gender.MALE, "Asep's diary");
       farm = new Farm(player);
       
       /* Initialize Contoller */
+      assetController = new AssetController(player);
       collisionController = new CollisionController();
-      playerController = new PlayerController(player, collisionController, this);
       gameMapController = new GameMapController(player);
+      playerController = new PlayerController(player, collisionController, this);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
+      // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
+      // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
       
       timeController.render();
       
@@ -125,9 +135,12 @@ public class FarmController {
             
             renderNPCs();
             
+            collisionController.checkAssetCollision(assetController.getAssets(),playerController);
+            assetController.render(gc);
             playerController.render(gc);
             
             applyTimeOfDayLighting();
+            
           }
         };
         
@@ -248,6 +261,18 @@ public class FarmController {
     public boolean getStatusInventory() {
         return inventoryOpened;
     }
+
+    public void changeMap(MapName mapName) {
+      gameMapController.setCurrentMap(mapName);
+      collisionController.setCurrentCollisionMap(mapName);
+      assetController.setAssets(mapName);
+    }
+
+    public Label getInteractionNotification() {
+      return interactionNotification;
+    }
+
+    
 
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
