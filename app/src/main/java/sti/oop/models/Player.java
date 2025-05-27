@@ -42,11 +42,12 @@ public class Player {
     partner = null;
     inventory = new Inventory();
     
-    Item Hoe = new Equipment("Hoe");
-    Item Pickaxe = new Equipment("Pickaxe");
+    inventory.addItem(new Equipment("Hoe"), 1);
+    inventory.addItem(new Equipment("Pickaxe"), 1);
 
-    inventory.addItem(Hoe, 1);
-    inventory.addItem(Pickaxe, 1);
+    for (int i = 1; i <= 30; i++) {
+      inventory.addItem(new Equipment("TestTool" + i), i);
+    }
 
     // inventory.addItem("Hoe", 1);
     // inventory.addItem("Watering Can", 1);
