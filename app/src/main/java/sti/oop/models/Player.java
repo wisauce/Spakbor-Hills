@@ -2,6 +2,8 @@ package sti.oop.models;
 
 import javafx.scene.image.Image;
 import sti.oop.models.Item.*;
+import sti.oop.models.NPC.*;
+import java.util.EnumSet;
 
 public class Player {
   public enum Gender {
@@ -15,13 +17,13 @@ public class Player {
     WORLD
   }
 
-  private final int maxEnergy = 100;
+  private final int MAX_ENERGY = 100;
   
   private String name;
   private Gender gender;
   private int energy;
   private String farmName;
-  private String partner;
+  private NPC partner;
   private int gold;
   private CurrentMap currentMap;
   private Inventory inventory;
@@ -47,13 +49,21 @@ public class Player {
     inventory.addItem(new Equipment("WateringCan"), 1);
     inventory.addItem(new Equipment("FishingRod"), 1);
 
+    inventory.addItem(new Misc("Coal", 100, 50), 1);
+    inventory.addItem(new Misc("Firewood", 150, 75), 1);
+    inventory.addItem(new Misc("Gift", 250, 125), 1);
+    inventory.addItem(new Misc("WeddingRing", 1500, 750), 1);
+
+    inventory.addItem(new Fish("Angler", EnumSet.of(Fish.Season.SPRING), EnumSet.of(Fish.Location.OCEAN), EnumSet.of(Fish.Weather.SUNNY), new int[]{6,18}, "COMMON"), 1);
+
+
     for (int i = 1; i <= 30; i++) {
       inventory.addItem(new Equipment("TestTool" + i), i);
     }
 
 
     currentMap = CurrentMap.FARM;
-    energy = maxEnergy;
+    energy = MAX_ENERGY;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
   }
 
@@ -86,7 +96,7 @@ public class Player {
   }
 
   public void setEnergy(int energy) {
-    this.energy = Math.clamp(energy, 0, maxEnergy);
+    this.energy = Math.clamp(energy, 0, MAX_ENERGY);
   }
 
   public Gender getGender() {
@@ -101,11 +111,11 @@ public class Player {
     this.farmName = farmName;
   }
 
-  public String getPartner() {
+  public NPC getPartner() {
     return partner;
   }
 
-  public void setPartner(String partner) {
+  public void setPartner(NPC partner) {
     if (this.partner != null) throw new IllegalStateException("Player already has a partner! This game doesn't support polygamy!");
     this.partner = partner;
   }

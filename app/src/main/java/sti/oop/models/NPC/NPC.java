@@ -7,7 +7,7 @@ import sti.oop.models.Point;
 import java.util.List;
 
 public class NPC {
-  private final int maxHeartPoints = 150;
+  private final int MAX_HEART_POINTS = 150;
   private String name;
   private Point location;
   private int heartPoints;
@@ -43,7 +43,7 @@ public class NPC {
   public NPC(String name, Point location, List<String> lovedItems, List<String> likedItems, List<String> hatedItems) {
     this.name = name;
     this.location = location;
-    heartPoints = 150; // aslinya 0;
+    heartPoints = 0; 
     this.lovedItems = lovedItems;
     this.likedItems = likedItems;
     this.hatedItems = hatedItems;
@@ -118,8 +118,8 @@ public class NPC {
   }
 
   public void setHeartPoints(int heartPoints) {
-    if (heartPoints > maxHeartPoints) {
-      this.heartPoints = maxHeartPoints;
+    if (heartPoints > MAX_HEART_POINTS) {
+      this.heartPoints = MAX_HEART_POINTS;
     } else if (heartPoints < 0) {
       this.heartPoints = 0;
     } else {
