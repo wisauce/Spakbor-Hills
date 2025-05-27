@@ -1,7 +1,7 @@
 package sti.oop.models;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Collections;
 import sti.oop.models.Item.Item;
@@ -10,7 +10,7 @@ public class Inventory {
     private Map<Item, Integer> items;
 
     public Inventory() {
-        items = new HashMap<>();
+        items = new LinkedHashMap<>();
     }
 
     public int getItemCount(Item itemName) {
@@ -27,7 +27,14 @@ public class Inventory {
 
     public void addItem(Item item, int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity is not valid! Quantity must be over 0");
-        items.put(item, getItemCount(item) + quantity);
+        
+        if (items.containsKey(item)) {
+            items.put(item, getItemCount(item) + quantity);
+        }
+        
+        else {
+            items.put(item, quantity);
+        }
     }
 
     public void removeItem(Item item, int quantity) {

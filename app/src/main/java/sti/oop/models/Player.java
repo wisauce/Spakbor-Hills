@@ -49,11 +49,7 @@ public class Player {
       inventory.addItem(new Equipment("TestTool" + i), i);
     }
 
-    // inventory.addItem("Hoe", 1);
-    // inventory.addItem("Watering Can", 1);
-    // inventory.addItem("Pickaxe", 1);
-    // inventory.addItem("Fishing Rod", 1);
-    // inventory.addItem("Parsnip Seeds", 15);
+
     currentMap = CurrentMap.FARM;
     energy = maxEnergy;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
