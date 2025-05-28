@@ -5,22 +5,12 @@ public class Teleporter extends Asset implements Interactable{
   MapName destination;
 
   public Teleporter(int x, int y, int w, int h, MapName destination) {
-    super(x, y, w, h);
+    super(x, y, w, h, false);
     this.destination = destination;
   }
 
   public Teleporter(int x, int y, MapName destination) {
-    super(x, y);
-    this.destination = destination;
-  }
-
-  public Teleporter(int x, int y, String imageSrc, MapName destination) {
-    super(x, y, imageSrc);
-    this.destination = destination;
-  }
-
-  public Teleporter(int x, int y, String imageSrc, int w, int h, MapName destination) {
-    super(x, y, imageSrc, w, h);
+    super(x, y, false);
     this.destination = destination;
   }
 
@@ -31,6 +21,5 @@ public class Teleporter extends Asset implements Interactable{
   public MapName getDestination() {
     return destination;
   }
-
   
 }

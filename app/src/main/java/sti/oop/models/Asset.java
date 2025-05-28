@@ -10,26 +10,19 @@ public class Asset {
   private Image image;
   private boolean collision;
 
-  public Asset(int x, int y, int w, int h) {
+  public Asset(int x, int y, int w, int h, boolean collision) {
     this.x = x;
     this.y = y;
     solidArea = new Rectangle(x, y, w, h);
+    this.collision = collision;
   }
 
-  public Asset(int x, int y) {
+  public Asset(int x, int y, boolean collision) {
     this.x = x;
     this.y = y;
     solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+    this.collision = collision;
   }
-
-  public Asset(int x, int y, String imageSrc) {
-    this.x = x;
-    this.y = y;
-    image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
-    collision = false;
-  }
-
   public Asset(int x, int y, String imageSrc, boolean collision) {
     this.x = x;
     this.y = y;
@@ -38,12 +31,12 @@ public class Asset {
     this.collision = collision;
   }
 
-  public Asset(int x, int y, String imageSrc, int w, int h) {
+  public Asset(int x, int y, int w, int h, String imageSrc, boolean collision) {
     this.x = x;
     this.y = y;
     image = new Image(getClass().getResourceAsStream(imageSrc));
     solidArea = new Rectangle(x,y,w,h);
-    collision = false;
+    this.collision = collision;
   }
 
   public int getX() {

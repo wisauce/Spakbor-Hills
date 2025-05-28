@@ -59,5 +59,11 @@ public class Action implements Actor {
     
   }
 
+  @Override
+  public void act(Bed acted) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'act'");
+  }
+
   
 }

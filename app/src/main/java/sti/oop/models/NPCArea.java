@@ -7,7 +7,7 @@ public class NPCArea extends Asset implements Interactable {
   NPC npc;
   String choosen_act = "";
   public NPCArea(NPC npc) {
-    super(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg");
+    super(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", false);
     this.npc = npc;
   }
 
