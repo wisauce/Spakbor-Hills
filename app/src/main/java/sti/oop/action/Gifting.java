@@ -7,7 +7,7 @@ import sti.oop.models.NPC.NPC;
 public class Gifting {
     public void doGifting(Player player, NPC npc){
         //npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(new Item(null, null)));
-        npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems("anjay"));
+        npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(null));
         player.setEnergy(player.getEnergy()-10);
         System.out.println("berhasil gift");
     }

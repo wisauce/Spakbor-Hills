@@ -1,6 +1,8 @@
 package sti.oop.models.NPC;
 
 import java.util.List;
+
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Point;
 import sti.oop.utils.Constants;
 
@@ -10,9 +12,29 @@ public class Dasco extends NPC {
         super(
             "Dasco", //name
             new Point(10 * Constants.TILE_SIZE, 14 * Constants.TILE_SIZE), //location
-            List.of("The Legends of Spakbor, Cooked Pig's Head, Wine, Fugu, Spakbor Salad"), //lovedItems
-            List.of("Fish Sandwich, Fish Stew, Baguette, Fish n’ Chips"), //likedItems
-            List.of("Legend, Grape, Cauliflower, Wheat, Pufferfish, Salmon") //hatedItems
+            List.of(
+                ItemRegistry.createItem("TheLegendsOfSpakbor"),
+                ItemRegistry.createItem("CookedPigsHead"),
+                ItemRegistry.createItem("Wine"),
+                ItemRegistry.createItem("Fugu"),
+                ItemRegistry.createItem("SpakborSalad")
+            ), //lovedItems
+            
+            List.of(
+                ItemRegistry.createItem("FishSandwich"),
+                ItemRegistry.createItem("FishStew"),
+                ItemRegistry.createItem("Baguette"),
+                ItemRegistry.createItem("FishnChips")
+            ), //likedItems
+            
+            List.of(
+                ItemRegistry.createItem("Legend"),
+                ItemRegistry.createItem("Grape"),
+                ItemRegistry.createItem("Cauliflower"),
+                ItemRegistry.createItem("Wheat"),
+                ItemRegistry.createItem("Pufferfish"),
+                ItemRegistry.createItem("Salmon")
+            ) //hatedItems
         );
     }
 }

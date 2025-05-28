@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
@@ -84,6 +85,7 @@ public class FarmController {
     private PlayerController playerController;
     GameMapController gameMapController;
     private AssetController assetController;
+    private HotbarController hotbarController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -107,6 +109,16 @@ public class FarmController {
       HealthBarUpdater healthBarUpdater =  new HealthBarUpdater(energyDisplay, energyBar);
       healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
       player.setHealthBarUpdater(healthBarUpdater);
+
+      hotbarController = new HotbarController();
+
+      HBox hotbar = hotbarController.getHotbarContainer();
+      hotbar.setLayoutX(20);
+      hotbar.setLayoutY(550);
+
+      anchorPane.getChildren().add(hotbar);
+
+      updateHotbar();
 
       
       /* Initialize Contoller */
@@ -291,6 +303,16 @@ public class FarmController {
 
     public Label getInteractionNotification() {
       return interactionNotification;
+    }
+
+    public void updateHotbar() {
+      if (hotbarController != null && playerController != null) {
+        hotbarController.updateOnHandDisplay(playerController.getPlayer());
+      }
+    }
+
+    private void onItemSelected() {
+      updateHotbar();
     }
 
     

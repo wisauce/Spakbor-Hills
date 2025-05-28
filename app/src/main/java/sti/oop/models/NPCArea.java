@@ -1,5 +1,6 @@
 package sti.oop.models;
 
+import sti.oop.action.Action;
 import sti.oop.models.NPC.NPC;
 import sti.oop.utils.Constants;
 

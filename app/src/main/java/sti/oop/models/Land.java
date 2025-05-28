@@ -1,6 +1,7 @@
 package sti.oop.models;
 
 import javafx.scene.image.Image;
+import sti.oop.action.Action;
 import sti.oop.models.Item.Crop;
 import sti.oop.models.Item.Equipment;
 import sti.oop.models.Item.Item;

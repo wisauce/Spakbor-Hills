@@ -3,6 +3,7 @@ package sti.oop.models.NPC;
 import javafx.scene.image.Image;
 import sti.oop.models.Player;
 import sti.oop.models.Point;
+import sti.oop.models.Item.*;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public class NPC {
   private String name;
   private Point location;
   private int heartPoints;
-  private List<String> lovedItems;
-  private List<String> likedItems;
-  private List<String> hatedItems;
+  private List<Item> lovedItems;
+  private List<Item> likedItems;
+  private List<Item> hatedItems;
   private String relationshipStatus;
 
   // attributes for rendering
@@ -40,7 +41,7 @@ public class NPC {
   // private int hitboxWidth;
   // private int hitboxHeight;
 
-  public NPC(String name, Point location, List<String> lovedItems, List<String> likedItems, List<String> hatedItems) {
+  public NPC(String name, Point location, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems) {
     this.name = name;
     this.location = location;
     heartPoints = 0; 
@@ -135,15 +136,15 @@ public class NPC {
     setHeartPoints(getHeartPoints() - heartPointsValue);
   }
 
-  public List<String> getLovedItems() {
+  public List<Item> getLovedItems() {
     return lovedItems;
   }
 
-  public List<String> getLikedItems() {
+  public List<Item> getLikedItems() {
     return likedItems;
   }
 
-  public List<String> getHatedItems() {
+  public List<Item> getHatedItems() {
     return hatedItems;
   }
 
@@ -155,16 +156,16 @@ public class NPC {
     this.relationshipStatus = relationshipStatus;
   }
 
-  public boolean hatedItems(String itemName) {
-    return hatedItems.contains(itemName);
+  public boolean hatedItems(Item item) {
+    return hatedItems.contains(item);
   }
 
-  public int getHeartPointsforItems(String itemName) {
-    if (lovedItems.contains(itemName)) {
+  public int getHeartPointsforItems(Item item) {
+    if (lovedItems.contains(item)) {
       return 25;
-    } else if (likedItems.contains(itemName)) {
+    } else if (likedItems.contains(item)) {
       return 20;
-    } else if (hatedItems.contains(itemName)) {
+    } else if (hatedItems.contains(item)) {
       return -20;
     } else {
       return 0;

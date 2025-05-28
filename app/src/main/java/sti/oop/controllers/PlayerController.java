@@ -1,15 +1,21 @@
 package sti.oop.controllers;
 
+import javax.swing.text.StyledEditorKit;
+
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
+import sti.oop.action.Action;
 import sti.oop.interfaces.Renderable;
-import sti.oop.models.Action;
 import sti.oop.models.Player;
+import sti.oop.models.Item.Item;
 import sti.oop.utils.Constants;
+import sti.oop.models.Inventory;
 
 public class PlayerController implements Renderable {
   private Player player;
@@ -380,5 +386,32 @@ public class PlayerController implements Renderable {
 
   public void setHasInteracted(boolean hasInteracted) {
     this.hasInteracted = hasInteracted;
+  }
+  
+  @FXML
+  public void handleKeyPress(KeyEvent event) {
+      if (event.getCode() == KeyCode.DIGIT1) {
+          cycleToNextItem();
+          event.consume();
+      }
+  }
+  
+  private void cycleToNextItem() {
+      Inventory inventory = player.getInventory();
+      int totalItems = inventory.getAllItem().size();
+      
+      if (totalItems > 0) {
+          int nextIndex = (player.getOnHandInventoryIndex() + 1) % totalItems;
+          player.setOnHandInventoryIndex(nextIndex);
+
+          Item currentItem = player.getOnHandItem();
+          if (currentItem != null) {
+            System.out.println("Switched to: " + currentItem.getItemName());
+          } 
+
+          else {
+            System.out.println("No item selected");
+          }
+      }
   }
 }

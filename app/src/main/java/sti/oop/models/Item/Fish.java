@@ -9,7 +9,7 @@ public class Fish extends Item implements Valuable, Edible {
     public enum Season {
         SPRING,
         SUMMER,
-        AUTUMN,
+        FALL,
         WINTER
     }
     private EnumSet<Season> season;
@@ -33,12 +33,12 @@ public class Fish extends Item implements Valuable, Edible {
     private int[] availableTime;
     private String grade;
     
-    public Fish(String name, EnumSet<Season> season, EnumSet<Location> location, EnumSet<Weather> weather, int[] availableTime, String grade) {
+    public Fish(String name, EnumSet<Season> season, int[] availableTime, EnumSet<Weather> weather, EnumSet<Location> location, String grade) {
         super(name, "FISH");
         this.season = season;
+        this.availableTime = availableTime;
         this.location = location;
         this.weather = weather;
-        this.availableTime = availableTime;
         this.grade = grade;
     }
 
@@ -117,7 +117,7 @@ public class Fish extends Item implements Valuable, Edible {
 
         int result = 0;
 
-        for (int i =0 ; i < availableTime.length;  i += 2) {
+        for (int i = 0 ; i < availableTime.length;  i += 2) {
             if (i+1 >= availableTime.length) {
                 break;
             }
