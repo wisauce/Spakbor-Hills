@@ -22,7 +22,6 @@ public class HotbarController {
     }
     
     private void createHotbar() {
-        // Create UI elements programmatically
         onHandItemDisplay = new ImageView();
         onHandItemDisplay.setFitHeight(64.0);
         onHandItemDisplay.setFitWidth(64.0);
@@ -31,7 +30,6 @@ public class HotbarController {
         onHandItemName = new Label("Empty");
         onHandItemName.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
         
-        // Create container
         VBox itemContainer = new VBox();
         itemContainer.setAlignment(Pos.CENTER);
         itemContainer.setSpacing(5.0);
@@ -51,12 +49,11 @@ public class HotbarController {
         Item onHandItem = player.getOnHandItem();
         
         if (onHandItem != null) {
-            // Show item sprite
             Image sprite = ItemSpriteManager.getItemSprite(onHandItem.getItemID());
             onHandItemDisplay.setImage(sprite);
             onHandItemName.setText(onHandItem.getItemName());
-        } else {
-            // Show empty hand
+        } 
+        else {
             onHandItemDisplay.setImage(null);
             onHandItemName.setText("Empty");
         }
