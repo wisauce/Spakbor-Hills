@@ -1,41 +1,25 @@
-/* --- Global / Scene Setup --- */
-.root {
-    -fx-background-color: #222222; /* Dark background for contrast */
-}
-
-/* --- Pixel Text Style --- */
-.pixel-text {
-    /* Use a pixel font if you have one embedded */
-    /* @font-face {
-        font-family: "Press Start 2P";
-        src: url("fonts/PressStart2P-Regular.ttf");
-    } */
-    -fx-font-family: "Press Start 2P", "Pixelify Sans", "VT323", monospace;
-    -fx-font-size: 18px;
-    -fx-text-fill: white;
-    -fx-alignment: center;
-}
-
-/* --- Pixel Health Bar Style --- */
 .pixel-health-bar {
-    -fx-control-inner-background: #4a4a4a; /* Dark grey for the empty part */
-    -fx-background-color: transparent; /* Make the bar's own background transparent */
-    -fx-background-radius: 0; /* No rounded corners */
-    -fx-border-color: #aaaaaa; /* Light grey border */
-    -fx-border-radius: 0; /* No rounded corners */
-    -fx-border-width: 2px; /* Thicker, blocky border */
-    -fx-padding: 0; /* Ensure no internal padding */
+  -fx-background-color: transparent;
+  -fx-control-inner-background: #4a4a4a;
+  -fx-padding: 0;
+  -fx-border-color: #6B3E26;
+  -fx-border-width: 2px;
+  -fx-border-radius: 0;
+  -fx-background-insets: 0;
 }
 
-/* Style for the actual progress bar (the filled part) */
+.pixel-health-bar .track {
+  -fx-background-color: #4a4a4a; /* ini latar kosong di belakang bar */
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+}
+
 .pixel-health-bar .bar {
-    /* Solid blue color for the filled part */
-    -fx-background-color: #FFDE21; /* A nice solid blue */
-    -fx-background-insets: 0; /* Ensures the color fills the entire bar part */
-    -fx-background-radius: 0; /* No rounded corners for the fill either */
+  -fx-background-color: #FFDE21;
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
 }
-
-/* Optional: Make the bar red when very low (still solid color) */
-.pixel-health-bar .bar:percentage-low {
-    -fx-background-color: #FF0000; /* Solid red for very low health */
+  
+.pixel-health-bar:percentage-low .bar {
+  -fx-background-color: #FF0000;
 }
