@@ -1,6 +1,7 @@
 package sti.oop.models;
 
 import javafx.scene.image.Image;
+import sti.oop.controllers.HealthBarUpdater;
 import sti.oop.models.Item.*;
 import sti.oop.models.NPC.*;
 import java.util.EnumSet;
@@ -33,6 +34,8 @@ public class Player {
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
   private int x = 0;
   private int y = 0;
+  private HealthBarUpdater healthBarUpdater;
+  
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
 
@@ -97,6 +100,7 @@ public class Player {
 
   public void setEnergy(int energy) {
     this.energy = Math.clamp(energy, 0, MAX_ENERGY);
+    healthBarUpdater.updateHealthBar(energy, MAX_ENERGY);
   }
 
   public Gender getGender() {
@@ -167,6 +171,16 @@ public class Player {
   public void moveDown() {
     y += speed;
   }
+
+  public int getMAX_ENERGY() {
+    return MAX_ENERGY;
+  }
+
+  public void setHealthBarUpdater(HealthBarUpdater healthBarUpdater) {
+    this.healthBarUpdater = healthBarUpdater;
+  }
+
+  
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
   //   if (!inventory.getListInventorys().contains(itemName)) {

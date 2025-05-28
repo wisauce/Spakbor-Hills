@@ -3,6 +3,7 @@ package sti.oop.controllers;
 import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -51,6 +53,15 @@ public class FarmController {
     @FXML
     private Label interactionNotification;
 
+    @FXML
+    private Label nameDisplay;
+
+    @FXML
+    private Label energyDisplay;
+
+    @FXML
+    private ProgressBar energyBar;
+
     private long lastTime = 0;
 
     private Scene scene;
@@ -84,13 +95,19 @@ public class FarmController {
     public void initialize() {
       canvas.widthProperty().bind(anchorPane.widthProperty());
       canvas.heightProperty().bind(anchorPane.heightProperty());
-
+      
       /* Load Item Sprites */
       ItemSpriteManager.preloadSprites();
-
+      
       /* Initialize Player */
       Player player = new Player("Asep", Gender.MALE, "Asep's diary");
+      nameDisplay.setText(player.getName());
       farm = new Farm(player);
+
+      HealthBarUpdater healthBarUpdater =  new HealthBarUpdater(energyDisplay, energyBar);
+      healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
+      player.setHealthBarUpdater(healthBarUpdater);
+
       
       /* Initialize Contoller */
       assetController = new AssetController(player);
