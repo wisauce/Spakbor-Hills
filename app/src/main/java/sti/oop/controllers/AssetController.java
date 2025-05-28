@@ -8,15 +8,18 @@ import java.util.Map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import sti.oop.controllers.GameMapController.MapName;
-import sti.oop.models.NPCArea;
+import sti.oop.models.deployedObject.House;
+import sti.oop.models.deployedObject.Pond;
+import sti.oop.models.deployedObject.ShippingBin;
 import sti.oop.models.Player;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
-import sti.oop.models.assets.Land;
+import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
 import sti.oop.utils.Constants;
+import sti.oop.utils.RandomizeFarm;
 
 public class AssetController {
   Map<MapName, List<Asset>> mapOfListOfAssets;
@@ -25,14 +28,22 @@ public class AssetController {
 
   public AssetController(Player player) {
     mapOfListOfAssets = new HashMap<>();
+
+    /*Initialze farmMap */
     List<Asset> assetsOnFarm = new ArrayList<>();
+    RandomizeFarm farmMap = new RandomizeFarm();
+    farmMap.generateMap(farmMap);
+
     assetsOnFarm.add(new Teleporter(16 * Constants.TILE_SIZE + Constants.TILE_SIZE / 2, 17 * Constants.TILE_SIZE, MapName.HOUSE));
     assetsOnFarm.add(new NPCArea(new Dasco()));
+    assetsOnFarm.add(new House(farmMap));
+    assetsOnFarm.add(new Pond(farmMap));
+    assetsOnFarm.add(new ShippingBin(farmMap));
     LandSetter landSetter = new LandSetter();
     assetsOnFarm.addAll(landSetter.setLandOnFarm());
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);
 
-
+    /*Initialze house */
     List<Asset> assetsOnHome = new ArrayList<>();
     assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, 1 * Constants.TILE_SIZE, Constants.TILE_SIZE, MapName.FARM));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));

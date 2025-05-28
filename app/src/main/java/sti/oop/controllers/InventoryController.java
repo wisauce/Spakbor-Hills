@@ -132,8 +132,21 @@ public class InventoryController {
                 insertInventoryToGrid(inventorySlot, idxItemGlobal);
               }
 
-              inventorySlot.setOnMouseEntered(e -> inventorySlot.setStyle("-fx-border-color:#B52121; -fx-border-width: 1;"));
-              inventorySlot.setOnMouseExited(e -> inventorySlot.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;"));
+              inventorySlot.setOnMouseEntered(e -> {
+                  if (player.getOnHandInventoryIndex() != idxItemGlobal) {
+                      inventorySlot.setStyle("-fx-border-color:#B52121; -fx-border-width: 1;");
+                  }
+              });
+
+              inventorySlot.setOnMouseExited(e -> {
+                  if (player.getOnHandInventoryIndex() != idxItemGlobal) {
+                      inventorySlot.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;");
+                  } 
+                  else {
+                      inventorySlot.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3; -fx-background-color: rgba(255, 215, 0, 0.3);");
+                  }
+              });
+
               inventorySlot.setOnMouseClicked(e -> { 
                   if (idxItemGlobal < idxEnd) {
                     System.out.println("Slot: " + (row + 1) + "," + (column + 1) + " Selected");
@@ -193,6 +206,15 @@ public class InventoryController {
         javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(itemID);
         javafx.scene.control.Tooltip.install(grid, tooltip);
       }
+      
+      grid.setOnMouseClicked(e -> {handleItemSelection(idxGrid);});
+
+      if (player.getOnHandInventoryIndex() == idxGrid) {
+          grid.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3;"); // Gold border for selected
+      } else {
+        grid.setStyle("-fx-border-color: transparent; -fx-border-width: 1;");
+      }
+
   }
 
   /* -------------------------------------------------------------------------- */
@@ -207,6 +229,15 @@ public class InventoryController {
           if (idxItemGlobal < ownItem.length) {
               Item selectedItemID = ownItem[idxItemGlobal];
               int quantity = inventory.getItemCount(selectedItemID);
+
+              player.setOnHandInventoryIndex(idxItemGlobal);
+              player.setOnHandItem(selectedItemID);
+
+              if (farmController != null) {
+                farmController.updateHotbar();
+              }
+
+              updateInventoryDisplay();
               
               System.out.println("Selected item: " + selectedItemID.getItemName() + " (Quantity: " + quantity + ")");
               System.out.println("Page: " + (currentPage + 1) + ", Global Index: " + idxItemGlobal);

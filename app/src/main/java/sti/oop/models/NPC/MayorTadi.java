@@ -1,10 +1,15 @@
 package sti.oop.models.NPC;
 
 import java.util.List;
+import java.util.Set;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Point;
 import sti.oop.utils.Constants;
+import sti.oop.models.Item.Item;
 
-import java.util.Collections;
 
 public class MayorTadi extends NPC {
 
@@ -12,14 +17,30 @@ public class MayorTadi extends NPC {
         super(
             "MayorTadi", //name
             new Point(10 * Constants.TILE_SIZE, 18 * Constants.TILE_SIZE), //location
-            List.of("Legend"), //lovedItems
-            List.of("Angler, Crimsonfish, Glacierfish"), //likedItems
-            Collections.emptyList() //hatedItems
+            List.of(
+                ItemRegistry.createItem("Legend")
+            ), //lovedItems
+
+            List.of(
+                ItemRegistry.createItem("Angler"),
+                ItemRegistry.createItem("Crimsonfish"),
+                ItemRegistry.createItem("Glacierfish")
+            ), //likedItems
+
+            getHatedItemsForMayorTadi() //hatedItems
         );
     }
 
-    @Override
-    public boolean hatedItems(String itemName) {
-      return !getLovedItems().contains(itemName) && !getLikedItems().contains(itemName);
+    private static List<Item> getHatedItemsForMayorTadi() {
+        Set<String> allItemNames = ItemRegistry.getAllItemNames();
+
+        Set<String> lovedItemMayorTadi = Set.of("Legend");
+        Set<String> likedItemMayorTadi = Set.of("Angler", "Crimsonfish", "Glacierfish");
+
+        return 
+            allItemNames.stream()
+            .filter(itemName -> !lovedItemMayorTadi.contains(itemName) && !likedItemMayorTadi.contains(itemName))
+            .map(ItemRegistry::createItem)
+            .collect(Collectors.toList());
     }
 }

@@ -1,10 +1,8 @@
 package sti.oop.models.assets;
 
 
-import sti.oop.interfaces.EnergyConsuming;
-import sti.oop.models.Action;
 import sti.oop.models.Interactable;
-import sti.oop.models.Player;
+import sti.oop.action.Action;
 
 public class SleepingArea extends Asset implements Interactable {
   private int spawnAreaX;
@@ -28,5 +26,6 @@ public class SleepingArea extends Asset implements Interactable {
   public int getSpawnAreaY() {
     return spawnAreaY;
   }
+
   
 }

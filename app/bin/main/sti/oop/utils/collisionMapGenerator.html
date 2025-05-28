@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collision Map Generator</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    textarea, input, button { width: 100%; margin-top: 1rem; font-size: 1rem; }
+    pre { background: #eee; padding: 1rem; white-space: pre-wrap; word-wrap: break-word; }
+  </style>
+</head>
+<body>
+  <h1>Collision Map Generator</h1>
+
+  <label for="gidInput">Paste your GID map here (space-separated numbers):</label>
+  <textarea id="gidInput" rows="10"></textarea>
+
+  <label for="nonCollisionGids">Enter non-collision GIDs (comma separated):</label>
+  <input type="text" id="nonCollisionGids" placeholder="e.g. 1,36,120" />
+
+  <label for="cropSize">Crop Size (e.g. 24 for 24x24):</label>
+  <input type="number" id="cropSize" placeholder="24" />
+
+  <button onclick="generateCollisionMap()">Generate Collision Map</button>
+
+  <h2>Cropped Original Map</h2>
+  <pre id="croppedOriginal"></pre>
+
+  <h2>Cropped Collision Map (0 = walkable, 1 = blocked)</h2>
+  <pre id="output"></pre>
+
+  <script>
+    function generateCollisionMap() {
+      const gidInput = document.getElementById("gidInput").value.trim();
+      const nonCollisionGids = document.getElementById("nonCollisionGids").value
+        .split(',')
+        .map(n => parseInt(n.trim()));
+      const cropSize = parseInt(document.getElementById("cropSize").value);
+
+      const lines = gidInput.split('\n').map(line => line.trim().split(/\s+/).map(Number));
+      const startRow = lines.findIndex(row => row.length > 0);
+      const startCol = lines[startRow].findIndex(val => !isNaN(val));
+
+      const croppedLines = lines.slice(startRow, startRow + cropSize)
+        .map(row => row.slice(startCol, startCol + cropSize));
+
+      const croppedOriginal = croppedLines.map(row => row.join(' ')).join('\n');
+      const croppedCollision = croppedLines.map(row =>
+        row.map(gid => nonCollisionGids.includes(gid) ? 0 : 1).join(' ')
+      ).join('\n');
+
+      document.getElementById("croppedOriginal").textContent = croppedOriginal;
+      document.getElementById("output").textContent = croppedCollision;
+    }
+  </script>
+</body>
+</html>

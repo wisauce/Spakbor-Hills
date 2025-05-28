@@ -2,8 +2,8 @@ package sti.oop.models.assets;
 
 import javafx.scene.image.Image;
 import sti.oop.interfaces.EnergyConsuming;
-import sti.oop.models.Action;
 import sti.oop.models.Interactable;
+import sti.oop.action.Action;
 import sti.oop.models.Item.Crop;
 import sti.oop.models.Item.Equipment;
 import sti.oop.models.Item.Item;

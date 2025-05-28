@@ -29,13 +29,17 @@ public class Player {
   private NPC partner;
   private int gold;
   private CurrentMap currentMap;
+
   private Inventory inventory;
   private final int walkingSpeed = 6;
+  private Item onHandItem;
+  private int onHandInventoryIndex = 0;
   private int speed = walkingSpeed;
   private double runBoost = 1.5;
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
   private int x = 0;
   private int y = 0;
+
   private HealthBarUpdater healthBarUpdater;
   
   
@@ -49,29 +53,24 @@ public class Player {
     partner = null;
     inventory = new Inventory();
 
-    giveStarterItems();
+    currentMap = CurrentMap.FARM;
+    energy = MAX_ENERGY;
+
+    onHandItem = null;
     
-    // inventory.addItem(new Equipment("Hoe"), 1);
-    // inventory.addItem(new Equipment("Pickaxe"), 1);
-    // inventory.addItem(new Equipment("WateringCan"), 1);
-    // inventory.addItem(new Equipment("FishingRod"), 1);
+
+    giveStarterItems();
 
     inventory.addItem(new Misc("Coal", 100, 50), 1);
     inventory.addItem(new Misc("Firewood", 150, 75), 1);
     inventory.addItem(new Misc("Gift", 250, 125), 1);
-    inventory.addItem(new Misc("WeddingRing", 1500, 750), 1);
-
-    inventory.addItem(new Fish("Angler", EnumSet.of(Fish.Season.SPRING), EnumSet.of(Fish.Location.OCEAN), EnumSet.of(Fish.Weather.SUNNY), new int[]{6,18}, "COMMON"), 1);
+    inventory.addItem(new Misc("WeddingRing", 1500, 50), 1);
+    inventory.addItem(new Fish("Angler", EnumSet.of(Fish.Season.SPRING), new int[]{6,18}, EnumSet.of(Fish.Weather.SUNNY), EnumSet.of(Fish.Location.OCEAN), "COMMON"),  1);
 
 
     for (int i = 1; i <= 30; i++) {
       inventory.addItem(new Equipment("TestTool" + i), i);
     }
-
-
-    currentMap = CurrentMap.FARM;
-    energy = MAX_ENERGY;
-    // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
   }
 
   private void giveStarterItems() {
@@ -155,6 +154,23 @@ public class Player {
     return inventory;
   }
 
+  public Item getOnHandItem() {
+    return onHandItem;
+  }
+
+  public void setOnHandItem(Item onHandItem) {
+    this.onHandItem = onHandItem;
+  }
+
+  public int getOnHandInventoryIndex() {
+    return onHandInventoryIndex;
+  }
+
+  public void setOnHandInventoryIndex(int onHandInventoryIndex) {
+    this.onHandInventoryIndex = onHandInventoryIndex;
+    updateOnHandItem();
+  }
+
   public int getSpeed(){
     return speed;
   }
@@ -203,6 +219,24 @@ public class Player {
 
 
   
+  public void updateOnHandItem() {
+    Item[] allItems = inventory.getAllItem().toArray(new Item[0]);
+    if (onHandInventoryIndex >= 0 && onHandInventoryIndex < allItems.length) {
+      onHandItem = allItems[onHandInventoryIndex];
+    }
+    else {
+      onHandItem = null;
+    }
+  }
+
+  public boolean hasItemTypeInHand(String itemType) {
+    return onHandItem != null && onHandItem.getItemType().equals(itemType);
+  }
+
+  public boolean hasItemInHand(String itemName) {
+    return onHandItem != null && onHandItem.getItemName().equals(itemName);
+  }
+
   
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{

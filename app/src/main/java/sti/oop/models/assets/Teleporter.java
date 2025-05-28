@@ -1,7 +1,7 @@
 package sti.oop.models.assets;
+import sti.oop.action.Action;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.interfaces.EnergyConsuming;
-import sti.oop.models.Action;
 import sti.oop.models.Interactable;
 
 public class Teleporter extends Asset implements Interactable, EnergyConsuming{

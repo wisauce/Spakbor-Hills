@@ -1,0 +1,25 @@
+.pixel-health-bar {
+  -fx-background-color: transparent;
+  -fx-control-inner-background: #4a4a4a;
+  -fx-padding: 0;
+  -fx-border-color: #6B3E26;
+  -fx-border-width: 2px;
+  -fx-border-radius: 0;
+  -fx-background-insets: 0;
+}
+
+.pixel-health-bar .track {
+  -fx-background-color: #4a4a4a; /* ini latar kosong di belakang bar */
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+}
+
+.pixel-health-bar .bar {
+  -fx-background-color: #FFDE21;
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+}
+  
+.pixel-health-bar:percentage-low .bar {
+  -fx-background-color: #FF0000;
+}

@@ -9,7 +9,7 @@ public class Seed extends Item implements Valuable{
     public enum Season {
         SPRING,
         SUMMER,
-        AUTUMN,
+        FALL,
         WINTER
     }
     private Season season;
