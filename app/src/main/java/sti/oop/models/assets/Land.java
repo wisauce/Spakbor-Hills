@@ -1,49 +1,54 @@
-package sti.oop.models;
+package sti.oop.models.assets;
 
 import javafx.scene.image.Image;
+import sti.oop.interfaces.EnergyConsuming;
+import sti.oop.models.Action;
+import sti.oop.models.Interactable;
 import sti.oop.models.Item.Crop;
 import sti.oop.models.Item.Equipment;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
 
-public class Land extends Asset implements Interactable {
+public class Land extends Asset implements Interactable, EnergyConsuming {
   public enum LandState {
     TILLABLE_LAND,
     TILLED_LAND,
     PLANTED_LAND,
     HARVESTABLE_LAND
   }
-  Image tillableLandImage = null;
-  Image tilledLandImage = new Image(getClass().getResourceAsStream("/land/plantable.png"));
-  Image plantedLandImage = new Image(getClass().getResourceAsStream("/land/planted.png"));
-  Image harvestableLandImage = new Image(getClass().getResourceAsStream("/land/harvestable.png"));
+  private Image tillableLandImage = null;
+  private Image tilledLandImage;
+  private Image plantedLandImage;
+  private Image harvestableLandImage;
 
-  LandState state;
+  private LandState state;
 
-  Item requiredForTIlling = new Equipment("Hoe");
-  Item requiredForLandRecovery = new Equipment("Pickaxe");
-  Item requiredForWatering = new Equipment("Watering Can");
+  private Item requiredForTIlling = new Equipment("Hoe");
+  private Item requiredForLandRecovery = new Equipment("Pickaxe");
+  private Item requiredForWatering = new Equipment("Watering Can");
 
-  Seed seed;
-  Crop crop;
-  int daysNotWatered;
+  private Seed seed;
+  private Crop crop;
+  private int daysNotWatered;
+
+  private int energyRequired = 5;
 
   public Land(int x, int y, Image tilledLandImage, Image plantedLandImage, Image harvestableLandImage) {
     super(x, y, false);
     state = LandState.TILLABLE_LAND;
+    this.tilledLandImage = tilledLandImage;
+    this.plantedLandImage = plantedLandImage;
+    this.harvestableLandImage = harvestableLandImage;
   }
 
   public void changeLandState(LandState state) {
     if (state.equals(LandState.TILLABLE_LAND)) {
       setImage(tillableLandImage);
-    }
-    if (state.equals(LandState.TILLED_LAND)) {
+    } else if (state.equals(LandState.TILLED_LAND)) {
       setImage(tilledLandImage);
-    }
-    if (state.equals(LandState.PLANTED_LAND)) {
+    } else if (state.equals(LandState.PLANTED_LAND)) {
       setImage(plantedLandImage);
-    }
-    if (state.equals(LandState.HARVESTABLE_LAND)) {
+    } else if (state.equals(LandState.HARVESTABLE_LAND)) {
       setImage(harvestableLandImage);
 
     }
@@ -52,7 +57,7 @@ public class Land extends Asset implements Interactable {
   }
 
   @Override
-  public void accept(Action action) {
+  public void accept(Action action)  {
     action.act(this);
   }
 
@@ -94,6 +99,11 @@ public class Land extends Asset implements Interactable {
 
   public void setCrop(Crop crop) {
     this.crop = crop;
+  }
+
+  @Override
+  public int getEnergyRequired() {
+    return energyRequired;
   }
 
   

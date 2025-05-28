@@ -1,4 +1,4 @@
-package sti.oop.models;
+package sti.oop.models.assets;
 
 import sti.oop.utils.Constants;
 

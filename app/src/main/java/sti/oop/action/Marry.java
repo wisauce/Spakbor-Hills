@@ -1,11 +1,12 @@
 package sti.oop.action;
+import sti.oop.interfaces.EnergyConsuming;
 // import sti.oop.models.Inventory;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
 
-public class Marry {
-    private static final int ENERGY_COST_MARRY = 80;
+public class Marry implements EnergyConsuming {
+    private int requiredEnergy = 80;
       
     public boolean hasRequiredItems(Player player){
         return true;//player.getInventory().hasItem(new Item("Proposal Ring", "EQUIMENT"));
@@ -13,7 +14,7 @@ public class Marry {
 
     public void doMarry(Player player, NPC npc){
         if (hasRequiredItems(player) && npc.getRelationshipStatus().equalsIgnoreCase("Fiance") && player.getPartner() == null){
-            int currEnergy = player.getEnergy() - ENERGY_COST_MARRY;
+            int currEnergy = player.getEnergy() - requiredEnergy;
             player.setEnergy(currEnergy);
             npc.setRelationshipStatus("Married");
             player.setPartner(npc);
@@ -24,5 +25,10 @@ public class Marry {
                 System.out.println("Tunangan dulu anjeng");
             }
         };
+    }
+
+    @Override
+    public int getEnergyRequired() {
+      return requiredEnergy;
     }
 }

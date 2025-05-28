@@ -20,6 +20,7 @@ public class Player {
   }
 
   private final int MAX_ENERGY = 100;
+  private final int MIN_ENERGY = -20;
   
   private String name;
   private Gender gender;
@@ -29,7 +30,7 @@ public class Player {
   private int gold;
   private CurrentMap currentMap;
   private Inventory inventory;
-  private final int walkingSpeed = 4;
+  private final int walkingSpeed = 6;
   private int speed = walkingSpeed;
   private double runBoost = 1.5;
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
@@ -109,7 +110,7 @@ public class Player {
   }
 
   public void setEnergy(int energy) {
-    this.energy = Math.clamp(energy, 0, MAX_ENERGY);
+    this.energy = Math.clamp(energy, MIN_ENERGY, MAX_ENERGY);
     healthBarUpdater.updateHealthBar(energy, MAX_ENERGY);
   }
 
@@ -196,6 +197,12 @@ public class Player {
     inventory.addItem(item, quantity);
   }
 
+  public int getMIN_ENERGY() {
+    return MIN_ENERGY;
+  }
+
+
+  
   
   
   // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{

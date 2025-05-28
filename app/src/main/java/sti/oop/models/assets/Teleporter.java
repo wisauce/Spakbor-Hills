@@ -1,8 +1,12 @@
-package sti.oop.models;
+package sti.oop.models.assets;
 import sti.oop.controllers.GameMapController.MapName;
+import sti.oop.interfaces.EnergyConsuming;
+import sti.oop.models.Action;
+import sti.oop.models.Interactable;
 
-public class Teleporter extends Asset implements Interactable{
+public class Teleporter extends Asset implements Interactable, EnergyConsuming{
   MapName destination;
+  int energyRequired;
 
   public Teleporter(int x, int y, int w, int h, MapName destination) {
     super(x, y, w, h, false);
@@ -20,6 +24,11 @@ public class Teleporter extends Asset implements Interactable{
 
   public MapName getDestination() {
     return destination;
+  }
+
+  @Override
+  public int getEnergyRequired() {
+    return energyRequired;
   }
   
 }

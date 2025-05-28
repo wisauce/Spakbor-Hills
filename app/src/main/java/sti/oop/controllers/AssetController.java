@@ -8,13 +8,14 @@ import java.util.Map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import sti.oop.controllers.GameMapController.MapName;
-import sti.oop.models.Asset;
-import sti.oop.models.Bed;
-import sti.oop.models.Land;
 import sti.oop.models.NPCArea;
 import sti.oop.models.Player;
-import sti.oop.models.Teleporter;
 import sti.oop.models.NPC.Dasco;
+import sti.oop.models.assets.Asset;
+import sti.oop.models.assets.Bed;
+import sti.oop.models.assets.Land;
+import sti.oop.models.assets.SleepingArea;
+import sti.oop.models.assets.Teleporter;
 import sti.oop.utils.Constants;
 
 public class AssetController {
@@ -35,6 +36,7 @@ public class AssetController {
     List<Asset> assetsOnHome = new ArrayList<>();
     assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, 1 * Constants.TILE_SIZE, Constants.TILE_SIZE, MapName.FARM));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
+    assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 9 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);
     currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;

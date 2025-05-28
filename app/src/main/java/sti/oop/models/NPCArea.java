@@ -1,6 +1,7 @@
 package sti.oop.models;
 
 import sti.oop.models.NPC.NPC;
+import sti.oop.models.assets.Asset;
 import sti.oop.utils.Constants;
 
 public class NPCArea extends Asset implements Interactable {

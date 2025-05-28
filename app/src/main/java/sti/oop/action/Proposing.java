@@ -1,14 +1,16 @@
 package sti.oop.action;
+import sti.oop.interfaces.EnergyConsuming;
 // import sti.oop.models.Inventory;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
 
 // ada kurang di bagian jam jam an
-public class Proposing {
-    private static final int REQUIRED_HEART_POINTS = 150;
-    private static final int ENERGY_COST_SUCCESS = 10;
-    private static final int ENERGY_COST_FAIL = 20;
+public class Proposing implements EnergyConsuming{
+    private final int REQUIRED_HEART_POINTS = 150;
+    private final int ENERGY_COST_SUCCESS = 10;
+    private final int ENERGY_COST_FAIL = 20;
+    private int requiredEnergy;
 
     public boolean hasRequiredItems(Player player){
         return true; //player.getInventory().hasItem(new Item("Proposal Ring", "EQUIPMENT"));
@@ -26,5 +28,9 @@ public class Proposing {
             player.setEnergy(currEnergy);
             System.out.println("Dont Be Sad! even though " + npc.getName() + " rejects you, you're still the G.O.A.T of love!");
         }
+    }
+    @Override
+    public int getEnergyRequired() {
+      return requiredEnergy;
     }
 }

@@ -9,6 +9,7 @@ public class TimeController {
   private Farm farm;
   private Label timeDisplay;
   private Label dateDisplay;
+  
 
   public TimeController(Farm farm, Label timeDisplay, Label dateDisplay) {
     this.farm = farm;
@@ -36,4 +37,10 @@ public class TimeController {
   public boolean isTimeFrozen() {
     return farm.isTimeFrozen();
   }
+
+  public Farm getFarm() {
+    return farm;
+  }
+
+  
 }

@@ -98,7 +98,7 @@ public class Farm {
     worldMonth == 10 || worldMonth == 12; 
   }
 
-  private void nextDay() {
+  public void nextDay() {
     worldDay++;
     boolean newMonth = false;
 
@@ -366,5 +366,9 @@ public class Farm {
   // public void setFarmMap(FarmMap farmMap) {
   //   this.farmMap = farmMap;
   // }
+  public void setTime(int hour, int minute) {
+    this.inGameHour = hour;
+    this.inGameMinute = minute;
+  }
 
 }

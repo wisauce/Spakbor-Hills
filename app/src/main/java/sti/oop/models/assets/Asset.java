@@ -1,4 +1,4 @@
-package sti.oop.models;
+package sti.oop.models.assets;
 
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
