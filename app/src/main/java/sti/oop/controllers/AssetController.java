@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Asset;
+import sti.oop.models.Land;
 import sti.oop.models.NPCArea;
 import sti.oop.models.Player;
 import sti.oop.models.Teleporter;
@@ -25,6 +26,7 @@ public class AssetController {
     mapOfListOfAssets = Map.ofEntries(
       Map.entry(MapName.FARM, List.of(
         new Teleporter(16 * Constants.TILE_SIZE + Constants.TILE_SIZE/2, 17 * Constants.TILE_SIZE, MapName.HOUSE),
+        new Land(14 * Constants.TILE_SIZE, 17 * Constants.TILE_SIZE),
         // new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true),
         new NPCArea(new Dasco())
       )),
