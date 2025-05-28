@@ -6,7 +6,7 @@ import sti.oop.interfaces.Edible;
 import java.util.EnumSet;
 
 public class Fish extends Item implements Valuable, Edible {
-    private enum Season {
+    public enum Season {
         SPRING,
         SUMMER,
         AUTUMN,
@@ -14,7 +14,7 @@ public class Fish extends Item implements Valuable, Edible {
     }
     private EnumSet<Season> season;
 
-    private enum Location {
+    public enum Location {
         POND,
         OCEAN,
         FOREST_RIVER,
@@ -23,7 +23,7 @@ public class Fish extends Item implements Valuable, Edible {
 
     private EnumSet<Location> location;
 
-    private enum Weather {
+    public enum Weather {
         RAINY,
         SUNNY
     }

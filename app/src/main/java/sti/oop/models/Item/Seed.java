@@ -6,7 +6,7 @@ public class Seed extends Item implements Valuable{
     private int daysToHarvest;
     private int buyPrice;
     private int sellPrice;
-    private enum Season {
+    public enum Season {
         SPRING,
         SUMMER,
         AUTUMN,

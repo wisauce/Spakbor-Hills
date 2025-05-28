@@ -23,6 +23,4 @@ public class Item {
     public String getItemID() {
         return itemID;
     }
-
-
 }

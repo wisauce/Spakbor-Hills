@@ -74,5 +74,9 @@ public class Asset {
   public boolean isCollisionOn() {
     return collision;
   }
+
+  public void setImage(Image image) {
+    this.image = image;
+  }
   
 }

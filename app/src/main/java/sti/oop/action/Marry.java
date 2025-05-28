@@ -16,8 +16,7 @@ public class Marry {
             int currEnergy = player.getEnergy() - ENERGY_COST_MARRY;
             player.setEnergy(currEnergy);
             npc.setRelationshipStatus("Married");
-            // harusnya partner di player itu bukan string, tapi class NPC ??
-            player.setPartner(npc.getName());
+            player.setPartner(npc);
             System.out.println("Congratulations! You and " + npc.getName() + " are now partner in life!");
         }
         else {
