@@ -9,6 +9,7 @@ import sti.oop.models.Item.Fish;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Misc;
 import sti.oop.models.NPC.NPC;
+import sti.oop.utils.Constants;
 
 public class Player {
   public enum Gender {
@@ -40,8 +41,8 @@ public class Player {
   private int speed = walkingSpeed;
   private double runBoost = 1.5;
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
-  private int x = 0;
-  private int y = 0;
+  private int x = 10 * Constants.TILE_SIZE;
+  private int y = 43 * Constants.TILE_SIZE;
 
   private HealthBarUpdater healthBarUpdater;
   
