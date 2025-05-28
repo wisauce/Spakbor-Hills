@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
@@ -60,6 +61,15 @@ public class FarmController {
 
     @FXML
     private ProgressBar energyBar;
+
+    @FXML
+private VBox dialogBox;
+
+@FXML
+private HBox buttonPanel;
+
+@FXML
+private StackPane BottomPanel;
 
     private long lastTime = 0;
 
@@ -109,6 +119,8 @@ public class FarmController {
       HealthBarUpdater healthBarUpdater =  new HealthBarUpdater(energyDisplay, energyBar);
       healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
       player.setHealthBarUpdater(healthBarUpdater);
+
+      PanelController panelController = new PanelController(BottomPanel, buttonPanel, dialogBox);
 
       /* Initialize HotBar */
       hotbarController = new HotbarController();
