@@ -1,5 +1,6 @@
 package sti.oop.models;
 
+import sti.oop.action.Chatting;
 import sti.oop.action.Marry;
 import sti.oop.action.Proposing;
 import sti.oop.controllers.FarmController;
@@ -25,6 +26,10 @@ public class Action implements Actor {
     if (acted.getChoosen_act().equals("Propose")) {
       Proposing proposing = new Proposing();
       proposing.doProposing(farmController.getPlayerController().getPlayer(), acted.getNpc());
+    }
+    if (acted.getChoosen_act().equals("Chat")) {
+      Chatting chatting = new Chatting();
+      chatting.doChatting(farmController.getPlayerController().getPlayer(), acted.getNpc());
     }
   }
 }
