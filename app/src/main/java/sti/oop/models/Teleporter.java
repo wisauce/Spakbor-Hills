@@ -1,6 +1,7 @@
 package sti.oop.models;
 import sti.oop.action.Action;
 import sti.oop.controllers.GameMapController.MapName;
+import sti.oop.interfaces.Interactable;
 
 public class Teleporter extends Asset implements Interactable{
   MapName destination;

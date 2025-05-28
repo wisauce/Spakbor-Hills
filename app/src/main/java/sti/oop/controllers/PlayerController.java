@@ -77,7 +77,6 @@ public class PlayerController implements Renderable {
     solidArea.setY(player.getY() + hitboxOffsetY);
   }
 
-
   public Rectangle getSolidArea() {
     return solidArea;
   }
