@@ -1,203 +1,339 @@
 package sti.oop.controllers;
 
-import java.io.IOException;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import sti.oop.interfaces.Renderable;
+import sti.oop.models.Action;
 import sti.oop.models.Player;
-import sti.oop.controllers.FarmController;
+import sti.oop.utils.Constants;
 
-public class PlayerController {
-  @FXML
-  private BorderPane hud;
-
-  @FXML 
-  private Canvas canvas;
-
+public class PlayerController implements Renderable {
+  private Player player;
+  private CollisionController collisionController;
+  private FarmController farmController;
+  private Action action;
+  // key
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
   private boolean keyDownPressed = false;
   private boolean keyUpPressed = false;
-  private boolean keyUporDownJustPressed = false;
+  private boolean keyEPressed = false;
 
-  private boolean inventoryOpened = false;
-  private StackPane inventoryPane;
+  private boolean canInteract = false;
 
+  // render
+  private int frameX = 0;
+  private int frameY = 0;
+  private int spriteCounter = 0;
+  private int idleCounter = 0;
+  private boolean isIdle = true;
+  private final int playerFrameWidth = 32;
+  private final int playerFrameHeight = 32;
+  private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
+  private boolean noCollidingAsset = true;
 
-  private Scene scene;
-  private Player player;
-  private PlayerRenderer playerRenderer;
+  // collision
+  private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxOffsetY = (int) (23 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxWidth = (int) (10 * Constants.TILE_SIZE / playerFrameHeight);
+  private final int hitboxHeight = (int) (9 * Constants.TILE_SIZE / playerFrameHeight);
+  private Rectangle solidArea;
 
-  private FarmController farmController;
-
-
-  public PlayerController(Scene scene, Player player, PlayerRenderer playerRenderer, FarmController farmController) {
-    this.scene = scene;
+  public PlayerController(Player player, CollisionController collisionController, FarmController farmController) {
     this.player = player;
-    this.playerRenderer = playerRenderer;
+    this.collisionController = collisionController;
     this.farmController = farmController;
+    this.solidArea = new Rectangle(player.getX() + hitboxOffsetX, player.getY() + hitboxOffsetY, hitboxWidth,
+        hitboxHeight);
+    action = new Action(farmController);
   }
 
-  public void setFarmController(FarmController farmController) {
-    this.farmController = farmController;
+  public void updateSolidArea() {
+    solidArea.setX(player.getX() + hitboxOffsetX);
+    solidArea.setY(player.getY() + hitboxOffsetY);
   }
 
-  public void inputMovementHandler() {
-    scene.setOnKeyPressed(e -> {
-      switch (e.getCode()) {
-        case KeyCode.A -> {
-          keyLeftPressed = true;
-        }
-        case KeyCode.W -> {
-          keyUpPressed = true;
-        }
-        case KeyCode.S -> {
-          keyDownPressed = true;
-        }
-        case KeyCode.D -> {
-          keyRightPressed = true;
-        }
-        case KeyCode.SHIFT -> {
-            player.setRun(true);
-        }
-        case KeyCode.E -> {
-            toggleInventory();
-        }
-        default -> {}
-      }
-    });     
-
-    scene.setOnKeyReleased(e -> {
-      System.out.println("Key pressed: " + e.getCode());
-      switch (e.getCode()) {
-        case KeyCode.A -> {
-          keyLeftPressed = false;
-        }
-        case KeyCode.W -> {
-          keyUpPressed = false;
-          keyUporDownJustPressed = true;
-        }
-        case KeyCode.S -> {
-          keyDownPressed = false;
-          keyUporDownJustPressed = true;
-        }
-        case KeyCode.D -> {
-          keyRightPressed = false;
-        }
-        case KeyCode.SHIFT -> {
-            player.setRun(false);
-        }
-        default -> {}
-      }
-    });
+  public Rectangle getSolidArea() {
+    return solidArea;
   }
 
-  public void playerUpdate(CollisionController collisionController, GraphicsContext gc) {
-    playerRenderer.renderPlayer();
+  public int sourceX() {
+    return frameX * playerFrameWidth;
+  }
+
+  public int sourceY() {
+    return frameY * playerFrameHeight;
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /* INPUT KEYBOARD LOGICS */
+  /* -------------------------------------------------------------------------- */
+
+  public void keyHandler() {
+    if (farmController.getStatusInventory()) {
+      return;
+    }
+    boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
+    if (isMoving) {
+      spriteCounter = (spriteCounter + 1) % 10;
+      isIdle = false;
+    } else {
+      isIdle = true;
+    }
+
+    boolean directionChanged = false;
 
     int intersectPoint1X = 0;
     int intersectPoint1Y = 0;
     int intersectPoint2X = 0;
     int intersectPoint2Y = 0;
 
+    boolean canMoveLeft = true;
+    boolean canMoveRight = true;
+    boolean canMoveUp = true;
+    boolean canMoveDown = true;
 
     if (keyLeftPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() - player.getSpeed();
+      intersectPoint1X = player.getX() + hitboxOffsetX - player.getSpeed();
       intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
+      intersectPoint1Y = player.getY() + hitboxOffsetY;
+      intersectPoint2Y = intersectPoint1Y + hitboxHeight;
+
+      canMoveLeft = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
     }
-    else if (keyUpPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() - player.getSpeed();
-      intersectPoint2Y = intersectPoint1Y;
-    } 
-    else if (keyRightPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX() + playerRenderer.getHitboxWidth() + player.getSpeed();
+
+    if (keyRightPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX + hitboxWidth + player.getSpeed();
       intersectPoint2X = intersectPoint1X;
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY();
-      intersectPoint2Y = intersectPoint1Y + playerRenderer.getHitboxHeight();
-    } 
-    else if (keyDownPressed) {
-      intersectPoint1X = player.getX() + playerRenderer.getHitboxOffsetX();
-      intersectPoint2X = intersectPoint1X + playerRenderer.getHitboxWidth();
-      intersectPoint1Y = player.getY() + playerRenderer.getHitboxOffsetY() + playerRenderer.getHitboxHeight() + player.getSpeed();
+      intersectPoint1Y = player.getY() + hitboxOffsetY;
+      intersectPoint2Y = intersectPoint1Y + hitboxHeight;
+
+      canMoveRight = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
+
+    if (keyUpPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX;
+      intersectPoint2X = intersectPoint1X + hitboxWidth;
+      intersectPoint1Y = player.getY() + hitboxOffsetY - player.getSpeed();
       intersectPoint2Y = intersectPoint1Y;
-    } 
 
-    if (!collisionController.isCollision(intersectPoint1X, intersectPoint1Y) && !collisionController.isCollision(intersectPoint2X, intersectPoint2Y)) {
-      playerRenderer.playerMovementHandler(player, keyLeftPressed, keyRightPressed, keyUpPressed, keyDownPressed, keyUporDownJustPressed);
-      player.move(keyLeftPressed, keyUpPressed, keyDownPressed, keyRightPressed);
-    }
-    if (keyUporDownJustPressed) {
-      keyUporDownJustPressed = false;
+      canMoveUp = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
     }
 
-    gc.setFill(Color.RED);
-    gc.rect(intersectPoint1X, intersectPoint1Y, 2, 2);
-    gc.rect(intersectPoint2X, intersectPoint2Y, 2, 2);
-  }
-  /* Inventory Logics */
-  public void toggleInventory() {
-      System.out.println("Toggling Inventory... Current state: " + (inventoryOpened ? "Open" : "Closed"));
+    if (keyDownPressed) {
+      intersectPoint1X = player.getX() + hitboxOffsetX;
+      intersectPoint2X = intersectPoint1X + hitboxWidth;
+      intersectPoint1Y = player.getY() + hitboxOffsetY + hitboxHeight + player.getSpeed();
+      intersectPoint2Y = intersectPoint1Y;
 
-      if (inventoryOpened) {
-          System.out.println("Closing inventory...");
-          hud.getChildren().remove(inventoryPane);
-          inventoryOpened = false;
-          farmController.unfreezeTime();
-          System.out.println("Inventory closed");
+      canMoveDown = !collisionController.isCollision(intersectPoint1X, intersectPoint1Y)
+          &&
+          !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
+    }
+
+    boolean leftMovement = keyLeftPressed && canMoveLeft && noCollidingAsset;
+    boolean rightMovement = keyRightPressed && canMoveRight && noCollidingAsset;
+    boolean upMovement = keyUpPressed && canMoveUp && noCollidingAsset;
+    boolean downMovement = keyDownPressed && canMoveDown && noCollidingAsset;
+
+    if (upMovement) {
+      player.moveUp();
+      if (frameY != 2) {
+        frameY = 2;
+        frameX = 2;
+        directionChanged = true;
       }
-      
-      else {
-          System.out.println("Opening inventory...");
-          farmController.freezeTime(); // freeze time
+      if (spriteCounter == 9 && !directionChanged) {
+        frameX = 2 + (frameX + 1) % 2;
+      }
+      updateSolidArea();
+    }
 
-          /* Player can't move whilst inventory is opened */
-          keyLeftPressed = false;
-          keyRightPressed = false;
+    if (downMovement) {
+      player.moveDown();
+      if (frameY != 0) {
+        frameY = 0;
+        frameX = 2;
+        directionChanged = true;
+      }
+      if (spriteCounter == 9 && !directionChanged) {
+        frameX = 2 + (frameX + 1) % 2;
+      }
+      updateSolidArea();
+    }
+
+    if (leftMovement) {
+      player.moveLeft();
+      if (!keyUpPressed && !keyDownPressed) {
+        if (frameY != 1 || frameX >= 2) {
+          frameY = 1;
+          frameX = 0;
+          directionChanged = true;
+        }
+        if (spriteCounter == 9 && !directionChanged) {
+          frameX = (frameX + 1) % 2;
+        }
+      }
+      updateSolidArea();
+    }
+    if (rightMovement) {
+      player.moveRight();
+      if (!keyUpPressed && !keyDownPressed) {
+        if (frameY != 1 || frameX < 2) {
+          frameY = 1;
+          frameX = 2;
+          directionChanged = true;
+        }
+        if (spriteCounter == 9 && !directionChanged) {
+          frameX = 2 + (frameX + 1) % 2;
+        }
+      }
+      updateSolidArea();
+    }
+
+    if (isIdle) {
+      idleCounter = (idleCounter + 1) % 50;
+      if (idleCounter == 49) {
+        if (frameY == 0 || frameY == 2) {
+          frameX = (frameX + 1) % 2;
+        }
+      }
+    } else {
+      idleCounter = 0;
+    }
+
+    if (canInteract) {
+      farmController.getInteractionNotification().setVisible(true);
+    } else {
+      farmController.getInteractionNotification().setVisible(false);
+    }
+  }
+
+  public void keyMapper(Scene scene) {
+    scene.setOnKeyPressed(e -> {
+      System.out.println("Key pressed: " + e.getCode());
+      switch (e.getCode()) {
+        case KeyCode.A -> keyLeftPressed = true;
+        case KeyCode.W -> keyUpPressed = true;
+        case KeyCode.S -> keyDownPressed = true;
+        case KeyCode.D -> keyRightPressed = true;
+        case KeyCode.F -> farmController.toggleInventory();
+        case KeyCode.SHIFT -> player.setRun(true);
+        case KeyCode.E -> keyEPressed = true;
+        default -> {
+        }
+      }
+    });
+
+    /* Key Release Toggle Controls */
+    scene.setOnKeyReleased(e -> {
+      switch (e.getCode()) {
+        case KeyCode.A -> keyLeftPressed = false;
+        case KeyCode.W -> {
           keyUpPressed = false;
+          frameX = 0;
+        }
+        case KeyCode.S -> {
           keyDownPressed = false;
-          
-          /* Inventory GUI render */
-          try {
-              FXMLLoader inventoryLoader = new FXMLLoader(getClass().getResource("/views/Inventory.fxml"));
-              Parent inventoryParent = inventoryLoader.load();
-              inventoryPane = (StackPane) inventoryParent;
-              
-              InventoryController inventoryController = inventoryLoader.getController();
-              // Ubah dari setFarmController ke setPlayerController
-              inventoryController.setPlayerController(this);
-              // Gunakan player langsung, bukan farm.getPlayer()
-              inventoryController.setPlayer(player);
-              
-              inventoryPane.setMaxSize(800, 400);
-              inventoryPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-border-color: white; -fx-border-width: 2px;");
-              
-              BorderPane.setAlignment(inventoryPane, javafx.geometry.Pos.CENTER);
-              hud.setCenter(inventoryPane);
-
-              inventoryPane.requestFocus();
-              
-              inventoryOpened = true;
-              System.out.println("Inventory opened");
-          } catch (IOException e) {
-              e.printStackTrace();
-              System.out.println("Failed to load Inventory.fxml: " + e.getMessage());
-          } catch (Exception e) {
-              e.printStackTrace();
-              System.out.println("Unexpected error: " + e.getMessage());
-          }
+          frameX = 0;
+        }
+        case KeyCode.D -> keyRightPressed = false;
+        case KeyCode.SHIFT -> player.setRun(false);
+        case KeyCode.E -> keyEPressed = false;
+        default -> {
+        }
       }
+    });
   }
+
+  /* -------------------------------------------------------------------------- */
+  /* INPUT KEYBOARD LOGICS */
+  /* -------------------------------------------------------------------------- */
+
+  @Override
+  // Contoh di PlayerController.java
+  public void render(GraphicsContext gc) {
+    keyHandler();
+
+    Canvas canvas = gc.getCanvas();
+    double canvasWidth = canvas.getWidth();
+    double canvasHeight = canvas.getHeight();
+
+    double playerScreenX = (canvasWidth / 2) - (Constants.TILE_SIZE / 2);
+    double playerScreenY = (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
+
+    gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight,
+        playerScreenX, playerScreenY, // Gunakan posisi dinamis ini
+        Constants.TILE_SIZE, Constants.TILE_SIZE);
+    double screenHitboxX = playerScreenX + hitboxOffsetX;
+    double screenHitboxY = playerScreenY + hitboxOffsetY;
+
+    gc.setStroke(javafx.scene.paint.Color.RED);
+    gc.strokeRect(screenHitboxX, screenHitboxY, solidArea.getWidth(), solidArea.getHeight());
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public int getPlayerFrameWidth() {
+    return playerFrameWidth;
+  }
+
+  public int getPlayerFrameHeight() {
+    return playerFrameHeight;
+  }
+
+  public Image getPlayerSpriteSheet() {
+    return playerSpriteSheet;
+  }
+
+  public void setnoCollidingAsset(boolean isColliding) {
+    noCollidingAsset = isColliding;
+  }
+
+  public boolean isKeyLeftPressed() {
+    return keyLeftPressed;
+  }
+
+  public boolean isKeyRightPressed() {
+    return keyRightPressed;
+  }
+
+  public boolean isKeyDownPressed() {
+    return keyDownPressed;
+  }
+
+  public boolean isKeyUpPressed() {
+    return keyUpPressed;
+  }
+
+  public void inInteractiveArea(boolean canInteract) {
+    this.canInteract = canInteract;
+  }
+
+  public boolean isKeyEPressed() {
+    return keyEPressed;
+  }
+
+  public boolean isCanInteract() {
+    return canInteract;
+  }
+
+  public Action getAction() {
+    return action;
+  }
+
+  
+
 }

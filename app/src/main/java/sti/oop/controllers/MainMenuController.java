@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,7 +27,7 @@ public class MainMenuController {
 
     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     stage.setScene(farmScene);
-    // stage.setFullScreen(true);
+    stage.setFullScreen(true);
     stage.show();
 
   }

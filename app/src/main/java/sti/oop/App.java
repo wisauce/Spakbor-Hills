@@ -28,9 +28,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
         stage.setScene(new Scene(root));
+        stage.setFullScreen(true);
         stage.setTitle("Spakbor Hills");
-        stage.fullScreenExitHintProperty();
-        // stage.setFullScreen(true);
         stage.show();
 
         // Player player = new Player("Aris", Gender.MALE, "Bebek Om Aris");

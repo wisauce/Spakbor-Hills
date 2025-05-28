@@ -90,12 +90,6 @@
             </ImageView>
          </children>
       </StackPane>
-      
-      <StackPane prefWidth="160.0" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets left="20" top="220.0" />
-         </StackPane.margin>
-      </StackPane>
       <ImageView fitHeight="42.0" fitWidth="481.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
          <image>
             <Image url="@../images/inventoryText.png" />

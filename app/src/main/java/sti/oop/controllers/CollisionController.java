@@ -1,36 +1,78 @@
 package sti.oop.controllers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-import sti.oop.models.Constants;
+import javafx.scene.shape.Rectangle;
+import sti.oop.controllers.GameMapController.MapName;
+import sti.oop.models.Asset;
+import sti.oop.models.CollisionMap;
+import sti.oop.interfaces.Interactable;
+import sti.oop.utils.Constants;
+
+// import sti.oop.models.Constants;
 
 public class CollisionController {
-  private List<List<Boolean>> collisionMatrix;
+  private Map<MapName, CollisionMap> mapOfCollisionMaps;
+  private CollisionMap currentCollisionMap;
 
-  public CollisionController(String colissionMapsrc) {
-    collisionMatrix = new ArrayList<>();
-    BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(colissionMapsrc)));
-    String line;
-    try {
-      line = br.readLine();
-      while (line != null) {
-          collisionMatrix.add(Arrays.stream(line.split(" ")).map(s -> s.equals("1")).collect(Collectors.toList()));
-          line = br.readLine();
-        }
-    } catch(IOException e) {
-      e.printStackTrace();
-    }
+  public CollisionController() {
+    mapOfCollisionMaps = Map.ofEntries(
+        Map.entry(MapName.FARM, new CollisionMap("/maps/farmCollision.txt")),
+        Map.entry(MapName.HOUSE, new CollisionMap("/maps/houseCollision.txt")));
+    currentCollisionMap = mapOfCollisionMaps.get(MapName.FARM);
   }
 
   public boolean isCollision(int x, int y) {
     int tileX = x / Constants.TILE_SIZE;
     int tileY = y / Constants.TILE_SIZE;
-    return collisionMatrix.get(tileY).get(tileX);
+    return currentCollisionMap.getCollisionMatrix().get(tileY).get(tileX);
+  }
+
+  public void setCurrentCollisionMap(MapName mapName) {
+    currentCollisionMap = mapOfCollisionMaps.get(mapName);
+  }
+
+  public void checkAssetCollision(List<Asset> assets, PlayerController playerController) {
+    // Reset collision flag before checking
+    playerController.setnoCollidingAsset(true);
+    playerController.inInteractiveArea(false);
+    for (Asset asset : assets) {
+      Rectangle tempArea = new Rectangle(
+          playerController.getSolidArea().getX(),
+          playerController.getSolidArea().getY(),
+          playerController.getSolidArea().getWidth(),
+          playerController.getSolidArea().getHeight());
+
+      int speed = playerController.getPlayer().getSpeed();
+
+      // Simulate movement
+      if (playerController.isKeyUpPressed()) {
+        tempArea.setY(tempArea.getY() - speed);
+      }
+      if (playerController.isKeyDownPressed()) {
+        tempArea.setY(tempArea.getY() + speed);
+      }
+      if (playerController.isKeyLeftPressed()) {
+        tempArea.setX(tempArea.getX() - speed);
+      }
+      if (playerController.isKeyRightPressed()) {
+        tempArea.setX(tempArea.getX() + speed);
+      }
+
+      // Check collision
+      if (tempArea.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+        if (asset.isCollisionOn()) {
+          playerController.setnoCollidingAsset(false);
+        } else {
+          playerController.inInteractiveArea(true);
+          if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
+            ((Interactable)asset).accept(playerController.getAction());
+          }
+        }
+        break; // No need to check more if collision is found
+      }
+
+    }
   }
 }
