@@ -48,12 +48,13 @@ public class Action implements Actor {
       //     balik ke state TILLED LAND
       // }
     } else if (acted.getState().equals(LandState.PLANTED_LAND)) { // && PUNYA WATERING CAN
-      farmController.getPlayerController().getPlayer().setEnergy(farmController.getPlayerController().getPlayer().getEnergy()-5);
-      acted.setDaysNotWatered(0);
-      acted.changeLandState(LandState.HARVESTABLE_LAND); // NANTI DIKOMEN, CUMA BUAT TESTING
+        farmController.getPlayerController().getPlayer().setEnergy(farmController.getPlayerController().getPlayer().getEnergy()-5);
+        acted.setDaysNotWatered(0);
+        acted.changeLandState(LandState.HARVESTABLE_LAND); // NANTI DIKOMEN, CUMA BUAT TESTING
     } else if (acted.getState().equals(LandState.HARVESTABLE_LAND)) { 
-      farmController.getPlayerController().getPlayer().getInventory().addItem(acted.getCrop(), 1);
-      acted.setCrop(null);      
+        farmController.getPlayerController().getPlayer().getInventory().addItem(acted.getCrop(), 1);
+        acted.setCrop(null);
+        acted.changeLandState(LandState.TILLED_LAND);
     }
     
   }

@@ -28,7 +28,7 @@ public class Land extends Asset implements Interactable {
   Crop crop;
   int daysNotWatered;
 
-  public Land(int x, int y) {
+  public Land(int x, int y, Image tilledLandImage, Image plantedLandImage, Image harvestableLandImage) {
     super(x, y);
     state = LandState.TILLABLE_LAND;
   }
