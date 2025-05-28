@@ -25,7 +25,7 @@ public class GameMapController {
       Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 16, 16 * Constants.TILE_SIZE + Constants.TILE_SIZE/2, 17 * Constants.TILE_SIZE)),
       Map.entry(MapName.HOUSE, new GameMap("/maps/house.png", "/maps/housenew.txt",16, 16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE))
     );
-    setCurrentMap(MapName.FARM);
+    currentMap = mapOfGameMaps.get(MapName.FARM);
   }
 
   public void setCurrentMap(MapName mapName) {

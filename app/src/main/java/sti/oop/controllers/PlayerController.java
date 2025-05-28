@@ -365,7 +365,7 @@ public class PlayerController implements Renderable {
     return keyUpPressed;
   }
 
-  public void inInteractiveArea(boolean canInteract) {
+  public void setCanInteract(boolean canInteract) {
     this.canInteract = canInteract;
   }
 

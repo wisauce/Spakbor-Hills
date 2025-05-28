@@ -9,7 +9,7 @@ public class Proposing implements EnergyConsuming{
     private final int REQUIRED_HEART_POINTS = 150;
     private final int ENERGY_COST_SUCCESS = 10;
     private final int ENERGY_COST_FAIL = 20;
-    private int requiredEnergy;
+    private int requiredEnergy = ENERGY_COST_FAIL;
 
     public boolean hasRequiredItems(Player player){
         return true; //player.getInventory().hasItem(new Item("Proposal Ring", "EQUIPMENT"));

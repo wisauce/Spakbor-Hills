@@ -34,9 +34,10 @@ public class AssetController {
     RandomizeFarm farmMap = new RandomizeFarm();
     farmMap.generateMap(farmMap);
 
-    assetsOnFarm.add(new Teleporter(16 * Constants.TILE_SIZE + Constants.TILE_SIZE / 2, 17 * Constants.TILE_SIZE, MapName.HOUSE));
     assetsOnFarm.add(new NPCArea(new Dasco()));
-    assetsOnFarm.add(new House(farmMap));
+    House house = new House(farmMap);
+    assetsOnFarm.add(house);
+    assetsOnFarm.add(new Teleporter(house.getX() - Constants.TILE_SIZE,house.getY() - Constants.TILE_SIZE, (int) (house.getSolidArea().getWidth() + 2 *Constants.TILE_SIZE), (int) (house.getSolidArea().getHeight() + 2 * Constants.TILE_SIZE), MapName.HOUSE));
     assetsOnFarm.add(new Pond(farmMap));
     assetsOnFarm.add(new ShippingBin(farmMap));
     LandSetter landSetter = new LandSetter();
