@@ -32,7 +32,7 @@ public class AssetController {
 
 
     List<Asset> assetsOnHome = new ArrayList<>();
-    assetsOnHome.add(new Teleporter(12 * Constants.TILE_SIZE, 23 * Constants.TILE_SIZE, 2 * Constants.TILE_SIZE, Constants.TILE_SIZE, MapName.FARM));
+    assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, 1 * Constants.TILE_SIZE, Constants.TILE_SIZE, MapName.FARM));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);
     currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
