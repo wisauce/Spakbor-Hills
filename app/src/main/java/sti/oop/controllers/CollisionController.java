@@ -95,6 +95,15 @@ public class CollisionController {
                 }
               }
 
+              if (playerController.isKey3Pressed() && playerController.isCanInteract()) {
+                if (!playerController.isHasInteracted()) {
+                  ((NPCArea) asset).setChoosen_act("Chat");
+                  ((NPCArea) asset).accept(playerController.getAction());
+                  playerController.setHasInteracted(true);
+
+                }
+              }
+
               
             }
           }
