@@ -6,9 +6,9 @@ import java.util.Map;
 import javafx.scene.shape.Rectangle;
 import sti.oop.action.Marry;
 import sti.oop.controllers.GameMapController.MapName;
-import sti.oop.interfaces.Interactable;
 import sti.oop.models.Asset;
 import sti.oop.models.CollisionMap;
+import sti.oop.models.Interactable;
 import sti.oop.models.NPCArea;
 import sti.oop.utils.Constants;
 

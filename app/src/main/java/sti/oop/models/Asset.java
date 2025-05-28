@@ -46,14 +46,6 @@ public class Asset {
     collision = false;
   }
 
-  public Asset(int x, int y, String imageSrc, int w, int h, boolean collision) {
-    this.x = x;
-    this.y = y;
-    image = new Image(getClass().getResourceAsStream(imageSrc));
-    solidArea = new Rectangle(x,y,w,h);
-    this.collision = collision;
-  }
-
   public int getX() {
     return x;
   }
