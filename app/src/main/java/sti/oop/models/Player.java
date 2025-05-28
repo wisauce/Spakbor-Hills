@@ -2,6 +2,7 @@ package sti.oop.models;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Item.*;
 import sti.oop.models.NPC.*;
 import java.util.EnumSet;
@@ -46,11 +47,13 @@ public class Player {
     this.gold = 50;
     partner = null;
     inventory = new Inventory();
+
+    giveStarterItems();
     
-    inventory.addItem(new Equipment("Hoe"), 1);
-    inventory.addItem(new Equipment("Pickaxe"), 1);
-    inventory.addItem(new Equipment("WateringCan"), 1);
-    inventory.addItem(new Equipment("FishingRod"), 1);
+    // inventory.addItem(new Equipment("Hoe"), 1);
+    // inventory.addItem(new Equipment("Pickaxe"), 1);
+    // inventory.addItem(new Equipment("WateringCan"), 1);
+    // inventory.addItem(new Equipment("FishingRod"), 1);
 
     inventory.addItem(new Misc("Coal", 100, 50), 1);
     inventory.addItem(new Misc("Firewood", 150, 75), 1);
@@ -68,6 +71,13 @@ public class Player {
     currentMap = CurrentMap.FARM;
     energy = MAX_ENERGY;
     // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
+  }
+
+  private void giveStarterItems() {
+    inventory.addItem(new Equipment("Hoe"), 1);
+    inventory.addItem(new Equipment("Pickaxe"), 1);
+    inventory.addItem(new Equipment("WateringCan"), 1);
+    inventory.addItem(new Equipment("FishingRod"), 1);
   }
 
   public int getX() {
@@ -178,6 +188,12 @@ public class Player {
 
   public void setHealthBarUpdater(HealthBarUpdater healthBarUpdater) {
     this.healthBarUpdater = healthBarUpdater;
+  }
+
+  public void putItemInventory(String itemName, int quantity) {
+    Item item = ItemRegistry.createItem(itemName);
+
+    inventory.addItem(item, quantity);
   }
 
   

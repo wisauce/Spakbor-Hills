@@ -3,6 +3,8 @@ package sti.oop.utils;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import sti.oop.models.ItemRegistry;
+import sti.oop.models.Item.Item;
 import javafx.scene.image.PixelWriter;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +29,7 @@ public class ItemSpriteManager {
     /*                     Item Sprite Location Initializator                     */
     /* -------------------------------------------------------------------------- */
 
+    /*  https://stackoverflow.com/questions/2420389/static-initialization-blocks  */
     static {
 
         // itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
@@ -164,9 +167,11 @@ public class ItemSpriteManager {
     /* -------------------------------------------------------------------------- */
     /*                                Sprite Loader                               */
     /* -------------------------------------------------------------------------- */
-    
+    //TODO: Change Sprite Loader
     public static void preloadSprites() {
         Map<String, String[]> itemByCategory = new HashMap<>();
+
+        //Set<String> allItem = ItemRegistry.getAllItemNames();
         
         // itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
         itemByCategory.put("FISH", new String[]{"Bullhead", "Carp", "Chub", "LargemouthBass", "RainbowTrout", "Sturgeon", "MidnightCarp", "Flounder", "Halibut", "Octopus", "Pufferfish", "Sardine", "SuperCucumber", "Catfish", "Salmon", "Angler", "Crimsonfish", "Glacierfish", "Legend"});
@@ -175,6 +180,12 @@ public class ItemSpriteManager {
         itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
         itemByCategory.put("MISC", new String[]{"Coal", "Firewood", "Gift", "WeddingRing"});
 
+
+        // for (String itemName: allItem) {
+        //     Item item = ItemRegistry.createItem(itemName);
+        //     String itemID = item.getItemID();
+        //     getItemSprite(itemID);
+        // }
 
         for (Map.Entry<String, String[]> itemEntry : itemByCategory.entrySet()) {
             String itemType = itemEntry.getKey();
