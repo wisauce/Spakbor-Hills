@@ -93,8 +93,8 @@ private StackPane BottomPanel;
     private PlayerController playerController;
     GameMapController gameMapController;
     private AssetController assetController;
-    
     private HotbarController hotbarController;
+    private InventoryController inventoryController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -123,15 +123,11 @@ private StackPane BottomPanel;
       PanelController panelController = new PanelController(BottomPanel, buttonPanel, dialogBox);
 
       /* Initialize HotBar */
-      hotbarController = new HotbarController();
-
+      hotbarController = new HotbarController(player);
       HBox hotbar = hotbarController.getHotbarContainer();
       hotbar.setLayoutX(20);
       hotbar.setLayoutY(550);
-
       anchorPane.getChildren().add(hotbar);
-
-      updateHotbar();
 
       
       /* Initialize Contoller */
@@ -143,6 +139,8 @@ private StackPane BottomPanel;
       // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
       // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
       
+      updateHotbar();
+
       timeController.render();
       
       /* Initialize NPC */
@@ -322,20 +320,15 @@ private StackPane BottomPanel;
       return timeController;
     }
 
-
-
-
-    
-    
-
     public void updateHotbar() {
       if (hotbarController != null && playerController != null) {
         hotbarController.updateOnHandDisplay(playerController.getPlayer());
+        
+        if (inventoryController != null && inventoryOpened) {
+          inventoryController.handleHotbarDeselection();
+        }
       }
     }
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
-
-
-
 }
