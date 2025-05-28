@@ -104,7 +104,14 @@ public class CollisionController {
                 }
               }
 
-              
+              if (playerController.isKey4Pressed() && playerController.isCanInteract()) {
+                if (!playerController.isHasInteracted()) {
+                  ((NPCArea) asset).setChoosen_act("Gift");
+                  ((NPCArea) asset).accept(playerController.getAction());
+                  playerController.setHasInteracted(true);
+
+                }
+              }
             }
           }
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {

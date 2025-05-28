@@ -1,12 +1,13 @@
 package sti.oop.models;
 
 import sti.oop.action.Chatting;
+import sti.oop.action.Gifting;
 import sti.oop.action.Marry;
 import sti.oop.action.Proposing;
 import sti.oop.controllers.FarmController;
+import sti.oop.models.Land.LandState;
 import sti.oop.models.Item.Seed;
 import sti.oop.models.Item.Seed.Season;
-import sti.oop.models.Land.LandState;
 
 public class Action implements Actor {
   FarmController farmController;
@@ -34,6 +35,10 @@ public class Action implements Actor {
     if (acted.getChoosen_act().equals("Chat")) {
       Chatting chatting = new Chatting();
       chatting.doChatting(farmController.getPlayerController().getPlayer(), acted.getNpc());
+    }
+    if (acted.getChoosen_act().equals("Gift")) {
+      Gifting gift = new Gifting();
+      gift.doGifting(farmController.getPlayerController().getPlayer(), acted.getNpc());
     }
   }
 
