@@ -22,7 +22,8 @@ public class PlayerController implements Renderable {
   private CollisionController collisionController;
   private FarmController farmController;
   private Action action;
-  // key
+  
+  /* Key Attributes */
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
   private boolean keyDownPressed = false;
@@ -44,7 +45,7 @@ public class PlayerController implements Renderable {
     this.isMarryAcceptingKey = isMarryAcceptingKey;
   }
 
-  // render
+  /* Render Attributes */
   private int frameX = 0;
   private int frameY = 0;
   private int spriteCounter = 0;
@@ -56,7 +57,7 @@ public class PlayerController implements Renderable {
   private boolean noCollidingAsset = true;
   private boolean hasInteracted = false;
 
-  // collision
+  /* Collision Attributes */
   private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxOffsetY = (int) (23 * Constants.TILE_SIZE / playerFrameHeight);
   private final int hitboxWidth = (int) (10 * Constants.TILE_SIZE / playerFrameHeight);
@@ -77,7 +78,6 @@ public class PlayerController implements Renderable {
     solidArea.setY(player.getY() + hitboxOffsetY);
   }
 
-
   public Rectangle getSolidArea() {
     return solidArea;
   }
@@ -91,7 +91,7 @@ public class PlayerController implements Renderable {
   }
 
   /* -------------------------------------------------------------------------- */
-  /* INPUT KEYBOARD LOGICS */
+  /*                            Input Keyboard Logics                           */
   /* -------------------------------------------------------------------------- */
 
   public void keyHandler() {
@@ -286,9 +286,7 @@ public class PlayerController implements Renderable {
     });
   }
 
-  /* -------------------------------------------------------------------------- */
-  /* INPUT KEYBOARD LOGICS */
-  /* -------------------------------------------------------------------------- */
+  
 
   @Override
   // Contoh di PlayerController.java
@@ -311,6 +309,11 @@ public class PlayerController implements Renderable {
     gc.setStroke(javafx.scene.paint.Color.RED);
     gc.strokeRect(screenHitboxX, screenHitboxY, solidArea.getWidth(), solidArea.getHeight());
   }
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                           Attribute Getter Setter                          */
+  /* -------------------------------------------------------------------------- */
 
   public Player getPlayer() {
     return player;
@@ -387,6 +390,10 @@ public class PlayerController implements Renderable {
   public void setHasInteracted(boolean hasInteracted) {
     this.hasInteracted = hasInteracted;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                Hotbar Logics                               */
+  /* -------------------------------------------------------------------------- */
   
   @FXML
   public void handleKeyPress(KeyEvent event) {

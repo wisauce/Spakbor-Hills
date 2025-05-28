@@ -106,10 +106,12 @@ public class FarmController {
       nameDisplay.setText(player.getName());
       farm = new Farm(player);
 
+      /* Initialize HealthBar */
       HealthBarUpdater healthBarUpdater =  new HealthBarUpdater(energyDisplay, energyBar);
       healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
       player.setHealthBarUpdater(healthBarUpdater);
 
+      /* Initialize HotBar */
       hotbarController = new HotbarController();
 
       HBox hotbar = hotbarController.getHotbarContainer();
@@ -310,13 +312,6 @@ public class FarmController {
         hotbarController.updateOnHandDisplay(playerController.getPlayer());
       }
     }
-
-    private void onItemSelected() {
-      updateHotbar();
-    }
-
-    
-
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
 

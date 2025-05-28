@@ -53,7 +53,11 @@ public class Player {
     partner = null;
     inventory = new Inventory();
 
+    currentMap = CurrentMap.FARM;
+    energy = MAX_ENERGY;
+
     onHandItem = null;
+    
 
     giveStarterItems();
 
@@ -61,17 +65,12 @@ public class Player {
     inventory.addItem(new Misc("Firewood", 150, 75), 1);
     inventory.addItem(new Misc("Gift", 250, 125), 1);
     inventory.addItem(new Misc("WeddingRing", 1500, 50), 1);
-
     inventory.addItem(new Fish("Angler", EnumSet.of(Fish.Season.SPRING), new int[]{6,18}, EnumSet.of(Fish.Weather.SUNNY), EnumSet.of(Fish.Location.OCEAN), "COMMON"),  1);
 
 
     for (int i = 1; i <= 30; i++) {
       inventory.addItem(new Equipment("TestTool" + i), i);
     }
-
-    currentMap = CurrentMap.FARM;
-    energy = MAX_ENERGY;
-    // currentsprite = new Image(getClass().getResource("/images/chibisprite.png").toExternalForm());
   }
 
   private void giveStarterItems() {
