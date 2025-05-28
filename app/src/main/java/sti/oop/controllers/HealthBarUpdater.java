@@ -3,7 +3,6 @@ package sti.oop.controllers;
 import javafx.css.PseudoClass;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import sti.oop.models.Player;
 
 public class HealthBarUpdater {
   Label energyDisplay;

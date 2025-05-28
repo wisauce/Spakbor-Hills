@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.shape.Rectangle;
-import sti.oop.action.Marry;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.CollisionMap;
 import sti.oop.models.Interactable;

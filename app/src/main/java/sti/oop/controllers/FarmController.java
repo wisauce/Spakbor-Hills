@@ -1,9 +1,9 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,17 +19,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
-import sti.oop.models.NPC.NPC;
 import sti.oop.models.Player;
+import sti.oop.models.Player.Gender;
 import sti.oop.models.NPC.Abigail;
 import sti.oop.models.NPC.Caroline;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.NPC.Emily;
 import sti.oop.models.NPC.MayorTadi;
+import sti.oop.models.NPC.NPC;
 import sti.oop.models.NPC.Perry;
-import sti.oop.models.Player.Gender;
-import sti.oop.models.assets.Asset;
-import sti.oop.models.assets.Teleporter;
 import sti.oop.utils.Constants;
 import sti.oop.utils.ItemSpriteManager;
 

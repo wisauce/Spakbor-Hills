@@ -1,11 +1,14 @@
 package sti.oop.models;
 
+import java.util.EnumSet;
+
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
-import sti.oop.models.ItemRegistry;
-import sti.oop.models.Item.*;
-import sti.oop.models.NPC.*;
-import java.util.EnumSet;
+import sti.oop.models.Item.Equipment;
+import sti.oop.models.Item.Fish;
+import sti.oop.models.Item.Item;
+import sti.oop.models.Item.Misc;
+import sti.oop.models.NPC.NPC;
 
 public class Player {
   public enum Gender {

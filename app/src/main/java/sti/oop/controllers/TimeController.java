@@ -1,9 +1,7 @@
 package sti.oop.controllers;
 
-import  sti.oop.models.Farm;
-
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import  sti.oop.models.Farm;
 
 public class TimeController {
   private Farm farm;

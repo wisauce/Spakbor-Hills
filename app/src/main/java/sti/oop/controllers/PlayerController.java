@@ -1,7 +1,5 @@
 package sti.oop.controllers;
 
-import javax.swing.text.StyledEditorKit;
-
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,10 +10,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import sti.oop.action.Action;
 import sti.oop.interfaces.Renderable;
+import sti.oop.models.Inventory;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.utils.Constants;
-import sti.oop.models.Inventory;
 
 public class PlayerController implements Renderable {
   private Player player;

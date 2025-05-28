@@ -2,7 +2,6 @@ package sti.oop.action;
 import sti.oop.interfaces.EnergyConsuming;
 // import sti.oop.models.Inventory;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
 
 // ada kurang di bagian jam jam an
