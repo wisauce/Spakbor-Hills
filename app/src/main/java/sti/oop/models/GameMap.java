@@ -17,7 +17,7 @@ public class GameMap {
   private int maxTileVertical;
   private int tileSize;
   private int numberOfTilesInTileSetRow;
-  private int playerStartingPositionX;
+  public int playerStartingPositionX;
   private int playerStartingPositionY;
 
   

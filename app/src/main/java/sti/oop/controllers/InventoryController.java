@@ -251,6 +251,10 @@ public class InventoryController {
       }
   }
 
+  public void handleHotbarDeselection() {
+    updateInventoryDisplay();
+  }
+
   /* -------------------------------------------------------------------------- */
   /*                            Inventory Page Logics                           */
   /* -------------------------------------------------------------------------- */

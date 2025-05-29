@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
@@ -61,6 +62,15 @@ public class FarmController {
     @FXML
     private ProgressBar energyBar;
 
+    @FXML
+private VBox dialogBox;
+
+@FXML
+private HBox buttonPanel;
+
+@FXML
+private StackPane BottomPanel;
+
     private long lastTime = 0;
 
     private Scene scene;
@@ -83,8 +93,8 @@ public class FarmController {
     private PlayerController playerController;
     GameMapController gameMapController;
     private AssetController assetController;
-    
     private HotbarController hotbarController;
+    private InventoryController inventoryController;
 
     int spriteCounter = 0;
     int idleCounter = 0;
@@ -110,27 +120,27 @@ public class FarmController {
       healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
       player.setHealthBarUpdater(healthBarUpdater);
 
-      /* Initialize HotBar */
-      hotbarController = new HotbarController();
+      PanelController panelController = new PanelController(BottomPanel, buttonPanel, dialogBox);
 
+      /* Initialize HotBar */
+      hotbarController = new HotbarController(player);
       HBox hotbar = hotbarController.getHotbarContainer();
       hotbar.setLayoutX(20);
       hotbar.setLayoutY(550);
-
       anchorPane.getChildren().add(hotbar);
-
-      updateHotbar();
 
       
       /* Initialize Contoller */
       assetController = new AssetController(player);
-      collisionController = new CollisionController();
+      collisionController = new CollisionController();  
       gameMapController = new GameMapController(player);
       playerController = new PlayerController(player, collisionController, this);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
       // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
       // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
       
+      updateHotbar();
+
       timeController.render();
       
       /* Initialize NPC */
@@ -310,20 +320,15 @@ public class FarmController {
       return timeController;
     }
 
-
-
-
-    
-    
-
     public void updateHotbar() {
       if (hotbarController != null && playerController != null) {
         hotbarController.updateOnHandDisplay(playerController.getPlayer());
+        
+        if (inventoryController != null && inventoryOpened) {
+          inventoryController.handleHotbarDeselection();
+        }
       }
     }
 
 /* <------------------------------------------SEPERATOR------------------------------------------------> */
-
-
-
 }

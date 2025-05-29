@@ -37,7 +37,7 @@ public class CollisionController {
   public void checkAssetCollision(List<Asset> assets, PlayerController playerController) {
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
-    playerController.inInteractiveArea(false);
+    playerController.setCanInteract(false);
     for (Asset asset : assets) {
       Rectangle tempArea = new Rectangle(
           playerController.getSolidArea().getX(),
@@ -66,7 +66,7 @@ public class CollisionController {
         if (asset.isCollisionOn()) {
           playerController.setnoCollidingAsset(false);
         } else {
-          playerController.inInteractiveArea(true);
+          playerController.setCanInteract(true);
           if (asset instanceof NPCArea) {
             if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
               if (!playerController.isHasInteracted()) {

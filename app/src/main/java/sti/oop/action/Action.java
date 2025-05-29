@@ -33,12 +33,9 @@ public class Action implements Actor {
 
   @Override
   public void act(Teleporter acted) {
-    if (isActionDoable(acted)) {
-      farmController.changeMap(acted.getDestination());
-
-    } else {
-
-    }
+    farmController.changeMap(acted.getDestination());
+    farmController.getPlayerController().getPlayer().setY(acted.getDestinationY());
+    farmController.getPlayerController().getPlayer().setX(acted.getDestinationX());
   }
 
   @Override
