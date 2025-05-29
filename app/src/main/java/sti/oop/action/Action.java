@@ -100,10 +100,12 @@ public class Action implements Actor {
       }
 
       else if (acted.getState().equals(LandState.HARVESTABLE_LAND)) {
-        player.getInventory().addItem(acted.getCrop(), 1);
+        String seedName = acted.getSeed().getItemName();
+        String cropName = seedName.replaceAll("(?i)Seeds", "");
+        player.putItemInventory(cropName, 1);
         acted.setCrop(null);
         acted.changeLandState(LandState.TILLED_LAND);
-        return "Harvested " + acted.getCrop() + ", it is now in your inventory";
+        return "Harvested " + cropName + ", it is now in your inventory";
       }
       return null;
 
@@ -119,7 +121,5 @@ public class Action implements Actor {
     sleep.sleep(farmController, acted.getSpawnAreaX(), acted.getSpawnAreaY());
     return "Good morning";
   }
-
-  
 
 }
