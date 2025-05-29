@@ -16,7 +16,7 @@ public class Inventory {
     public int getItemCount(Item itemName) {
         return items.getOrDefault(itemName, 0);
     }
-
+    
     public boolean hasItem(Item itemName) {
         return items.containsKey(itemName);
     }

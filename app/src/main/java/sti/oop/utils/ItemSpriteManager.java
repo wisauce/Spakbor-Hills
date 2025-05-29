@@ -5,6 +5,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Item.Item;
+import sti.oop.models.Item.Recipe;
 import javafx.scene.image.PixelWriter;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -115,6 +116,20 @@ public class ItemSpriteManager {
         SPRITE_POSITIONS.put("MISC_Gift", new SpritePosition(12, 7));
         SPRITE_POSITIONS.put("MISC_WeddingRing", new SpritePosition(29, 22));
 
+        /* Recipe */
+
+        SPRITE_POSITIONS.put("RECIPE_FishnChipsRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_BaguetteRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_SashimiRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_FuguRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_WineRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_PumpkinPieRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_VeggieSoupRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_FishStewRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_SpakborSaladRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_FishSandwichRecipe",  new SpritePosition(20, 18));
+        SPRITE_POSITIONS.put("RECIPE_TheLegendsOfSpakborRecipe",  new SpritePosition(20, 18));
+
        
     }
 
@@ -206,19 +221,14 @@ public class ItemSpriteManager {
 
         //Set<String> allItem = ItemRegistry.getAllItemNames();
         
-        // itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
+        itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
         itemByCategory.put("FISH", new String[]{"Bullhead", "Carp", "Chub", "LargemouthBass", "RainbowTrout", "Sturgeon", "MidnightCarp", "Flounder", "Halibut", "Octopus", "Pufferfish", "Sardine", "SuperCucumber", "Catfish", "Salmon", "Angler", "Crimsonfish", "Glacierfish", "Legend"});
-        // itemByCategory.put("CROP", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
-        // itemByCategory.put("FOOD", new String[]{"FishNChips", "Baguette", "Sashimi", "Fugu", "Wine", "PumpkinPie", "VeggieSoup", "FishStew", "SpakborSalad", "FishSandwich", "TheLegendsOfSpakbor", "CookedPigsHead"});
+        itemByCategory.put("CROP", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
+        itemByCategory.put("FOOD", new String[]{"FishNChips", "Baguette", "Sashimi", "Fugu", "Wine", "PumpkinPie", "VeggieSoup", "FishStew", "SpakborSalad", "FishSandwich", "TheLegendsOfSpakbor", "CookedPigsHead"});
         itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
         itemByCategory.put("MISC", new String[]{"Coal", "Firewood", "Gift", "WeddingRing"});
+        itemByCategory.put("RECIPE", new String[]{"FishnChipsRecipe", "BaguetteRecipe", "SashimiRecipe", "FuguRecipe", "WineRecipe", "PumpkinPieRecipe", "VeggieSoupRecipe", "FishStewRecipe", "SpakborSaladRecipe", "FishSandwichRecipe", "TheLegendsOfSpakborRecipe"});
 
-
-        // for (String itemName: allItem) {
-        //     Item item = ItemRegistry.createItem(itemName);
-        //     String itemID = item.getItemID();
-        //     getItemSprite(itemID);
-        // }
 
         for (Map.Entry<String, String[]> itemEntry : itemByCategory.entrySet()) {
             String itemType = itemEntry.getKey();
