@@ -70,19 +70,19 @@ public class CollisionController {
         } else {
           collidedWithInteractable = true; // <-- tandai kalau sedang nabrak asset
 
-          if (playerController.isToggled()) {
+          if (playerController.isToggled() && playerController.isJustInteracted()) {
             panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
+            playerController.clearJustInteracted();
           }
 
-          if (playerController.isJustInteracted()) {
+          if (playerController.isJustInteracted() && !playerController.isToggled()) {
             Interactable interactable = (Interactable) asset;
-            String dialog = interactable.accept(playerController.getAction());
-
             if (interactable.multipleInput()) {
               playerController.toggle(); // masuk ke interaction mode
-            } else if (dialog != null) {
-              panelController.showDialog(dialog);
+            } else {
+              panelController.showDialog(interactable.accept(playerController.getAction()));
             }
+            playerController.clearJustInteracted();
           }
         }
         break; // keluar dari loop kalau sudah collision
@@ -98,6 +98,5 @@ public class CollisionController {
     if (isMoving) {
       panelController.hideAllBottom();
     }
-    playerController.clearJustInteracted();
   }
 }
