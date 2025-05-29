@@ -136,7 +136,7 @@ private StackPane BottomPanel;
       
       /* Initialize Contoller */
       assetController = new AssetController(player);
-      collisionController = new CollisionController();
+      collisionController = new CollisionController();  
       gameMapController = new GameMapController(player);
       playerController = new PlayerController(player, collisionController, this);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
