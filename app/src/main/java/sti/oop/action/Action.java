@@ -25,128 +25,133 @@ public class Action implements Actor {
         .getPlayerController().getPlayer().getMIN_ENERGY();
   }
 
-  public void autoSleep(int energyLeft) {
-    if (energyLeft == -20) {
-      new Sleep().sleep(farmController, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE);
+  public void sleepImmediately() {
+    new Sleep().sleep(farmController, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE);
+  }
+
+  public String autoSleep(int energyLeft) {
+    if (energyLeft == farmController.getPlayerController().getPlayer().getMIN_ENERGY()) {
+      sleepImmediately();
+      return "You were exhausted! You immediately went to sleep";
     }
+    return null;
   }
 
   @Override
-  public void act(Teleporter acted) {
+  public String act(Teleporter acted) {
     farmController.changeMap(acted.getDestination());
     farmController.getPlayerController().getPlayer().setY(acted.getDestinationY());
     farmController.getPlayerController().getPlayer().setX(acted.getDestinationX());
+    return null;
   }
 
   @Override
-  public void act(NPCArea acted) {
+  public String act(NPCArea acted) {
+    String actionResult = null;
     Marry marry = new Marry();
     Proposing proposing = new Proposing();
-    Gifting gift = new Gifting();
+    Gifting gifting = new Gifting();
     Chatting chatting = new Chatting();
-
-    if (acted.getChoosen_act() == null)
-      return;
     if (acted.getChoosen_act().equals("Marry")) {
       if (isActionDoable(marry)) {
-        marry.doMarry(farmController.getPlayerController().getPlayer(), acted.getNpc());
+        actionResult = marry.doMarry(farmController.getPlayerController().getPlayer(), acted.getNpc());
         autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
       } else {
-
+        actionResult = "How can you get married if you don't even have enough energy to walk";
       }
     } else if (acted.getChoosen_act().equals("Propose")) {
       if (isActionDoable(proposing)) {
-        proposing.doProposing(farmController.getPlayerController().getPlayer(), acted.getNpc());
+        actionResult = proposing.doProposing(farmController.getPlayerController().getPlayer(), acted.getNpc());
         autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
       } else {
-
+        actionResult = "Sleep first before you propose";
       }
     } else if (acted.getChoosen_act().equals("Chat")) {
-      if (isActionDoable(proposing)) {
-        chatting.doChatting(farmController.getPlayerController().getPlayer(), acted.getNpc());
+      if (isActionDoable(chatting)) {
+        actionResult = chatting.doChatting(farmController.getPlayerController().getPlayer(), acted.getNpc());
         autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
       } else {
-
+        actionResult = "You don't have enough energy to talk to people. Not right now, atleast.";
       }
     } else if (acted.getChoosen_act().equals("Gift")) {
-      if (isActionDoable(proposing)) {
-        gift.doGifting(farmController.getPlayerController().getPlayer(), acted.getNpc());
+      if (isActionDoable(gifting)) {
+        actionResult = gifting.doGifting(farmController.getPlayerController().getPlayer(), acted.getNpc());
         autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
       } else {
-
+        actionResult = "you can't give because you don't have enough energy";
       }
-
     }
+    return actionResult;
   }
 
   @Override
-  public void act(Land acted) {
-    if (isActionDoable(acted)) { 
+  public String act(Land acted) {
+    if (isActionDoable(acted)) {
       Player player = farmController.getPlayerController().getPlayer();
       Item onHandItem = player.getOnHandItem();
-      if (player.hasItemInHand("Hoe") || player.hasItemTypeInHand("SEED") || player.hasItemInHand("pickaxe") || player.hasItemInHand("WateringCan")) {
-        if (acted.getState().equals(LandState.TILLABLE_LAND)) { 
-          if (player.hasItemInHand("Hoe")) {
-            player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-            acted.changeLandState(LandState.TILLED_LAND);
-          }
-    
-          else {
-            System.out.println("You need a Hoe to till the land!");
-          }
-          // belum implement time
-        }
-    
-        else if (acted.getState().equals(LandState.TILLED_LAND)) {
-          if (player.hasItemTypeInHand("SEED")) { // nanti true ganti sama getitemOnHand, IF yang dipegang seed
-            player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-            acted.changeLandState(LandState.PLANTED_LAND);
-            acted.setSeed((Seed) onHandItem); // nanti ganti jadi seed on hand
-    
-            player.getInventory().removeItem(onHandItem, 1);
-            player.updateOnHandItem();
-          }
-    
-          else {
-            System.out.println("You need seeds to plant!");
-          }
-  
-          if (player.hasItemInHand("pickaxe")) {
-  
-          }
-          // if (item di tangan adalah pickaxe) {
-          // balik ke state TILLED LAND
-          // }
-        }
-    
-        else if (acted.getState().equals(LandState.PLANTED_LAND)) { // && PUNYA WATERING CAN
-          if (player.hasItemInHand("WateringCan")) {
-            player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-            acted.setDaysNotWatered(0);
-            acted.changeLandState(LandState.HARVESTABLE_LAND); // NANTI DIKOMEN, CUMA BUAT TESTING
-          } else {
-            System.out.println("You need a watering can to water the plant");
-          }
-        }
-    
-        else if (acted.getState().equals(LandState.HARVESTABLE_LAND)) {
-          player.getInventory().addItem(acted.getCrop(), 1);
-          acted.setCrop(null);
+      if (acted.getState().equals(LandState.TILLABLE_LAND)) {
+        if (player.hasItemInHand("Hoe")) {
+          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
           acted.changeLandState(LandState.TILLED_LAND);
+          return autoSleep(player.getEnergy());
+        } else {
+          return "You need a Hoe to till the land!";
         }
-        autoSleep(player.getEnergy());
-      } else {
-  
+        // belum implement time
       }
-        
+
+      else if (acted.getState().equals(LandState.TILLED_LAND)) {
+        if (player.hasItemTypeInHand("SEED")) { // nanti true ganti sama getitemOnHand, IF yang dipegang seed
+          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
+          acted.changeLandState(LandState.PLANTED_LAND);
+          acted.setSeed((Seed) onHandItem); // nanti ganti jadi seed on hand
+          player.getInventory().removeItem(onHandItem, 1);
+          player.updateOnHandItem();
+          return "You just planted " + onHandItem;
+        }
+
+        else if (player.hasItemInHand("pickaxe")) {
+          return null;
+        }
+
+        else {
+          return "You need seeds to plant or pickaxe to recover land!";
+        }
+        // if (item di tangan adalah pickaxe) {
+        // balik ke state TILLED LAND
+        // }
       }
+
+      else if (acted.getState().equals(LandState.PLANTED_LAND)) { // && PUNYA WATERING CAN
+        if (player.hasItemInHand("WateringCan")) {
+          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
+          acted.setDaysNotWatered(0);
+          acted.changeLandState(LandState.HARVESTABLE_LAND); // NANTI DIKOMEN, CUMA BUAT TESTING
+          return autoSleep(player.getEnergy());
+        } else {
+          return "You need a watering can to water the plant";
+        }
+      }
+
+      else if (acted.getState().equals(LandState.HARVESTABLE_LAND)) {
+        player.getInventory().addItem(acted.getCrop(), 1);
+        acted.setCrop(null);
+        acted.changeLandState(LandState.TILLED_LAND);
+        return "Harvested " + acted.getCrop() + ", it is now in your inventory";
+      }
+      return null;
+
+    } else {
+      return "you are too tired to farm today";
+    }
+
   }
 
   @Override
-  public void act(SleepingArea acted) {
+  public String act(SleepingArea acted) {
     Sleep sleep = new Sleep();
-    sleep.sleep(farmController,
-        acted.getSpawnAreaX(), acted.getSpawnAreaY());
+    sleep.sleep(farmController, acted.getSpawnAreaX(), acted.getSpawnAreaY());
+    return "Good morning";
   }
 
 }

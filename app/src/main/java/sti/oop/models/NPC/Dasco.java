@@ -34,7 +34,8 @@ public class Dasco extends NPC {
                 ItemRegistry.createItem("Wheat"),
                 ItemRegistry.createItem("Pufferfish"),
                 ItemRegistry.createItem("Salmon")
-            ) //hatedItems
+            ), //hatedItems
+            "LETSSS GOOOOO GAMBLINGGGG 🤑🤑🤑"
         );
     }
 }

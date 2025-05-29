@@ -3,10 +3,12 @@ package sti.oop.models;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
+import sti.oop.action.Sleep;
+import sti.oop.controllers.PlayerController;
 
 public class Farm {
   private String name;
-  private Player player;
+  private PlayerController playerController;
 
   /* Time Attributes */
   private int inGameHour = 6;
@@ -38,9 +40,9 @@ public class Farm {
 
   private Random random = new Random();
 
-  public Farm(Player player) {
-    this.player = player;
-    name = player.getFarmName();
+  public Farm(PlayerController playerController) {
+    this.playerController = playerController;
+    name = playerController.getPlayer().getFarmName();
   }
 
   public String getName() {
@@ -52,11 +54,7 @@ public class Farm {
   }
 
   public Player getPlayer() {
-    return player;
-  }
-
-  public void setPlayer(Player player) {
-    this.player = player;
+    return playerController.getPlayer();
   }
 
   /* -------------------------------------------------------------------------- */
@@ -65,6 +63,7 @@ public class Farm {
 
   public void updateTime() {
     if (timeFrozen) return;
+    if (inGameHour == 12 && timeOfDay.equals("AM")) playerController.getAction().sleepImmediately();
     inGameMinute += MINUTES_PER_SECOND;
     if (inGameMinute >= 60) {
       inGameHour += inGameMinute / 60;

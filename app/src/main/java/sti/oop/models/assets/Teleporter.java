@@ -24,8 +24,8 @@ public class Teleporter extends Asset implements Interactable, EnergyConsuming {
     this.destinationX = destinationX;
   }
 
-  public void accept(Action action) {
-    action.act(this);
+  public String accept(Action action) {
+    return action.act(this);
   }
 
   public MapName getDestination() {

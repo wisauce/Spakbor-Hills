@@ -32,7 +32,8 @@ public class Abigail extends NPC {
                 ItemRegistry.createItem("Cauliflower"),
                 ItemRegistry.createItem("Parsnip"),
                 ItemRegistry.createItem("Wheat")
-            ) //hatedItems
+            ), //hatedItems
+            "hi, i owns a store btw. You should check it out!"
         );
     }
 }

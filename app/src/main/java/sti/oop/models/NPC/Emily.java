@@ -36,7 +36,8 @@ public class Emily extends NPC {
             List.of(
                 ItemRegistry.createItem("Coal"),
                 ItemRegistry.createItem("Firewood")
-            ) //hatedItems
+            ), //hatedItems
+            "Sigh... I am thinking of getting a haircut at a Garut Barbershop but i don't know where"
         );
     }
 }

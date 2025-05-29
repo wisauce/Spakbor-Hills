@@ -9,27 +9,27 @@ public class Proposing implements EnergyConsuming{
     private final int REQUIRED_HEART_POINTS = 150;
     private final int ENERGY_COST_SUCCESS = 10;
     private final int ENERGY_COST_FAIL = 20;
-    private int requiredEnergy = ENERGY_COST_FAIL;
+    private int energyRequired = ENERGY_COST_FAIL;
 
     public boolean hasRequiredItems(Player player){
         return true; //player.getInventory().hasItem(new Item("Proposal Ring", "EQUIPMENT"));
     }
-    public void doProposing(Player player, NPC npc){
+    public String doProposing(Player player, NPC npc){
         if (npc.getHeartPoints() == REQUIRED_HEART_POINTS && hasRequiredItems(player) && npc.getRelationshipStatus().equalsIgnoreCase("Single") && player.getPartner() == null){
             int currEnergy = player.getEnergy() - ENERGY_COST_SUCCESS;
             player.setEnergy(currEnergy);
             npc.setRelationshipStatus("Fiance");
             
-            System.out.println("Congratulations! You and " + npc.getName() + " are now engaged!");
+            return "Congratulations! You and " + npc.getName() + " are now engaged!";
         }
         else{
             int currEnergy = player.getEnergy() - ENERGY_COST_FAIL;
             player.setEnergy(currEnergy);
-            System.out.println("Dont Be Sad! even though " + npc.getName() + " rejects you, you're still the G.O.A.T of love!");
+            return "Dont Be Sad! even though " + npc.getName() + " rejects you, you're still the G.O.A.T of love!";
         }
     }
     @Override
     public int getEnergyRequired() {
-      return requiredEnergy;
+      return energyRequired;
     }
 }

@@ -20,6 +20,8 @@ public class NPC {
   // attributes for rendering
   public Image NPCSpriteSheet;
 
+  private String conversation;
+
   public static final int NPCFrameWidth = 256;
   public static final int NPCFrameHeight = 256;
   public static int frameX = 0;
@@ -41,7 +43,7 @@ public class NPC {
   // private int hitboxWidth;
   // private int hitboxHeight;
 
-  public NPC(String name, Point location, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems) {
+  public NPC(String name, Point location, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, String conversation) {
     this.name = name;
     this.location = location;
     heartPoints = 0; 
@@ -50,6 +52,7 @@ public class NPC {
     this.hatedItems = hatedItems;
     relationshipStatus = "Single";
     loadSprite();
+    this.conversation = conversation;
 
     // hitboxWidth = 128;
     // hitboxHeight = 128;
@@ -171,5 +174,11 @@ public class NPC {
       return 0;
     }
   }
+
+  public String getConversation() {
+    return conversation;
+  }
+
+  
 
 }

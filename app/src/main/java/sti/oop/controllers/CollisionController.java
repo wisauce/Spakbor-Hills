@@ -34,7 +34,7 @@ public class CollisionController {
     currentCollisionMap = mapOfCollisionMaps.get(mapName);
   }
 
-  public void checkAssetCollision(List<Asset> assets, PlayerController playerController) {
+  public void checkAssetCollision(List<Asset> assets, PlayerController playerController, PanelController panelController ) {
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
     playerController.setCanInteract(false);
@@ -79,16 +79,15 @@ public class CollisionController {
               if (playerController.isKey2Pressed() && playerController.isCanInteract()) {
                 if (!playerController.isHasInteracted()) {
                   ((NPCArea) asset).setChoosen_act("Marry");
-                  ((NPCArea) asset).accept(playerController.getAction());
+                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
                   playerController.setHasInteracted(true);
-
                 }
               }
 
               if (playerController.isKey1Pressed() && playerController.isCanInteract()) {
                 if (!playerController.isHasInteracted()) {
                   ((NPCArea) asset).setChoosen_act("Propose");
-                  ((NPCArea) asset).accept(playerController.getAction());
+                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
                   playerController.setHasInteracted(true);
 
                 }
@@ -97,7 +96,7 @@ public class CollisionController {
               if (playerController.isKey3Pressed() && playerController.isCanInteract()) {
                 if (!playerController.isHasInteracted()) {
                   ((NPCArea) asset).setChoosen_act("Chat");
-                  ((NPCArea) asset).accept(playerController.getAction());
+                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
                   playerController.setHasInteracted(true);
 
                 }
@@ -106,7 +105,7 @@ public class CollisionController {
               if (playerController.isKey4Pressed() && playerController.isCanInteract()) {
                 if (!playerController.isHasInteracted()) {
                   ((NPCArea) asset).setChoosen_act("Gift");
-                  ((NPCArea) asset).accept(playerController.getAction());
+                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
                   playerController.setHasInteracted(true);
 
                 }
@@ -115,7 +114,7 @@ public class CollisionController {
           }
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
             if (!playerController.isHasInteracted()) {
-              ((Interactable) asset).accept(playerController.getAction());
+              panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
               playerController.setHasInteracted(true);
             }
           }

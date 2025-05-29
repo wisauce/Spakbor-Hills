@@ -27,7 +27,8 @@ public class MayorTadi extends NPC {
                 ItemRegistry.createItem("Glacierfish")
             ), //likedItems
 
-            getHatedItemsForMayorTadi() //hatedItems
+            getHatedItemsForMayorTadi(), //hatedItems
+            "i love gemoy people. btw don't forget to get your free lunch! it's good for your health"
         );
     }
 

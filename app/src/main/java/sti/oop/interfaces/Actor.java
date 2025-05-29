@@ -6,8 +6,8 @@ import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
 
 public interface Actor {
-  public void act(Teleporter acted);
-  public void act(NPCArea acted);
-  public void act(Land acted);
-  public void act(SleepingArea acted);
+  public String act(Teleporter acted);
+  public String act(NPCArea acted);
+  public String act(Land acted);
+  public String act(SleepingArea acted);
 }
