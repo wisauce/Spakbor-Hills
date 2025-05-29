@@ -1,4 +1,4 @@
-package sti.oop.utils;
+    package sti.oop.utils;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -32,14 +32,20 @@ public class ItemSpriteManager {
     /*  https://stackoverflow.com/questions/2420389/static-initialization-blocks  */
     static {
 
-        // itemByCategory.put("SEED", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
-        // itemByCategory.put("FISH", new String[]{""Angler", "Crimsonfish", "Glacierfish", "Legend"});
-        // itemByCategory.put("CROP", new String[]{"Parsnip", "Cauliflower", "Potato", "Wheat", "Blueberry", "Tomato", "HotPepper", "Melon", "Cranberry", "Pumpkin", "Grape"});
-        // itemByCategory.put("FOOD", new String[]{"FishNChips", "Baguette", "Sashimi", "Fugu", "Wine", "PumpkinPie", "VeggieSoup", "FishStew", "SpakborSalad", "FishSandwich", "TheLegendsOfSpakbor", "CookedPigsHead"});
-        // itemByCategory.put("EQUIPMENT", new String[]{"Hoe", "WateringCan", "Pickaxe", "FishingRod"});
-        // itemByCategory.put("MISC", new String[]{"Coal", "Firewood"});
 
         /* Seed */
+
+        SPRITE_POSITIONS.put("SEED_ParsnipSeeds", new SpritePosition(5, 14));
+        SPRITE_POSITIONS.put("SEED_CauliflowerSeeds", new SpritePosition(22, 23));
+        SPRITE_POSITIONS.put("SEED_PotatoSeeds", new SpritePosition(23, 29));
+        SPRITE_POSITIONS.put("SEED_WheatSeeds", new SpritePosition(23, 31));
+        SPRITE_POSITIONS.put("SEED_BlueberrySeeds", new SpritePosition(13, 24));
+        SPRITE_POSITIONS.put("SEED_TomatoSeeds", new SpritePosition(23, 26));
+        SPRITE_POSITIONS.put("SEED_HotPepperSeeds", new SpritePosition(20, 22));
+        SPRITE_POSITIONS.put("SEED_MelonSeeds", new SpritePosition(9, 26));
+        SPRITE_POSITIONS.put("SEED_CranberrySeeds", new SpritePosition(21, 13));
+        SPRITE_POSITIONS.put("SEED_PumpkinSeeds", new SpritePosition(21, 29));
+        SPRITE_POSITIONS.put("SEED_GrapeSeeds", new SpritePosition(23, 27));
 
 
         /* Fish */
@@ -68,7 +74,34 @@ public class ItemSpriteManager {
 
         /* Crop */
 
+        SPRITE_POSITIONS.put("CROP_Parsnip", new SpritePosition(5, 12));
+        SPRITE_POSITIONS.put("CROP_Cauliflower", new SpritePosition(22, 22));
+        SPRITE_POSITIONS.put("CROP_Potato", new SpritePosition(23, 9));
+        SPRITE_POSITIONS.put("CROP_Wheat", new SpritePosition(24, 17));
+        SPRITE_POSITIONS.put("CROP_Blueberry", new SpritePosition(13, 23));
+        SPRITE_POSITIONS.put("CROP_Tomato", new SpritePosition(24, 13));
+        SPRITE_POSITIONS.put("CROP_HotPepper", new SpritePosition(20, 19));
+        SPRITE_POSITIONS.put("CROP_Melon", new SpritePosition(9, 24));
+        SPRITE_POSITIONS.put("CROP_Cranberry", new SpritePosition(21, 11));
+        SPRITE_POSITIONS.put("CROP_Pumpkin", new SpritePosition(21, 25));
+        SPRITE_POSITIONS.put("CROP_Grape", new SpritePosition(13, 17));
+
+
         /* Food */
+
+        SPRITE_POSITIONS.put("FOOD_FishnChips", new SpritePosition(23, 17));
+        SPRITE_POSITIONS.put("FOOD_Baguette", new SpritePosition(21, 22));
+        SPRITE_POSITIONS.put("FOOD_Sashimi", new SpritePosition(23, 18));
+        SPRITE_POSITIONS.put("FOOD_Fugu", new SpritePosition(14, 6));
+        SPRITE_POSITIONS.put("FOOD_Wine", new SpritePosition(13, 11));
+        SPRITE_POSITIONS.put("FOOD_PumpkinPie", new SpritePosition(21, 27));
+        SPRITE_POSITIONS.put("FOOD_VeggieSoup", new SpritePosition(1, 10));
+        SPRITE_POSITIONS.put("FOOD_FishStew", new SpritePosition(19, 20));
+        SPRITE_POSITIONS.put("FOOD_SpakborSalad", new SpritePosition(15, 13));
+        SPRITE_POSITIONS.put("FOOD_FishSandwich", new SpritePosition(11, 30));
+        SPRITE_POSITIONS.put("FOOD_TheLegendsOfSpakbor", new SpritePosition(18, 16));
+        SPRITE_POSITIONS.put("FOOD_CookedPigsHead", new SpritePosition(31, 13));
+
 
         /* Equipment */
         SPRITE_POSITIONS.put("EQUIPMENT_Hoe", new SpritePosition(22,27));

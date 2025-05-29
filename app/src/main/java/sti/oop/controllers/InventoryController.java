@@ -252,7 +252,7 @@ public class InventoryController {
   }
 
   public void handleHotbarDeselection() {
-    updateInventoryDisplay();
+    updateInventoryDisplay(); 
   }
 
   /* -------------------------------------------------------------------------- */
