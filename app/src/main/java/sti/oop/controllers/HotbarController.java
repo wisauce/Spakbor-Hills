@@ -16,8 +16,10 @@ public class HotbarController {
     private ImageView onHandItemDisplay;
     private Label onHandItemName;
     private HBox hotbarContainer;
+    private Player player;
     
-    public HotbarController() {
+    public HotbarController(Player player) {
+        this.player = player;
         createHotbar();
     }
     
@@ -36,7 +38,21 @@ public class HotbarController {
         itemContainer.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-background-radius: 10;");
         itemContainer.setPadding(new Insets(10));
         itemContainer.getChildren().addAll(onHandItemDisplay, onHandItemName);
-        
+
+        itemContainer.setOnMouseEntered(e -> {
+            if (player.getOnHandItem() != null) {
+                itemContainer.setStyle("-fx-background-color: rgba(255,0,0,0.3); -fx-background-radius: 10;");
+            }
+        });
+
+        itemContainer.setOnMouseExited(e -> {
+            itemContainer.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-background-radius: 10;");
+        });
+
+        itemContainer.setOnMouseClicked(e -> {
+            deselectOnHandItem();
+        });
+
         hotbarContainer = new HBox();
         hotbarContainer.getChildren().add(itemContainer);
     }
@@ -56,6 +72,15 @@ public class HotbarController {
         else {
             onHandItemDisplay.setImage(null);
             onHandItemName.setText("Empty");
+        }
+    }
+
+    private void deselectOnHandItem() {
+        if (player.getOnHandItem() != null) {
+            player.setOnHandItem(null);
+            player.setOnHandInventoryIndex(-1);
+
+            updateOnHandDisplay(player);
         }
     }
 }
