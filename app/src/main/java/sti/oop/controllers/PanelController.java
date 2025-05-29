@@ -16,6 +16,7 @@ public class PanelController {
   StackPane bottomPanel;
   HBox buttonPanel;
   VBox dialogBox;
+  private Timeline currentTimeline; // <--- simpan timeline aktif
 
   public PanelController(StackPane bottomPanel, HBox buttonPanel, VBox dialogBox) {
     this.bottomPanel = bottomPanel;
@@ -29,7 +30,7 @@ public class PanelController {
 
       if (first instanceof Label dialogText) {
         dialogText.setText(message);
-        dialogText.setWrapText(true); // just in case
+        dialogText.setWrapText(true);
       }
 
       dialogBox.setVisible(true);
@@ -38,15 +39,21 @@ public class PanelController {
       buttonPanel.setVisible(false);
       buttonPanel.setManaged(false);
 
-      Timeline timeline = new Timeline(new KeyFrame(
+      // Stop timeline lama kalau ada
+      if (currentTimeline != null) {
+        currentTimeline.stop();
+      }
+
+      currentTimeline = new Timeline(new KeyFrame(
         Duration.seconds(3),
         event -> {
           dialogBox.setVisible(false);
           dialogBox.setManaged(false);
+          currentTimeline = null; // bersihkan
         }
       ));
-      timeline.setCycleCount(1);
-      timeline.play();
+      currentTimeline.setCycleCount(1);
+      currentTimeline.play();
     }
   }
 
@@ -59,6 +66,12 @@ public class PanelController {
 
     dialogBox.setVisible(false);
     dialogBox.setManaged(false);
+
+    // Matikan timeline kalau pindah ke tombol
+    if (currentTimeline != null) {
+      currentTimeline.stop();
+      currentTimeline = null;
+    }
   }
 
   public void hideAllBottom() {
@@ -66,5 +79,11 @@ public class PanelController {
     dialogBox.setManaged(false);
     buttonPanel.setVisible(false);
     buttonPanel.setManaged(false);
+
+    // Stop timeline kalau panel disembunyikan secara paksa
+    if (currentTimeline != null) {
+      currentTimeline.stop();
+      currentTimeline = null;
+    }
   }
 }

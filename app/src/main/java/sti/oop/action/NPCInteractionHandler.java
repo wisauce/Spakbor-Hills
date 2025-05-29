@@ -5,13 +5,14 @@ import sti.oop.models.assets.NPCArea;
 
 public class NPCInteractionHandler {
   private PlayerController playerController;
+  private boolean hasInstructionShowed = false;
 
   public NPCInteractionHandler(PlayerController playerController) {
     this.playerController = playerController;
   }
 
   public String handleInteraction(NPCArea npcArea) {
-    if (playerController.isToggled() && playerController.isCanInteract() && !playerController.isHasInteracted()) {
+    if (playerController.isToggled()) {
       String result = null;
 
       if (playerController.isKey1Pressed()) {
@@ -25,9 +26,14 @@ public class NPCInteractionHandler {
       }
 
       if (result != null) {
-        playerController.setHasInteracted(true); // supaya gak repeat
         playerController.toggle(); // keluar dari interaction mode
+        hasInstructionShowed = false;
         return result;
+      }
+
+      if (!hasInstructionShowed) {
+        hasInstructionShowed = true;
+        return "1: Chat    2: Gift    3: Propose    4: Marry";
       }
     }
     return null;

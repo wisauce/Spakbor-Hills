@@ -20,7 +20,7 @@ public class PlayerController implements Renderable {
   private CollisionController collisionController;
   private FarmController farmController;
   private Action action;
-  
+
   /* Key Attributes */
   private boolean keyLeftPressed = false;
   private boolean keyRightPressed = false;
@@ -32,8 +32,7 @@ public class PlayerController implements Renderable {
   private boolean key3Pressed = false;
   private boolean key4Pressed = false;
   private boolean toggleInteraction = false;
-  
-  private boolean canInteract = false;
+  private boolean justInteracted = false;
 
   public void toggle() {
     toggleInteraction = !toggleInteraction;
@@ -53,7 +52,14 @@ public class PlayerController implements Renderable {
   private final int playerFrameHeight = 32;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
   private boolean noCollidingAsset = true;
-  private boolean hasInteracted = false;
+
+  public boolean isJustInteracted() {
+    return justInteracted;
+  }
+
+  public void clearJustInteracted() {
+    justInteracted = false;
+  }
 
   /* Collision Attributes */
   private final int hitboxOffsetX = (int) (11 * Constants.TILE_SIZE / playerFrameHeight);
@@ -89,7 +95,7 @@ public class PlayerController implements Renderable {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                            Input Keyboard Logics                           */
+  /* Input Keyboard Logics */
   /* -------------------------------------------------------------------------- */
 
   public void keyHandler() {
@@ -242,11 +248,36 @@ public class PlayerController implements Renderable {
         case KeyCode.D -> keyRightPressed = true;
         case KeyCode.F -> farmController.toggleInventory();
         case KeyCode.SHIFT -> player.setRun(true);
-        case KeyCode.E -> keyEPressed = true;
-        case KeyCode.DIGIT1 -> key1Pressed = true;
-        case KeyCode.DIGIT2 -> key2Pressed = true;
-        case KeyCode.DIGIT3 -> key3Pressed = true;
-        case KeyCode.DIGIT4 -> key4Pressed = true;
+        case KeyCode.E -> {
+          if (!keyEPressed) {
+            justInteracted = true;
+          }
+          keyEPressed = true;
+        }
+                case KeyCode.DIGIT1 -> {
+          if (!key1Pressed) {
+            justInteracted = true;
+          }
+          key1Pressed = true;
+        }
+                case KeyCode.DIGIT2 -> {
+          if (!key2Pressed) {
+            justInteracted = true;
+          }
+          key2Pressed = true;
+        }
+                case KeyCode.DIGIT3 -> {
+          if (!key3Pressed) {
+            justInteracted = true;
+          }
+          key3Pressed = true;
+        }
+                case KeyCode.DIGIT4 -> {
+          if (!key4Pressed) {
+            justInteracted = true;
+          }
+          key4Pressed = true;
+        }
         default -> {
         }
       }
@@ -266,19 +297,27 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
-        case KeyCode.E -> {keyEPressed = false; hasInteracted =  false;}
-        case KeyCode.DIGIT1 -> {key1Pressed = false; hasInteracted =  false;}
-        case KeyCode.DIGIT2 -> {key2Pressed = false; hasInteracted =  false;}
-        case KeyCode.DIGIT3 -> {key3Pressed = false; hasInteracted =  false;}
-        case KeyCode.DIGIT4 -> {key4Pressed = false; hasInteracted =  false;}
-        
+        case KeyCode.E -> {
+          keyEPressed = false;
+        }
+        case KeyCode.DIGIT1 -> {
+          key1Pressed = false;
+        }
+        case KeyCode.DIGIT2 -> {
+          key2Pressed = false;
+        }
+        case KeyCode.DIGIT3 -> {
+          key3Pressed = false;
+        }
+        case KeyCode.DIGIT4 -> {
+          key4Pressed = false;
+        }
+
         default -> {
         }
       }
     });
   }
-
-  
 
   @Override
   // Contoh di PlayerController.java
@@ -302,9 +341,8 @@ public class PlayerController implements Renderable {
     gc.strokeRect(screenHitboxX, screenHitboxY, solidArea.getWidth(), solidArea.getHeight());
   }
 
-
   /* -------------------------------------------------------------------------- */
-  /*                           Attribute Getter Setter                          */
+  /* Attribute Getter Setter */
   /* -------------------------------------------------------------------------- */
 
   public Player getPlayer() {
@@ -359,58 +397,38 @@ public class PlayerController implements Renderable {
     return keyUpPressed;
   }
 
-  public void setCanInteract(boolean canInteract) {
-    this.canInteract = canInteract;
-  }
-
-  public boolean isKeyEPressed() {
-    return keyEPressed;
-  }
-
-  public boolean isCanInteract() {
-    return canInteract;
-  }
-
   public Action getAction() {
     return action;
   }
 
-  public boolean isHasInteracted() {
-    return hasInteracted;
-  }
-
-  public void setHasInteracted(boolean hasInteracted) {
-    this.hasInteracted = hasInteracted;
-  }
-
   /* -------------------------------------------------------------------------- */
-  /*                                Hotbar Logics                               */
+  /* Hotbar Logics */
   /* -------------------------------------------------------------------------- */
-  
+
   @FXML
   public void handleKeyPress(KeyEvent event) {
-      if (event.getCode() == KeyCode.DIGIT1) {
-          cycleToNextItem();
-          event.consume();
-      }
+    if (event.getCode() == KeyCode.DIGIT1) {
+      cycleToNextItem();
+      event.consume();
+    }
   }
-  
+
   private void cycleToNextItem() {
-      Inventory inventory = player.getInventory();
-      int totalItems = inventory.getAllItem().size();
-      
-      if (totalItems > 0) {
-          int nextIndex = (player.getOnHandInventoryIndex() + 1) % totalItems;
-          player.setOnHandInventoryIndex(nextIndex);
+    Inventory inventory = player.getInventory();
+    int totalItems = inventory.getAllItem().size();
 
-          Item currentItem = player.getOnHandItem();
-          if (currentItem != null) {
-            System.out.println("Switched to: " + currentItem.getItemName());
-          } 
+    if (totalItems > 0) {
+      int nextIndex = (player.getOnHandInventoryIndex() + 1) % totalItems;
+      player.setOnHandInventoryIndex(nextIndex);
 
-          else {
-            System.out.println("No item selected");
-          }
+      Item currentItem = player.getOnHandItem();
+      if (currentItem != null) {
+        System.out.println("Switched to: " + currentItem.getItemName());
       }
+
+      else {
+        System.out.println("No item selected");
+      }
+    }
   }
 }

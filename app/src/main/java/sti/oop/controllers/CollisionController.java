@@ -35,9 +35,9 @@ public class CollisionController {
 
   public void checkAssetCollision(List<Asset> assets, PlayerController playerController,
       PanelController panelController) {
+    boolean collidedWithInteractable = false;
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
-    playerController.setCanInteract(false);
     for (Asset asset : assets) {
       Rectangle tempArea = new Rectangle(
           playerController.getSolidArea().getX(),
@@ -66,29 +66,36 @@ public class CollisionController {
         if (asset.isCollisionOn()) {
           playerController.setnoCollidingAsset(false);
         } else {
-          playerController.setCanInteract(true);
+          collidedWithInteractable = true; // <-- tandai kalau sedang nabrak asset
+
           if (playerController.isToggled()) {
             panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
           }
-          if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
-            if (!playerController.isHasInteracted()) {
-              Interactable interactable = (Interactable) asset;
-              String dialog = interactable.accept(playerController.getAction());
 
-              if (interactable.multipleInput()) {
-                playerController.toggle(); // masuk ke interaction mode
-                playerController.setHasInteracted(true); // supaya E gak bisa dipencet berkali-kali
-              } else if (dialog != null) {
-                panelController.showDialog(dialog); // langsung tampilkan hasilnya
-                playerController.setHasInteracted(true);
-              }
+          if (playerController.isJustInteracted()) {
+            Interactable interactable = (Interactable) asset;
+            String dialog = interactable.accept(playerController.getAction());
+
+            if (interactable.multipleInput()) {
+              playerController.toggle(); // masuk ke interaction mode
+            } else if (dialog != null) {
+              panelController.showDialog(dialog);
             }
           }
-
         }
-        break; // No need to check more if collision is found
+        break; // keluar dari loop kalau sudah collision
       }
-
     }
+
+    // Setelah loop selesai
+    boolean isMoving = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
+        || playerController.isKeyRightPressed() || playerController.isKeyUpPressed());
+    if (isMoving && playerController.isToggled()) {
+      playerController.toggle(); // matikan toggle kalau player sudah keluar dari area
+    }
+    if (isMoving) {
+      panelController.hideAllBottom();
+    }
+    playerController.clearJustInteracted();
   }
 }
