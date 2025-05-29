@@ -8,7 +8,6 @@ import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.CollisionMap;
 import sti.oop.models.Interactable;
 import sti.oop.models.assets.Asset;
-import sti.oop.models.assets.NPCArea;
 import sti.oop.utils.Constants;
 
 // import sti.oop.models.Constants;
@@ -34,7 +33,8 @@ public class CollisionController {
     currentCollisionMap = mapOfCollisionMaps.get(mapName);
   }
 
-  public void checkAssetCollision(List<Asset> assets, PlayerController playerController, PanelController panelController ) {
+  public void checkAssetCollision(List<Asset> assets, PlayerController playerController,
+      PanelController panelController) {
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
     playerController.setCanInteract(false);
@@ -67,57 +67,24 @@ public class CollisionController {
           playerController.setnoCollidingAsset(false);
         } else {
           playerController.setCanInteract(true);
-          if (asset instanceof NPCArea) {
-            if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
-              if (!playerController.isHasInteracted()) {
-                playerController.setMarryAcceptingKey(true);
-                playerController.setHasInteracted(true);
-              }
-            }
-            // System.out.println(playerController.isMarryAcceptingKey());
-            if (playerController.isMarryAcceptingKey()) {
-              if (playerController.isKey2Pressed() && playerController.isCanInteract()) {
-                if (!playerController.isHasInteracted()) {
-                  ((NPCArea) asset).setChoosen_act("Marry");
-                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
-                  playerController.setHasInteracted(true);
-                }
-              }
-
-              if (playerController.isKey1Pressed() && playerController.isCanInteract()) {
-                if (!playerController.isHasInteracted()) {
-                  ((NPCArea) asset).setChoosen_act("Propose");
-                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
-                  playerController.setHasInteracted(true);
-
-                }
-              }
-
-              if (playerController.isKey3Pressed() && playerController.isCanInteract()) {
-                if (!playerController.isHasInteracted()) {
-                  ((NPCArea) asset).setChoosen_act("Chat");
-                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
-                  playerController.setHasInteracted(true);
-
-                }
-              }
-
-              if (playerController.isKey4Pressed() && playerController.isCanInteract()) {
-                if (!playerController.isHasInteracted()) {
-                  ((NPCArea) asset).setChoosen_act("Gift");
-                  panelController.showDialog(((NPCArea) asset).accept(playerController.getAction()));
-                  playerController.setHasInteracted(true);
-
-                }
-              }
-            }
+          if (playerController.isToggled()) {
+            panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
           }
           if (playerController.isKeyEPressed() && playerController.isCanInteract()) {
             if (!playerController.isHasInteracted()) {
-              panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
-              playerController.setHasInteracted(true);
+              Interactable interactable = (Interactable) asset;
+              String dialog = interactable.accept(playerController.getAction());
+
+              if (interactable.multipleInput()) {
+                playerController.toggle(); // masuk ke interaction mode
+                playerController.setHasInteracted(true); // supaya E gak bisa dipencet berkali-kali
+              } else if (dialog != null) {
+                panelController.showDialog(dialog); // langsung tampilkan hasilnya
+                playerController.setHasInteracted(true);
+              }
             }
           }
+
         }
         break; // No need to check more if collision is found
       }

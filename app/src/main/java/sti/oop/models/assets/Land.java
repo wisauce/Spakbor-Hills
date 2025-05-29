@@ -106,6 +106,11 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
     return energyRequired;
   }
 
+  @Override
+  public boolean multipleInput() {
+    return false;
+  }
+
   
 
 

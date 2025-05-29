@@ -15,6 +15,7 @@ public class Proposing implements EnergyConsuming{
         return true; //player.getInventory().hasItem(new Item("Proposal Ring", "EQUIPMENT"));
     }
     public String doProposing(Player player, NPC npc){
+      if (player.getEnergy() >= energyRequired) {
         if (npc.getHeartPoints() == REQUIRED_HEART_POINTS && hasRequiredItems(player) && npc.getRelationshipStatus().equalsIgnoreCase("Single") && player.getPartner() == null){
             int currEnergy = player.getEnergy() - ENERGY_COST_SUCCESS;
             player.setEnergy(currEnergy);
@@ -27,6 +28,9 @@ public class Proposing implements EnergyConsuming{
             player.setEnergy(currEnergy);
             return "Dont Be Sad! even though " + npc.getName() + " rejects you, you're still the G.O.A.T of love!";
         }
+      } else {
+        return "you can not propose if you're don't even have enough energy";
+      }
     }
     @Override
     public int getEnergyRequired() {

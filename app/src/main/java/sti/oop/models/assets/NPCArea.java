@@ -29,4 +29,10 @@ public class NPCArea extends Asset implements Interactable {
   public void setChoosen_act(String choosen_act) {
     this.choosen_act = choosen_act;
   }
+
+  @Override
+  public boolean multipleInput() {
+    return true;
+  }
+  
 }

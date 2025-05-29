@@ -13,5 +13,10 @@ public class FishingArea extends Asset implements Interactable {
   public String accept(Action action) {
     return "apa kekk";
   }
+
+  @Override
+  public boolean multipleInput() {
+    return true;
+  }
   
 }

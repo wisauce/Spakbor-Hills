@@ -9,11 +9,15 @@ public class Chatting implements EnergyConsuming {
   private static final int HEART_POINTS_SUPP = 10;
 
   public String doChatting(Player player, NPC npc) {
-    int chatEnergy = player.getEnergy() - energyRequired;
-    player.setEnergy(chatEnergy);
-    int chatHeartsPoints = npc.getHeartPoints() + HEART_POINTS_SUPP;
-    npc.setHeartPoints(chatHeartsPoints);
-    return npc.getName() + ": " + npc.getConversation();
+    if (player.getEnergy() >= energyRequired) {
+      int chatEnergy = player.getEnergy() - energyRequired;
+      player.setEnergy(chatEnergy);
+      int chatHeartsPoints = npc.getHeartPoints() + HEART_POINTS_SUPP;
+      npc.setHeartPoints(chatHeartsPoints);
+      return npc.getName() + ": " + npc.getConversation();
+    } else {
+      return "your social battery ran out. Sleep might be a good idea";
+    }
   }
 
   @Override

@@ -44,6 +44,11 @@ public class Teleporter extends Asset implements Interactable, EnergyConsuming {
   public int getDestinationY() {
     return destinationY;
   }
+
+  @Override
+  public boolean multipleInput() {
+    return false;
+  }
  
   
 }
