@@ -169,8 +169,9 @@ private StackPane BottomPanel;
             }
             
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            
             gameMapController.render(gc);
+            if (playerController.isToggled()) {
+            }
             
             
             renderNPCs();

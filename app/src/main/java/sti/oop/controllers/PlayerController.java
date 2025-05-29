@@ -31,16 +31,16 @@ public class PlayerController implements Renderable {
   private boolean key2Pressed = false;
   private boolean key3Pressed = false;
   private boolean key4Pressed = false;
-  private boolean isMarryAcceptingKey = false;
+  private boolean toggleInteraction = false;
   
   private boolean canInteract = false;
 
-  public boolean isMarryAcceptingKey() {
-    return isMarryAcceptingKey;
+  public void toggle() {
+    toggleInteraction = !toggleInteraction;
   }
 
-  public void setMarryAcceptingKey(boolean isMarryAcceptingKey) {
-    this.isMarryAcceptingKey = isMarryAcceptingKey;
+  public boolean isToggled() {
+    return toggleInteraction;
   }
 
   /* Render Attributes */
@@ -229,12 +229,6 @@ public class PlayerController implements Renderable {
       }
     } else {
       idleCounter = 0;
-    }
-
-    if (canInteract) {
-      farmController.getInteractionNotification().setVisible(true);
-    } else {
-      farmController.getInteractionNotification().setVisible(false);
     }
   }
 

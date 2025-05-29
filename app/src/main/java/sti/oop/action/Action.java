@@ -32,7 +32,7 @@ public class Action implements Actor {
   public String autoSleep(int energyLeft) {
     if (energyLeft == farmController.getPlayerController().getPlayer().getMIN_ENERGY()) {
       sleepImmediately();
-      return "You were exhausted! You immediately went to sleep";
+      return "You were exhausted! You immediately went to sleep.";
     }
     return null;
   }
@@ -47,41 +47,7 @@ public class Action implements Actor {
 
   @Override
   public String act(NPCArea acted) {
-    String actionResult = null;
-    Marry marry = new Marry();
-    Proposing proposing = new Proposing();
-    Gifting gifting = new Gifting();
-    Chatting chatting = new Chatting();
-    if (acted.getChoosen_act().equals("Marry")) {
-      if (isActionDoable(marry)) {
-        actionResult = marry.doMarry(farmController.getPlayerController().getPlayer(), acted.getNpc());
-        autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
-      } else {
-        actionResult = "How can you get married if you don't even have enough energy to walk";
-      }
-    } else if (acted.getChoosen_act().equals("Propose")) {
-      if (isActionDoable(proposing)) {
-        actionResult = proposing.doProposing(farmController.getPlayerController().getPlayer(), acted.getNpc());
-        autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
-      } else {
-        actionResult = "Sleep first before you propose";
-      }
-    } else if (acted.getChoosen_act().equals("Chat")) {
-      if (isActionDoable(chatting)) {
-        actionResult = chatting.doChatting(farmController.getPlayerController().getPlayer(), acted.getNpc());
-        autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
-      } else {
-        actionResult = "You don't have enough energy to talk to people. Not right now, atleast.";
-      }
-    } else if (acted.getChoosen_act().equals("Gift")) {
-      if (isActionDoable(gifting)) {
-        actionResult = gifting.doGifting(farmController.getPlayerController().getPlayer(), acted.getNpc());
-        autoSleep(farmController.getPlayerController().getPlayer().getEnergy());
-      } else {
-        actionResult = "you can't give because you don't have enough energy";
-      }
-    }
-    return actionResult;
+    return new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted);
   }
 
   @Override
@@ -153,5 +119,7 @@ public class Action implements Actor {
     sleep.sleep(farmController, acted.getSpawnAreaX(), acted.getSpawnAreaY());
     return "Good morning";
   }
+
+  
 
 }

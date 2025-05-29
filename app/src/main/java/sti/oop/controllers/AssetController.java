@@ -56,7 +56,7 @@ public class AssetController {
     mapOfListOfAssets.put(MapName.WORLD, assetsOnWorld);
 
 
-    currentAssets = mapOfListOfAssets.get(MapName.WORLD);
+    currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
 
   }

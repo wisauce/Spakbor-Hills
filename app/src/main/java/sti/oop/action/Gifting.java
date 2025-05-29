@@ -10,9 +10,13 @@ public class Gifting implements EnergyConsuming {
   public String doGifting(Player player, NPC npc) {
     // npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(new
     // Item(null, null)));
-    npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(null));
-    player.setEnergy(player.getEnergy() - 10);
-    return npc.getName() + " is happy with your gift!";
+    if (player.getEnergy() >= energyRequired) {
+      npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(null));
+      player.setEnergy(player.getEnergy() - 10);
+      return npc.getName() + " is happy with your gift!";
+    } else {
+      return "i think sleeping is a better idea";
+    }
   }
 
   @Override

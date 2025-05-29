@@ -27,5 +27,10 @@ public class SleepingArea extends Asset implements Interactable {
     return spawnAreaY;
   }
 
+  @Override
+  public boolean multipleInput() {
+    return false;
+  }
+
   
 }
