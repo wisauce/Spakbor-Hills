@@ -44,14 +44,21 @@ public class AssetController {
     assetsOnFarm.addAll(landSetter.setLandOnFarm());
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);
 
-    /*Initialze house */
+    /*Initialize house */
     List<Asset> assetsOnHome = new ArrayList<>();
     assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, MapName.FARM, teleportToHouse.getX(), teleportToHouse.getY()));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 9 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);
+
+    /*Initialize World*/
+    List<Asset> assetsOnWorld = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.WORLD, assetsOnWorld);
+
+
     currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
+
   }
 
   public List<Asset> getAssets() {

@@ -19,7 +19,9 @@ public class CollisionController {
   public CollisionController() {
     mapOfCollisionMaps = Map.ofEntries(
         Map.entry(MapName.FARM, new CollisionMap("/maps/farmCollision.txt")),
-        Map.entry(MapName.HOUSE, new CollisionMap("/maps/housecollisionnew.txt")));
+        Map.entry(MapName.HOUSE, new CollisionMap("/maps/housecollisionnew.txt")),
+        Map.entry(MapName.WORLD,new CollisionMap("/maps/worldCollision.txt"))
+        );
     currentCollisionMap = mapOfCollisionMaps.get(MapName.FARM);
   }
 
