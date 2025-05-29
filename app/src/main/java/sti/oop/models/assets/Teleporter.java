@@ -4,18 +4,24 @@ import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Interactable;
 
-public class Teleporter extends Asset implements Interactable, EnergyConsuming{
+public class Teleporter extends Asset implements Interactable, EnergyConsuming {
   MapName destination;
   int energyRequired;
+  int destinationX;
+  int destinationY;
 
-  public Teleporter(int x, int y, int w, int h, MapName destination) {
+  public Teleporter(int x, int y, int w, int h, MapName destination, int destinationX, int destinationY) {
     super(x, y, w, h, false);
     this.destination = destination;
+    this.destinationX = destinationX;
+    this.destinationY = destinationY;
   }
 
-  public Teleporter(int x, int y, MapName destination) {
+  public Teleporter(int x, int y, MapName destination, int destinationX, int destinationY) {
     super(x, y, false);
     this.destination = destination;
+    this.destinationY = destinationY;
+    this.destinationX = destinationX;
   }
 
   public void accept(Action action) {
@@ -30,5 +36,14 @@ public class Teleporter extends Asset implements Interactable, EnergyConsuming{
   public int getEnergyRequired() {
     return energyRequired;
   }
+
+  public int getDestinationX() {
+    return destinationX;
+  }
+
+  public int getDestinationY() {
+    return destinationY;
+  }
+ 
   
 }

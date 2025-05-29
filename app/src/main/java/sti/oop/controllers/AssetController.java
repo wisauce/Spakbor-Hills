@@ -32,12 +32,12 @@ public class AssetController {
     /*Initialze farmMap */
     List<Asset> assetsOnFarm = new ArrayList<>();
     RandomizeFarm farmMap = new RandomizeFarm();
-    farmMap.generateMap(farmMap);
-
     assetsOnFarm.add(new NPCArea(new Dasco()));
+    farmMap.generateMap(farmMap);
     House house = new House(farmMap);
     assetsOnFarm.add(house);
-    assetsOnFarm.add(new Teleporter(house.getX() - Constants.TILE_SIZE,house.getY() - Constants.TILE_SIZE, (int) (house.getSolidArea().getWidth() + 2 *Constants.TILE_SIZE), (int) (house.getSolidArea().getHeight() + 2 * Constants.TILE_SIZE), MapName.HOUSE));
+    Teleporter teleportToHouse = new Teleporter(house.getX() + (int) (2.5 * Constants.TILE_SIZE),house.getY() + 6 * Constants.TILE_SIZE, MapName.HOUSE, 16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE);
+    assetsOnFarm.add(teleportToHouse);
     assetsOnFarm.add(new Pond(farmMap));
     assetsOnFarm.add(new ShippingBin(farmMap));
     LandSetter landSetter = new LandSetter();
@@ -46,7 +46,7 @@ public class AssetController {
 
     /*Initialze house */
     List<Asset> assetsOnHome = new ArrayList<>();
-    assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, 1 * Constants.TILE_SIZE, Constants.TILE_SIZE, MapName.FARM));
+    assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, MapName.FARM, teleportToHouse.getX(), teleportToHouse.getY()));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 9 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);

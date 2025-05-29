@@ -30,8 +30,6 @@ public class GameMapController {
 
   public void setCurrentMap(MapName mapName) {
     currentMap = mapOfGameMaps.get(mapName);
-    player.setX(currentMap.getPlayerStartingPositionX());
-    player.setY(currentMap.getPlayerStartingPositionY());
   }
 
   public void render(GraphicsContext gc) {
