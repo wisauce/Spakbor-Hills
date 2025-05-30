@@ -44,6 +44,7 @@ public class AssetController {
     assetsOnFarm.add(new PondArea(pond));
     assetsOnFarm.add(new ShippingBin(farmMap));
     assetsOnFarm.addAll(lands);
+    assetsOnFarm.add(new Teleporter(29 * Constants.TILE_SIZE, 43* Constants.TILE_SIZE, 2* Constants.TILE_SIZE, 1* Constants.TILE_SIZE, MapName.WORLD, 1* Constants.TILE_SIZE, 47* Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);
 
     /*Initialize house */
@@ -55,7 +56,7 @@ public class AssetController {
 
     /*Initialize World*/
     List<Asset> assetsOnWorld = new ArrayList<>();
-    assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,20 * Constants.TILE_SIZE,20 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,43 * Constants.TILE_SIZE));
     
     assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,42*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
     
@@ -108,7 +109,7 @@ public class AssetController {
     assetsOnNPC6_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,47 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.NPC6_HOUSE, assetsOnNPC6_House);
 
-    currentAssets = mapOfListOfAssets.get(MapName.NPC1_HOUSE);
+    currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
 
   }
