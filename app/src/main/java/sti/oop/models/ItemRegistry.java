@@ -1,12 +1,19 @@
 package sti.oop.models;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.EnumSet;
 import java.util.function.Supplier;
 
-import sti.oop.models.Item.*;
+import sti.oop.models.Item.Crop;
+import sti.oop.models.Item.Equipment;
+import sti.oop.models.Item.Fish;
+import sti.oop.models.Item.Food;
+import sti.oop.models.Item.Item;
+import sti.oop.models.Item.Misc;
+import sti.oop.models.Item.Recipe;
+import sti.oop.models.Item.Seed;
 
 public class ItemRegistry {
     private static final Map<String, Supplier<Item>> ITEM_CREATORS = new HashMap<>();
@@ -38,25 +45,25 @@ public class ItemRegistry {
 
         ITEM_CREATORS.put(
         "Bullhead", () -> new Fish("Bullhead", 
-        EnumSet.allOf(Fish.Season.class), 
+        EnumSet.allOf(Season.class), 
         new int[] {0, 24}, 
-        EnumSet.allOf(Fish.Weather.class), 
+        EnumSet.allOf(Weather.class), 
         EnumSet.of(Fish.Location.MOUNTAIN_LAKE), 
         "COMMON")
         );
 
         ITEM_CREATORS.put("Carp", () -> new Fish("Carp", 
-        EnumSet.allOf(Fish.Season.class),
+        EnumSet.allOf(Season.class),
         new int[] {0, 24},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.MOUNTAIN_LAKE, Fish.Location.POND),
         "COMMON")
         );
 
         ITEM_CREATORS.put("Chub", () -> new Fish("Chub",
-        EnumSet.allOf(Fish.Season.class),
+        EnumSet.allOf(Season.class),
         new int[] {0, 24},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.FOREST_RIVER, Fish.Location.MOUNTAIN_LAKE),
         "COMMON")
         );
@@ -67,97 +74,97 @@ public class ItemRegistry {
         /* -------------------------------------------------------------------------- */
 
         ITEM_CREATORS.put("LargemouthBass", () -> new Fish("LargemouthBass",
-        EnumSet.allOf(Fish.Season.class),
+        EnumSet.allOf(Season.class),
         new int[] {6, 18},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.MOUNTAIN_LAKE),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("RainbowTrout", () -> new Fish("RainbowTrout",
-        EnumSet.of(Fish.Season.SUMMER),
+        EnumSet.of(Season.SUMMER),
         new int[] {6, 18},
-        EnumSet.of(Fish.Weather.SUNNY),
+        EnumSet.of(Weather.SUNNY),
         EnumSet.of(Fish.Location.FOREST_RIVER, Fish.Location.MOUNTAIN_LAKE),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Sturgeon", () -> new Fish("Sturgeon",
-        EnumSet.of(Fish.Season.SUMMER, Fish.Season.WINTER),
+        EnumSet.of(Season.SUMMER, Season.WINTER),
         new int[] {6, 18},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.MOUNTAIN_LAKE),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("MidnightCarp", () -> new Fish("MidnightCarp",
-        EnumSet.of(Fish.Season.FALL, Fish.Season.WINTER),
+        EnumSet.of(Season.FALL, Season.WINTER),
         new int[] {20, 2},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.POND, Fish.Location.MOUNTAIN_LAKE),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Flounder", () -> new Fish("Flounder",
-        EnumSet.of(Fish.Season.SUMMER, Fish.Season.SPRING),
+        EnumSet.of(Season.SUMMER, Season.SPRING),
         new int[] {6, 22},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Halibut", () -> new Fish("Halibut",
-        EnumSet.allOf(Fish.Season.class),
+        EnumSet.allOf(Season.class),
         new int[] {6, 11, 19, 2},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Octopus", () -> new Fish("Octopus",
-        EnumSet.of(Fish.Season.SUMMER),
+        EnumSet.of(Season.SUMMER),
         new int[] {6, 22},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Pufferfish", () -> new Fish("Pufferfish",
-        EnumSet.of(Fish.Season.SUMMER),
+        EnumSet.of(Season.SUMMER),
         new int[] {0, 16},
-        EnumSet.of(Fish.Weather.SUNNY),
+        EnumSet.of(Weather.SUNNY),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("Sardine", () -> new Fish("Sardine",
-        EnumSet.allOf(Fish.Season.class),
+        EnumSet.allOf(Season.class),
         new int[] {6, 18},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );
 
         ITEM_CREATORS.put("SuperCucumber", () -> new Fish("SuperCucumber",
-        EnumSet.of(Fish.Season.SUMMER, Fish.Season.FALL, Fish.Season.WINTER),
+        EnumSet.of(Season.SUMMER, Season.FALL, Season.WINTER),
         new int[] {18, 2},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "REGULAR")
         );   
         
         ITEM_CREATORS.put("Catfish", () -> new Fish("Catfish",
-        EnumSet.of(Fish.Season.SUMMER, Fish.Season.FALL, Fish.Season.SPRING),
+        EnumSet.of(Season.SUMMER, Season.FALL, Season.SPRING),
         new int[] {6, 22},
-        EnumSet.of(Fish.Weather.RAINY),
+        EnumSet.of(Weather.RAINY),
         EnumSet.of(Fish.Location.FOREST_RIVER, Fish.Location.POND),
         "REGULAR")
         );      
 
         ITEM_CREATORS.put("Salmon", () -> new Fish("Salmon",
-        EnumSet.of(Fish.Season.FALL),
+        EnumSet.of(Season.FALL),
         new int[] {6, 18},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.FOREST_RIVER),
         "REGULAR")
         );
@@ -168,33 +175,33 @@ public class ItemRegistry {
         /* -------------------------------------------------------------------------- */
 
         ITEM_CREATORS.put("Angler", () -> new Fish("Angler",
-        EnumSet.of(Fish.Season.FALL),
+        EnumSet.of(Season.FALL),
         new int[] {8, 20},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.POND),
         "LEGENDARY")
         );
 
         ITEM_CREATORS.put("Crimsonfish", () -> new Fish("Crimsonfish",
-        EnumSet.of(Fish.Season.SUMMER),
+        EnumSet.of(Season.SUMMER),
         new int[] {8, 20},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.OCEAN),
         "LEGENDARY")
         );
 
         ITEM_CREATORS.put("Glacierfish", () -> new Fish("Glacierfish",
-        EnumSet.of(Fish.Season.WINTER),
+        EnumSet.of(Season.WINTER),
         new int[] {8, 20},
-        EnumSet.allOf(Fish.Weather.class),
+        EnumSet.allOf(Weather.class),
         EnumSet.of(Fish.Location.FOREST_RIVER),
         "LEGENDARY")
         );
 
         ITEM_CREATORS.put("Legend", () -> new Fish("Legend",
-        EnumSet.of(Fish.Season.SPRING),
+        EnumSet.of(Season.SPRING),
         new int[] {8, 20},
-        EnumSet.of(Fish.Weather.RAINY),
+        EnumSet.of(Weather.RAINY),
         EnumSet.of(Fish.Location.MOUNTAIN_LAKE),
         "LEGENDARY")
         );

@@ -6,6 +6,7 @@ import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Player;
+import sti.oop.models.Item.Fish;
 import sti.oop.models.Farm;
 import sti.oop.models.Item.Item;
 import sti.oop.models.assets.FishingArea;
@@ -47,6 +48,7 @@ public class Action implements Actor {
   @Override
   public void act(NPCArea acted) {
     panelController.showDialog(new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted));
+    farmController.updateHotbar();
   }
 
   @Override
@@ -69,6 +71,9 @@ public class Action implements Actor {
   }
 
   public void act(FishingArea acted) {
+    Fishing fishing = new Fishing();
+    fishing.randomizeFish(fishing.availableFishList(acted.getFishes(), farmController.getTimeController().getFarm()));
+    acted.getFishes();
     panelController.showFishing(inputValue -> {
       panelController.showDialog(inputValue.toString());
     });

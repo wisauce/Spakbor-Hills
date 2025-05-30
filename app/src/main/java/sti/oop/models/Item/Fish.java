@@ -1,17 +1,19 @@
 package sti.oop.models.Item;
 
-import sti.oop.interfaces.Valuable;
-import sti.oop.interfaces.Edible;
-
 import java.util.EnumSet;
 
+import sti.oop.interfaces.Edible;
+import sti.oop.interfaces.Valuable;
+import sti.oop.models.Season;
+import sti.oop.models.Weather;
+
 public class Fish extends Item implements Valuable, Edible {
-    public enum Season {
-        SPRING,
-        SUMMER,
-        FALL,
-        WINTER
-    }
+    // public enum Season {
+    //     SPRING,
+    //     SUMMER,
+    //     FALL,
+    //     WINTER
+    // }
     private EnumSet<Season> season;
 
     public enum Location {
@@ -23,10 +25,10 @@ public class Fish extends Item implements Valuable, Edible {
 
     private EnumSet<Location> location;
 
-    public enum Weather {
-        RAINY,
-        SUNNY
-    }
+    // public enum Weather {
+    //     RAINY,
+    //     SUNNY
+    // }
 
     private EnumSet<Weather> weather;
 

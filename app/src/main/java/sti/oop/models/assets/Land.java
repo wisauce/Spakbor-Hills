@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import sti.oop.action.Action;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Interactable;
+import sti.oop.models.Weather;
 import sti.oop.models.Item.Equipment;
-import sti.oop.models.Farm.Weather;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
 

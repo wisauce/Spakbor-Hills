@@ -1,8 +1,13 @@
 package sti.oop.action;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import sti.oop.models.Farm;
 import sti.oop.models.Player;
+import sti.oop.models.Season;
+import sti.oop.models.Weather;
 import sti.oop.models.Item.Fish;
 
 public class Fishing {
@@ -10,6 +15,58 @@ public class Fishing {
     public boolean hasRequiredItems(Player player){
         return true;//player.getInventory().hasItem(new Item("Fishing Rod", "EQUIPMENT"));
     }
+
+    public List<Fish> availableFishList(List<Fish> fishes, Farm farm){
+        List<Fish> container = new ArrayList<>();
+        for (Fish fish : fishes){
+            for(Season seasons : fish.getSeason()){
+                if (farm.getSeason().equals(seasons)){
+                    for(Weather weathers : fish.getWeather()){
+                        if (farm.getWeather().equals(weathers)){
+                            container.add(fish);
+                        }
+                    }
+                }
+            }
+        }
+        return container;
+    }
+
+    public Fish randomizeFish(List<Fish> fishes){
+        int rands = random.nextInt(1,100);
+        List<Integer> container = new ArrayList<>();
+        if (rands < 60){
+            for (Fish fish : fishes){
+                if (fish.getGrade().equals("COMMON")){
+                    System.out.println(fish.getItemName());
+                    container.add(fishes.indexOf(fish));
+                }
+            }
+            int randFish = random.nextInt(0,container.size());
+            return fishes.get(container.get(randFish));
+        }
+        else if (rands < 90){
+            for (Fish fish : fishes){
+                if (fish.getGrade().equals("REGULAR")){
+                    System.out.println(fish.getItemName());
+                    container.add(fishes.indexOf(fish));
+                }
+            }
+            int randFish = random.nextInt(0,container.size());
+            return fishes.get(container.get(randFish));
+        }
+        else{
+            for (Fish fish : fishes){
+                if (fish.getGrade().equals("LEGENDARY")){
+                    System.out.println(fish.getItemName());
+                    container.add(fishes.indexOf(fish));
+                }
+            }
+            int randFish = random.nextInt(0,container.size());
+            return fishes.get(container.get(randFish));
+        }
+    }
+
 
     public void doFishing(Player player, Fish fish){
         String fishGrade = fish.getGrade().toUpperCase();
