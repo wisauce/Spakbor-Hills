@@ -12,7 +12,6 @@ public class Abigail extends NPC {
     public Abigail() {
         super(
             "Abigail", //name
-            new Point(10 * Constants.TILE_SIZE, 10 * Constants.TILE_SIZE), //location
             List.of(
                 ItemRegistry.createItem("Blueberry"),
                 ItemRegistry.createItem("Melon"),

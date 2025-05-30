@@ -7,7 +7,7 @@ import sti.oop.models.Item.*;
 
 import java.util.List;
 
-public class NPC {
+public class NPC{
   private final int MAX_HEART_POINTS = 150;
   private String name;
   private Point location;
@@ -43,9 +43,8 @@ public class NPC {
   // private int hitboxWidth;
   // private int hitboxHeight;
 
-  public NPC(String name, Point location, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, String conversation) {
+  public NPC(String name, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, String conversation) {
     this.name = name;
-    this.location = location;
     heartPoints = 0; 
     this.lovedItems = lovedItems;
     this.likedItems = likedItems;

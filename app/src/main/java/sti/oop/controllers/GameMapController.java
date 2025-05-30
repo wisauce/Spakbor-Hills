@@ -12,12 +12,12 @@ public class GameMapController {
     FARM,
     HOUSE,
     WORLD,
+    STORE,
     NPC1_HOUSE,
     NPC2_HOUSE,
     NPC3_HOUSE,
     NPC4_HOUSE,
-    NPC5_HOUSE,
-    NPC6_HOUSE
+    NPC5_HOUSE
   }
 
   Map<MapName, GameMap> mapOfGameMaps;
@@ -30,15 +30,15 @@ public class GameMapController {
     mapOfGameMaps = Map.ofEntries(
       Map.entry(MapName.FARM, new GameMap("/maps/farm.png", "/maps/farm.txt", 16, 16 * Constants.TILE_SIZE + Constants.TILE_SIZE/2, 17 * Constants.TILE_SIZE)),
       Map.entry(MapName.HOUSE, new GameMap("/maps/house.png", "/maps/housenew.txt",16, 16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE)),
-      Map.entry(MapName.WORLD,new GameMap("/maps/worldMap.jpg", "/maps/worldMap.txt",16, 46 * Constants.TILE_SIZE, 1 *  Constants.TILE_SIZE)),
+      Map.entry(MapName.WORLD, new GameMap("/maps/worldMap.png", "/maps/worldMap.txt",16, 46 * Constants.TILE_SIZE, 1 *  Constants.TILE_SIZE)),
+      Map.entry(MapName.STORE, new GameMap("/maps/house.png", "/maps/store.txt", 16, 11 * Constants.TILE_SIZE, 16 *  Constants.TILE_SIZE)),
       Map.entry(MapName.NPC1_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
       Map.entry(MapName.NPC2_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
       Map.entry(MapName.NPC3_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
       Map.entry(MapName.NPC4_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
-      Map.entry(MapName.NPC5_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
-      Map.entry(MapName.NPC6_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE))
+      Map.entry(MapName.NPC5_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE))
     );
-    currentMap = mapOfGameMaps.get(MapName.FARM);
+    currentMap = mapOfGameMaps.get(MapName.STORE);
   }
 
   public void setCurrentMap(MapName mapName) {

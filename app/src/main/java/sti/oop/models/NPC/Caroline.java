@@ -12,7 +12,6 @@ public class Caroline extends NPC {
     public Caroline() {
         super(
             "Caroline", //name
-            new Point(10 * Constants.TILE_SIZE, 12 * Constants.TILE_SIZE), //location
             List.of(
                 ItemRegistry.createItem("Firewood"),
                 ItemRegistry.createItem("Coal")

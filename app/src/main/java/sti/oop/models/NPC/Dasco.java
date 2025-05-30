@@ -11,7 +11,6 @@ public class Dasco extends NPC {
     public Dasco() {
         super(
             "Dasco", //name
-            new Point(10 * Constants.TILE_SIZE, 14 * Constants.TILE_SIZE), //location
             List.of(
                 ItemRegistry.createItem("TheLegendsOfSpakbor"),
                 ItemRegistry.createItem("CookedPigsHead"),
