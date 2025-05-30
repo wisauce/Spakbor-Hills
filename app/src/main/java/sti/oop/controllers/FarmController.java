@@ -177,6 +177,12 @@ public class FarmController {
         renderNPCs();
 
         collisionController.checkAssetCollision(assetController.getAssets(), playerController, panelController);
+
+        if (playerController.isJustEaten()) {
+          String eatingResult = playerController.getAction().handleEating();
+          panelController.showDialog(eatingResult);
+          playerController.setJustEaten(false);
+        }
         assetController.render(gc);
         playerController.render(gc);
 
@@ -337,6 +343,10 @@ public class FarmController {
 
   public PanelController getPanelController() {
     return panelController;
+  }
+
+  public Farm getFarm() {
+    return farm;
   }
 
   

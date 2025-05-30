@@ -27,12 +27,14 @@ public class PlayerController implements Renderable {
   private boolean keyDownPressed = false;
   private boolean keyUpPressed = false;
   private boolean keyEPressed = false;
+  private boolean keyTPressed = false;
   private boolean key1Pressed = false;
   private boolean key2Pressed = false;
   private boolean key3Pressed = false;
   private boolean key4Pressed = false;
   private boolean toggleInteraction = false;
   private boolean justInteracted = false;
+  private boolean justEaten = false;
 
   public void toggle() {
     toggleInteraction = !toggleInteraction;
@@ -40,6 +42,14 @@ public class PlayerController implements Renderable {
 
   public boolean isToggled() {
     return toggleInteraction;
+  }
+
+  public void setJustEaten(boolean justEaten) {
+    this.justEaten = justEaten;
+  }
+
+  public boolean isJustEaten()  {
+    return justEaten;
   }
 
   /* Render Attributes */
@@ -254,29 +264,35 @@ public class PlayerController implements Renderable {
           }
           keyEPressed = true;
         }
-                case KeyCode.DIGIT1 -> {
+        case KeyCode.DIGIT1 -> {
           if (!key1Pressed) {
             justInteracted = true;
           }
           key1Pressed = true;
         }
-                case KeyCode.DIGIT2 -> {
+        case KeyCode.DIGIT2 -> {
           if (!key2Pressed) {
             justInteracted = true;
           }
           key2Pressed = true;
         }
-                case KeyCode.DIGIT3 -> {
+        case KeyCode.DIGIT3 -> {
           if (!key3Pressed) {
             justInteracted = true;
           }
           key3Pressed = true;
         }
-                case KeyCode.DIGIT4 -> {
+        case KeyCode.DIGIT4 -> {
           if (!key4Pressed) {
             justInteracted = true;
           }
           key4Pressed = true;
+        }
+        case KeyCode.T -> {
+          if (!keyTPressed) {
+            justEaten = true;
+          }
+          keyTPressed = true;
         }
         default -> {
         }
@@ -297,6 +313,7 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.D -> keyRightPressed = false;
         case KeyCode.SHIFT -> player.setRun(false);
+        case KeyCode.T -> keyTPressed = false;
         case KeyCode.E -> {
           keyEPressed = false;
         }

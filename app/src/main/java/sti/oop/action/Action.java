@@ -7,6 +7,7 @@ import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Fish;
+import sti.oop.models.Farm;
 import sti.oop.models.Item.Item;
 import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
@@ -77,11 +78,18 @@ public class Action implements Actor {
     });
   }
 
-  @Override
-  public void act(Edible acted) {
+  public String handleEating() {
     Player player = farmController.getPlayerController().getPlayer();
-    player.setEnergy(player.getEnergy()+acted.getEnergy());
-    player.getInventory().removeItem((Item)acted, 1);
+
+    if (player.getOnHandItem() instanceof Edible) {
+      Eating eating = new Eating();
+      String actionResult = eating.doEating(player, farmController);
+      farmController.updateHotbar();
+      return actionResult;
+    }
+    else {
+      return "You need food in your hand to eat!";
+    }
   }
 
 }
