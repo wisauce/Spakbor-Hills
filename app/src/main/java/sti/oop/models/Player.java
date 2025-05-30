@@ -42,8 +42,8 @@ public class Player {
   private int speed = walkingSpeed;
   private double runBoost = 4;
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
-  private int x = 16 * Constants.TILE_SIZE;
-  private int y = 25 * Constants.TILE_SIZE;
+  private int x = 4 * Constants.TILE_SIZE;
+  private int y = 9 * Constants.TILE_SIZE;
 
   private HealthBarUpdater healthBarUpdater;
 
