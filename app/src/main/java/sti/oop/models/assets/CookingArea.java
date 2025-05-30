@@ -25,7 +25,7 @@ public class CookingArea extends Asset implements Interactable {
 
   @Override
   public boolean multipleInput() {
-    return false;
+    return true;
   }
 
   

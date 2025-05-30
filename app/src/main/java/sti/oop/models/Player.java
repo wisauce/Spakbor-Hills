@@ -347,6 +347,45 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     return onHandItem != null && onHandItem.getItemName().equals(itemName);
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                            Recipe Blocker Logics                           */
+  /* -------------------------------------------------------------------------- */
+
+  public int getAmountOfFishReeled() {
+    return amountOfFishReeled;
+  }
+  public void addAmountOfFishReeled() {
+    amountOfFishReeled++;
+  }
+
+  public boolean getEverPufferfish() {
+    return everPufferfish;
+  }
+  public void wasEverPufferfish() {
+    this.everPufferfish = true;
+  }
+
+  public boolean getEverHarvest() {
+    return everHarvest;
+  }
+  public void wasEverHarvest() {
+    this.everHarvest = true;
+  }
+
+  public boolean getEverHotPepper() {
+    return everHotPepper;
+  }
+  public void wasEverHotPepper() {
+    this.everHotPepper = true;
+  }
+
+  public boolean getEverLegendaryFish() {
+    return everLegendaryFish;
+  }
+  public void wasEverLegendaryFish() {
+    this.everLegendaryFish = true;
+  }
+
 
   /* -------------------------------------------------------------------------- */
   /*                                 Bin Logics                                 */

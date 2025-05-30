@@ -102,6 +102,18 @@ public class Fishing {
             if (guess == target) {
                 caught = true;
                 System.out.println(player.getName() + " caught a " + fishGrade + " fish!");
+                player.addAmountOfFishReeled();
+                if (player.getAmountOfFishReeled() == 10) {
+                    player.getInventory().addItemByName("SashimiRecipe", 1);
+                }
+                if (!player.getEverPufferfish() && fish.getItemName().equals("Pufferfish")) {
+                    player.wasEverPufferfish();
+                    player.getInventory().addItemByName("FuguRecipe", 1);
+                }
+                if (!player.getEverLegendaryFish() && fishGrade.equals("LEGENDARY")) {
+                    player.wasEverLegendaryFish();
+                    player.getInventory().addItemByName("TheLegendsOfSpakborRecipe", 1);
+                }
                 player.getInventory().addItem(fish, 1); // tambahkan ke inventory
                 break;
             } else if (guess < target) {

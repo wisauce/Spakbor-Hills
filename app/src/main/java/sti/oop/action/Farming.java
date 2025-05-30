@@ -66,6 +66,14 @@ public class Farming {
         player.getInventory().addItemByName(cropName, 1);
         land.changeLandState(LandState.TILLED_LAND);
         land.setSeed(null);
+        if (!player.getEverHarvest()) {
+          player.wasEverHarvest();
+          player.getInventory().addItemByName("VeggieSoupRecipe", 1);
+        }
+        if (!player.getEverHotPepper() && cropName.equals("HotPepper")) {
+          player.wasEverHotPepper();
+          player.getInventory().addItemByName("FishStewRecipe", 1);
+        }
         actionResult =  "Harvested " + cropName + ", it is now in your inventory";
       }
     } else {

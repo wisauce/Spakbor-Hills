@@ -84,9 +84,10 @@ public class CookingInteractionHandler {
       if (!hasInstructionShowed) {
         hasInstructionShowed = true;
         return "COOKING RECIPES:\n" +
-            "1: Fish n' Chips    2: Baguette    3: Sashimi    \n 4: Fugu" +
-            " 5: Wine    6: Pumpkin Pie    \n 7: Veggie Soup    8: Fish Stew" +
-            " 9: Spakbor Salad    \n 0: Fish Sandwich    `: Legends of Spakbor\n" +
+            "1: Fish n' Chips    2: Baguette    3: Sashimi\n" +
+            "4: Fugu    5: Wine    6: Pumpkin Pie\n" +
+            "7: Veggie Soup    8: Fish Stew    9: Spakbor Salad\n" +
+            "0: Fish Sandwich    `: Legends of Spakbor\n" +
             "Press number keys to cook!";
       }
     }

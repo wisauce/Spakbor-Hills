@@ -1,5 +1,7 @@
 package sti.oop.action;
 
+import java.text.NumberFormat.Style;
+
 import sti.oop.controllers.FarmController;
 import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
@@ -98,6 +100,7 @@ public class Action implements Actor {
 
     @Override
     public void act(CookingArea acted) {
+      System.out.println("TEST");
       CookingInteractionHandler handler = new CookingInteractionHandler(farmController.getPlayerController(), farmController);
       String actionResult = handler.handleInteraction(acted);      
       panelController.showDialog(actionResult);
