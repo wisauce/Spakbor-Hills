@@ -74,11 +74,18 @@ public class Action implements Actor {
     });
   }
 
-  @Override
-  public void act(Edible acted) {
+  public String handleEating() {
     Player player = farmController.getPlayerController().getPlayer();
-    player.setEnergy(player.getEnergy()+acted.getEnergy());
-    player.getInventory().removeItem((Item)acted, 1);
+
+    if (player.getOnHandItem() instanceof Edible) {
+      Eating eating = new Eating();
+      String actionResult = eating.doEating(player, farmController);
+      farmController.updateHotbar();
+      return actionResult;
+    }
+    else {
+      return "You need food in your hand to eat!";
+    }
   }
 
 }

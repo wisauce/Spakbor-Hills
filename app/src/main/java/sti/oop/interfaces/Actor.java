@@ -10,5 +10,5 @@ public interface Actor {
   public void act(NPCArea acted);
   public void act(Land acted);
   public void act(SleepingArea acted);
-  public void act(Edible acted);
+  // public void act(Edible acted);
 }
