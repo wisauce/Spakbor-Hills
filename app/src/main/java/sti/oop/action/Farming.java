@@ -44,9 +44,13 @@ public class Farming {
       }
 
       else if (land.getState().equals(LandState.PLANTED_LAND)) { 
-        if (player.hasItemInHand("WateringCan") && !land.isTodayWatered()) {
-          player.setEnergy(player.getEnergy() - land.getEnergyRequired());
-          land.setTodayWatered(true);
+        if (player.hasItemInHand("WateringCan")) {
+          if (!land.isTodayWatered()) {
+            player.setEnergy(player.getEnergy() - land.getEnergyRequired());
+            land.setTodayWatered(true);
+          } else {
+            actionResult = "This plant is already watered";
+          }
         } else {
           actionResult =  "You need a watering can to water the plant";
         }
