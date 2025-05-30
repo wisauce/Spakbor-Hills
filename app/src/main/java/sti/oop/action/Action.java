@@ -48,6 +48,7 @@ public class Action implements Actor {
   @Override
   public void act(NPCArea acted) {
     panelController.showDialog(new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted));
+    farmController.updateHotbar();
   }
 
   @Override

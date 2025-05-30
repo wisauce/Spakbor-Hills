@@ -10,7 +10,6 @@ public class Perry extends NPC {
     public Perry() {
         super(
             "Perry", //name
-            new Point(10 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE), //location
             List.of(
                 ItemRegistry.createItem("Cranberry"), 
                 ItemRegistry.createItem("Blueberry")

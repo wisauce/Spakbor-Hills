@@ -11,7 +11,6 @@ public class Emily extends NPC {
     public Emily() {
         super(
             "Emily", //name
-            new Point(10 * Constants.TILE_SIZE, 16 * Constants.TILE_SIZE), //location
             List.of(
                 ItemRegistry.createItem("ParsnipSeeds"),
                 ItemRegistry.createItem("CauliflowerSeeds"),

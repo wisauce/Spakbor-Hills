@@ -8,8 +8,8 @@ import sti.oop.utils.Constants;
 public class NPCArea extends Asset implements Interactable {
   NPC npc;
   String choosen_act = "";
-  public NPCArea(NPC npc) {
-    super(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", false);
+  public NPCArea(NPC npc, int x, int y) {
+    super(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE,3 * Constants.TILE_SIZE  , false);
     this.npc = npc;
   }
 

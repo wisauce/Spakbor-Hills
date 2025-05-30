@@ -145,14 +145,6 @@ public class FarmController {
 
     timeController.render();
 
-    /* Initialize NPC */
-    mayorTadi = new MayorTadi();
-    abigail = new Abigail();
-    caroline = new Caroline();
-    emily = new Emily();
-    dasco = new Dasco();
-    perry = new Perry();
-
     /*
      * <------------------------------------------SEPERATOR-------------------------
      * ----------------------->
@@ -173,8 +165,6 @@ public class FarmController {
 
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gameMapController.render(gc);
-
-        renderNPCs();
 
         collisionController.checkAssetCollision(assetController.getAssets(), playerController, panelController);
 
@@ -219,38 +209,6 @@ public class FarmController {
     }
 
     gc.setFill(originalColor);
-  }
-
-  /* -------------------------------------------------------------------------- */
-  /* Render NPC Logics */
-  /* -------------------------------------------------------------------------- */
-
-  private void renderNPCs() {
-    int x_player = farm.getPlayer().getX();
-    int y_player = farm.getPlayer().getY();
-
-    renderNPC(mayorTadi, x_player, y_player);
-    renderNPC(abigail, x_player, y_player);
-    renderNPC(caroline, x_player, y_player);
-    renderNPC(emily, x_player, y_player);
-    renderNPC(dasco, x_player, y_player);
-    renderNPC(perry, x_player, y_player);
-  }
-
-  private void renderNPC(NPC NPCname, int x_player, int y_player) {
-    Canvas canvas = gc.getCanvas();
-    double canvasWidth = canvas.getWidth();
-    double canvasHeight = canvas.getHeight();
-    int playerScreenX = (int) (canvasWidth / 2) - (Constants.TILE_SIZE / 2);
-    int playerScreenY = (int) (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
-    int x_screen = NPCname.getLocation().x - x_player + playerScreenX;
-    int y_screen = NPCname.getLocation().y - y_player + playerScreenY;
-
-    if (x_screen > -128 && x_screen < canvas.getWidth() + 128 && y_screen > -128
-        && y_screen < canvas.getHeight() + 128) {
-      gc.drawImage(NPCname.NPCSpriteSheet, NPC.sourceX(), NPC.sourceY(), NPC.NPCFrameWidth, NPC.NPCFrameHeight,
-          x_screen, y_screen, Constants.TILE_SIZE, Constants.TILE_SIZE);
-    }
   }
 
   /*
