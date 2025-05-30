@@ -1,4 +1,4 @@
-package sti.oop.models.Item;
+package sti.oop.models.item;
 
 public class Equipment extends Item {
     public Equipment(String name) {

@@ -3,6 +3,7 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import sti.oop.models.ItemRegistry;
 import javafx.scene.image.PixelWriter;
 
 import java.util.concurrent.ConcurrentHashMap;

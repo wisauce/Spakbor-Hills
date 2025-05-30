@@ -4,7 +4,7 @@ import java.util.List;
 
 import sti.oop.action.Action;
 import sti.oop.models.Interactable;
-import sti.oop.models.Item.Fish;
+import sti.oop.models.item.Fish;
 
 public class FishingArea extends Asset implements Interactable {
   private List<Fish> fishes;

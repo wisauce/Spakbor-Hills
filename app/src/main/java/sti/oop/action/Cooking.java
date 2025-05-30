@@ -8,9 +8,10 @@ import com.google.common.cache.Weigher;
 import sti.oop.controllers.FarmController;
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Recipe;
-import sti.oop.models.Item.Food;
-import sti.oop.models.Item.Item;
+import sti.oop.models.item.Food;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Misc;
+import sti.oop.models.item.Recipe;
 
 public class Cooking {
     //TODO: Change String agar Notification!
@@ -21,16 +22,20 @@ public class Cooking {
         Item Coal = ItemRegistry.createItem("Coal");
         Item Firewood = ItemRegistry.createItem("Firewood");
 
-        if (player.getInventory().hasItem(Coal) || player.getInventory().hasItem(Firewood)) {
+        if (fuel == 0) {
+
             if (player.getInventory().hasItem(Coal)) {
                 player.getInventory().removeItem(Coal, 1);
                 fuel += 2;
             } 
 
-            else {
+            else if (player.getInventory().hasItem(Firewood)){
                 player.getInventory().removeItem(Firewood, 1);
                 fuel += 1;
             }
+        }
+
+        if (fuel > 0) {
 
             int currentHour = farmController.getTimeController().getFarm().getInGameHour();
             int currentMinute = farmController.getTimeController().getFarm().getInGameMinute();

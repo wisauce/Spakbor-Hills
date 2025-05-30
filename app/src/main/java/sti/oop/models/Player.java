@@ -4,12 +4,12 @@ import java.util.EnumSet;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
-import sti.oop.models.Item.Equipment;
-import sti.oop.models.Item.Fish;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Misc;
-import sti.oop.models.Item.Seed;
 import sti.oop.models.NPC.NPC;
+import sti.oop.models.item.Equipment;
+import sti.oop.models.item.Fish;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Misc;
+import sti.oop.models.item.Seed;
 import sti.oop.utils.Constants;
 
 public class Player {

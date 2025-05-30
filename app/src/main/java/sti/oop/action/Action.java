@@ -6,16 +6,16 @@ import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Fish;
 import sti.oop.models.Farm;
-import sti.oop.models.Item.Item;
 import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
+import sti.oop.models.assets.CookingArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
+import sti.oop.models.item.Fish;
+import sti.oop.models.item.Item;
 import sti.oop.utils.Constants;
-
 public class Action implements Actor {
   FarmController farmController;
   PanelController panelController;
@@ -93,4 +93,26 @@ public class Action implements Actor {
     }
   }
 
-}
+
+    @Override
+    public void act(CookingArea acted) {
+    System.out.println("=== COOKING ACTION TRIGGERED ===");
+    System.out.println("CookingArea position: " + acted.getX() + ", " + acted.getY());
+    
+    try {
+        CookingInteractionHandler handler = new CookingInteractionHandler(
+            farmController.getPlayerController(), 
+            farmController
+        );
+        
+        String result = handler.handleInteraction(acted);
+        System.out.println("Cooking handler result: " + result);
+        
+        panelController.showDialog(result);
+        
+    } catch (Exception e) {
+        System.err.println("Error in cooking action: " + e.getMessage());
+        e.printStackTrace();
+    }   
+   }
+  }

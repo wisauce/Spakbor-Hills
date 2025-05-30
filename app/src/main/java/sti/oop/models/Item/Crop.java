@@ -1,4 +1,4 @@
-package sti.oop.models.Item;
+package sti.oop.models.item;
 
 import sti.oop.interfaces.Valuable;
 import sti.oop.interfaces.Edible;
