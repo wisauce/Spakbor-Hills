@@ -86,7 +86,7 @@ public class AssetController {
     List<Asset> assetsOnNPC6_House = new ArrayList<>();
     mapOfListOfAssets.put(MapName.NPC6_HOUSE, assetsOnNPC6_House);
 
-    currentAssets = mapOfListOfAssets.get(MapName.NPC1_HOUSE);
+    currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
 
   }
