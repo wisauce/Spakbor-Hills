@@ -2,7 +2,6 @@ package sti.oop.models.NPC;
 
 import java.util.List;
 import java.util.Set;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 import sti.oop.models.ItemRegistry;

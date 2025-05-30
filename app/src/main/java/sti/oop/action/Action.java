@@ -1,13 +1,12 @@
 package sti.oop.action;
 
 import sti.oop.controllers.FarmController;
+import sti.oop.controllers.FishingPanelController;
+import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.EnergyConsuming;
-import sti.oop.models.Player;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Seed;
+import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
-import sti.oop.models.assets.Land.LandState;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
@@ -15,9 +14,11 @@ import sti.oop.utils.Constants;
 
 public class Action implements Actor {
   FarmController farmController;
+  PanelController panelController;
 
   public Action(FarmController farmController) {
     this.farmController = farmController;
+    this.panelController = farmController.getPanelController();
   }
 
   public boolean isActionDoable(EnergyConsuming acted) {
@@ -34,20 +35,19 @@ public class Action implements Actor {
   }
 
   @Override
-  public String act(Teleporter acted) {
+  public void act(Teleporter acted) {
     farmController.changeMap(acted.getDestination());
     farmController.getPlayerController().getPlayer().setY(acted.getDestinationY());
     farmController.getPlayerController().getPlayer().setX(acted.getDestinationX());
-    return null;
   }
 
   @Override
-  public String act(NPCArea acted) {
-    return new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted);
+  public void act(NPCArea acted) {
+    panelController.showDialog(new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted));
   }
 
   @Override
-  public String act(Land acted) {
+  public void act(Land acted) {
     String actionResult = null;
     Farming farming = new Farming();
     actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted);
@@ -55,14 +55,18 @@ public class Action implements Actor {
       sleepImmediately();
       actionResult = "you are too tired from yesterday farming";
     } 
-    return actionResult;
+    panelController.showDialog(actionResult);
   }
 
   @Override
-  public String act(SleepingArea acted) {
+  public void act(SleepingArea acted) {
     Sleep sleep = new Sleep();
     sleep.sleep(farmController, acted.getSpawnAreaX(), acted.getSpawnAreaY());
-    return "Good morning";
+    panelController.showDialog("Good morning. Did you sleep well?");
+  }
+
+  public void act(FishingArea acted) {
+    
   }
 
 }

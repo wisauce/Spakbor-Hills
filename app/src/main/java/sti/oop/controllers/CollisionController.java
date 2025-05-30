@@ -34,9 +34,7 @@ public class CollisionController {
     currentCollisionMap = mapOfCollisionMaps.get(mapName);
   }
 
-  public void checkAssetCollision(List<Asset> assets, PlayerController playerController,
-      PanelController panelController) {
-    boolean collidedWithInteractable = false;
+  public void checkAssetCollision(List<Asset> assets, PlayerController playerController, PanelController panelController) {
     // Reset collision flag before checking
     playerController.setnoCollidingAsset(true);
     for (Asset asset : assets) {
@@ -67,18 +65,16 @@ public class CollisionController {
         if (asset.isCollisionOn()) {
           playerController.setnoCollidingAsset(false);
         } else {
-          collidedWithInteractable = true; // <-- tandai kalau sedang nabrak asset
-
+          Interactable interactable = (Interactable) asset;
           if (playerController.isToggled() && playerController.isJustInteracted()) {
-            panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
+            interactable.accept(playerController.getAction());
             playerController.clearJustInteracted();
           }
           if (playerController.isJustInteracted() && !playerController.isToggled()) {
-            Interactable interactable = (Interactable) asset;
             if (interactable.multipleInput()) {
               playerController.toggle(); // masuk ke interaction mode
-            } 
-            panelController.showDialog(interactable.accept(playerController.getAction()));
+            }
+            interactable.accept(playerController.getAction());
             playerController.clearJustInteracted();
           }
         }
