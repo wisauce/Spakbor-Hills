@@ -1,6 +1,8 @@
 package sti.oop.models;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
@@ -54,6 +56,10 @@ public class Player {
   private boolean everHotPepper = false;
   private boolean everLegendaryFish = false;
   //TODO: Develop with other logics!
+
+  /* Bin Barrier */
+  private List<Item> shippingBin = new ArrayList<>();
+  private boolean isBinOpen = false;
   
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
@@ -341,12 +347,24 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     return onHandItem != null && onHandItem.getItemName().equals(itemName);
   }
 
-  
-  
-  // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
-  //   if (!inventory.getListInventorys().contains(itemName)) {
-  //     throw new IllegalStateException("You don't have " + itemName + " in your inventory!");
-  //   }
-  //   if (!inventory.getListCount().c)
-  // }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 Bin Logics                                 */
+  /* -------------------------------------------------------------------------- */
+
+  public boolean isBinOpen() {
+    return isBinOpen;
+  }
+
+  public void binOpen() {
+    isBinOpen = true;
+  }
+
+  public void binClose() {
+    isBinOpen = false;
+  }
+
+  private void addItemToShippingBin(Item item) {
+    shippingBin.add(item);
+  }
 }

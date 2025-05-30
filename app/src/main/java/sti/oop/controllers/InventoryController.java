@@ -230,8 +230,14 @@ public class InventoryController {
               Item selectedItemID = ownItem[idxItemGlobal];
               int quantity = inventory.getItemCount(selectedItemID);
 
-              player.setOnHandInventoryIndex(idxItemGlobal);
-              player.setOnHandItem(selectedItemID);
+              if (!player.isBinOpen()) {
+                player.setOnHandInventoryIndex(idxItemGlobal);
+                player.setOnHandItem(selectedItemID);
+              }
+
+              else {
+                
+              }
 
               if (farmController != null) {
                 farmController.updateHotbar();
@@ -244,6 +250,7 @@ public class InventoryController {
           }
       }
   }
+
 
   public void updateInventoryDisplay() {
       if (inventoryGrid != null) {

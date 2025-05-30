@@ -8,7 +8,6 @@ public class CookingArea extends Asset implements Interactable {
   String choosenCook = "";
   public CookingArea(int x, int y, int w, int h) {
     super(x, y, w, h, false);
-
   }
 
   @Override
@@ -26,7 +25,7 @@ public class CookingArea extends Asset implements Interactable {
 
   @Override
   public boolean multipleInput() {
-    return true;
+    return false;
   }
 
   
