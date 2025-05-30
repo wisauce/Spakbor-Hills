@@ -53,10 +53,40 @@ public class AssetController {
 
     /*Initialize World*/
     List<Asset> assetsOnWorld = new ArrayList<>();
+    assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,42*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
+    assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,11*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_1.png",true));
+    assetsOnWorld.add(new Asset(31*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_2.png",true));
+    assetsOnWorld.add(new Asset(10*Constants.TILE_SIZE,42*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_3.png",true));
+    assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,42*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_4.png",true));
+    assetsOnWorld.add(new Asset(20*Constants.TILE_SIZE,41*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_5.png",true));
+    assetsOnWorld.add(new Asset(39*Constants.TILE_SIZE,39*Constants.TILE_SIZE,4*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/npc_house_5.png",true));
     mapOfListOfAssets.put(MapName.WORLD, assetsOnWorld);
 
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC1_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC1_HOUSE, assetsOnNPC1_House);
 
-    currentAssets = mapOfListOfAssets.get(MapName.FARM);
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC2_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC2_HOUSE, assetsOnNPC2_House);
+
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC3_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC3_HOUSE, assetsOnNPC3_House);
+
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC4_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC4_HOUSE, assetsOnNPC4_House);
+
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC5_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC5_HOUSE, assetsOnNPC5_House);
+
+    /*Initialize_NPC_House*/
+    List<Asset> assetsOnNPC6_House = new ArrayList<>();
+    mapOfListOfAssets.put(MapName.NPC6_HOUSE, assetsOnNPC6_House);
+
+    currentAssets = mapOfListOfAssets.get(MapName.NPC1_HOUSE);
     this.player = player;
 
   }
