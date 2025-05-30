@@ -2,12 +2,12 @@ package sti.oop.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,54 +45,31 @@ public class PanelController {
 
   public void showDialog(String message) {
     if (message != null) {
-      if ("FISH".equals(message)) {
-        // Tampilkan fishing panel
-        fishingPanelController.getRootFishing().setVisible(true);
-        fishingPanelController.getRootFishing().setManaged(true);
+      // Tampilkan dialog biasa
+      dialogLabel.setText(message);
+      dialogLabel.setWrapText(true);
 
-        // Sembunyikan dialog dan button panel
-        dialogBox.setVisible(false);
-        dialogBox.setManaged(false);
+      dialogBox.setVisible(true);
+      dialogBox.setManaged(true);
 
-        buttonPanel.setVisible(false);
-        buttonPanel.setManaged(false);
+      buttonPanel.setVisible(false);
+      buttonPanel.setManaged(false);
 
-        // Hentikan timeline jika ada
-        if (currentTimeline != null) {
-          currentTimeline.stop();
-          currentTimeline = null;
-        }
-      } else {
-        // Tampilkan dialog biasa
-        dialogLabel.setText(message);
-        dialogLabel.setWrapText(true);
+      // Sembunyikan fishing pane
 
-        dialogBox.setVisible(true);
-        dialogBox.setManaged(true);
-
-        buttonPanel.setVisible(false);
-        buttonPanel.setManaged(false);
-
-        // Sembunyikan fishing panel
-        if (fishingPanelController != null) {
-          fishingPanelController.getRootFishing().setVisible(false);
-          fishingPanelController.getRootFishing().setManaged(false);
-        }
-
-        if (currentTimeline != null) {
-          currentTimeline.stop();
-        }
-
-        currentTimeline = new Timeline(new KeyFrame(
-            Duration.seconds(3),
-            event -> {
-              dialogBox.setVisible(false);
-              dialogBox.setManaged(false);
-              currentTimeline = null;
-            }));
-        currentTimeline.setCycleCount(1);
-        currentTimeline.play();
+      if (currentTimeline != null) {
+        currentTimeline.stop();
       }
+
+      currentTimeline = new Timeline(new KeyFrame(
+          Duration.seconds(3),
+          event -> {
+            dialogBox.setVisible(false);
+            dialogBox.setManaged(false);
+            currentTimeline = null;
+          }));
+      currentTimeline.setCycleCount(1);
+      currentTimeline.play();
     }
   }
 
@@ -117,6 +94,8 @@ public class PanelController {
     dialogBox.setManaged(false);
     buttonPanel.setVisible(false);
     buttonPanel.setManaged(false);
+    fishingPanelController.getRootFishing().setVisible(false);
+    fishingPanelController.getRootFishing().setManaged(false);
 
     if (currentTimeline != null) {
       currentTimeline.stop();
@@ -124,9 +103,14 @@ public class PanelController {
     }
   }
 
+  public void showFishing(Consumer<Integer> callback) {
+    fishingPanelController.setUserInputListener(input -> {
+      callback.accept(input); // Kirim balik ke pemanggil
+    });
+    fishingPanelController.show();
+  }
+
   public FishingPanelController getFishingPanelController() {
     return fishingPanelController;
   }
-
-  
 }

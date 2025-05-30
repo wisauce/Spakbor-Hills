@@ -1,12 +1,17 @@
 package sti.oop.models.assets;
 
+import java.util.List;
+
 import sti.oop.action.Action;
 import sti.oop.models.Interactable;
+import sti.oop.models.Item.Fish;
 
 public class FishingArea extends Asset implements Interactable {
+  private List<Fish> fishes;
 
-  public FishingArea(int x, int y, int w, int h ,boolean collision) {
-    super(x, y, w, h, collision);
+  public FishingArea(int x, int y, int w, int h ,List<Fish> fishes) {
+    super(x, y, w, h, false);
+    this.fishes = fishes;
   }
 
   @Override
@@ -16,7 +21,10 @@ public class FishingArea extends Asset implements Interactable {
 
   @Override
   public boolean multipleInput() {
-    return true;
+    return false;
   }
-  
+
+  public List<Fish> getFishes() {
+    return fishes;
+  }
 }

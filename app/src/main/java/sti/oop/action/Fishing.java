@@ -1,13 +1,9 @@
 package sti.oop.action;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
 import java.util.Random;
+
 import sti.oop.models.Player;
 import sti.oop.models.Item.Fish;
-import sti.oop.models.Item.Fish.Location;
-import sti.oop.models.Item.Fish.Weather;
 
 public class Fishing {
     private final Random random = new Random();

@@ -69,7 +69,9 @@ public class Action implements Actor {
   }
 
   public void act(FishingArea acted) {
-    
+    panelController.showFishing(inputValue -> {
+      panelController.showDialog(inputValue.toString());
+    });
   }
 
   @Override
