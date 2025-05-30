@@ -1,7 +1,6 @@
 package sti.oop.action;
 
 import sti.oop.controllers.FarmController;
-import sti.oop.controllers.FishingPanelController;
 import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.EnergyConsuming;
@@ -66,7 +65,9 @@ public class Action implements Actor {
   }
 
   public void act(FishingArea acted) {
-    
+    panelController.showFishing(inputValue -> {
+      panelController.showDialog(inputValue.toString());
+    });
   }
 
 }
