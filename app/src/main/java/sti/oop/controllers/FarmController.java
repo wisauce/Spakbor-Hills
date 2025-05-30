@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
@@ -340,9 +339,13 @@ public class FarmController {
     return panelController;
   }
 
+  public Farm getFarm() {
+    return farm;
+  }
+
   
 
-  /*
+/*
    * <------------------------------------------SEPERATOR-------------------------
    * ----------------------->
    */

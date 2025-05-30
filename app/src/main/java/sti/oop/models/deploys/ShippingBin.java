@@ -1,4 +1,4 @@
-package sti.oop.models.deployedObject;
+package sti.oop.models.deploys;
 
 import sti.oop.models.assets.Asset;
 import sti.oop.utils.Constants;

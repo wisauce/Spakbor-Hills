@@ -1,12 +1,16 @@
 package sti.oop.controllers;
 
+import java.util.function.UnaryOperator;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
+import sti.oop.interfaces.UserInputListener;
 
 public class FishingPanelController {
+
   @FXML
   private TextField numberInput;
 
@@ -16,45 +20,49 @@ public class FishingPanelController {
   @FXML
   private VBox rootFishing;
 
+  private UserInputListener<Integer> listener; // <- simpan listener
+
   @FXML
-  private void initialize() {
-    confirmButton.setOnAction(event -> handleConfirm());
-  }
-
-  private void handleConfirm() {
-    String text = numberInput.getText();
-    if (text == null || text.isBlank()) {
-      showError("Input tidak boleh kosong.");
-      return;
-    }
-
-    try {
-      int value = Integer.parseInt(text);
-      if (value < 1 || value > 100) {
-        showError("Masukkan angka antara 1 sampai 100.");
-        return;
+  public void initialize() {
+    UnaryOperator<TextFormatter.Change> filter = change -> {
+      String newText = change.getControlNewText();
+      if (newText.matches("([1-9][0-9]{0,1}|100)?")) {
+        return change;
+      } else {
+        return null;
       }
+    };
 
-      // Kalau valid, lakukan sesuatu (contoh: print ke console)
-      System.out.println("Input valid: " + value);
-      // Kamu bisa tambahkan logika lain di sini
+    numberInput.setTextFormatter(new TextFormatter<>(filter));
 
-    } catch (NumberFormatException e) {
-      showError("Input harus berupa angka.");
-    }
+    confirmButton.setOnAction(e -> {
+      String text = numberInput.getText();
+      if (!text.isEmpty()) {
+        int value = Integer.parseInt(text);
+        if (listener != null) {
+          listener.onUserInput(value); // PANGGIL LISTENER!
+        }
+        hide(); // Optional: sembunyiin panel setelah input
+      }
+    });
   }
 
-  private void showError(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Invalid Input");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
+  public void setUserInputListener(UserInputListener<Integer> listener) {
+    this.listener = listener;
+  }
+
+  public void show() {
+    rootFishing.setVisible(true);
+    rootFishing.setManaged(true);
+    numberInput.clear();
+  }
+
+  public void hide() {
+    rootFishing.setVisible(false);
+    rootFishing.setManaged(false);
   }
 
   public VBox getRootFishing() {
     return rootFishing;
   }
-
-  
 }

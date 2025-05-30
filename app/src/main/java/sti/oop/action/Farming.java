@@ -1,5 +1,7 @@
 package sti.oop.action;
 
+import sti.oop.controllers.FarmController;
+import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
@@ -7,7 +9,7 @@ import sti.oop.models.assets.Land;
 import sti.oop.models.assets.Land.LandState;
 
 public class Farming {
-  public String doFarm(Player player, Land land) {
+  public String doFarm(Player player, Land land, FarmController farmController) {
     String actionResult = null;
     if (player.getEnergy() - land.getEnergyRequired() >= player.getMIN_ENERGY()) {
       Item onHandItem = player.getOnHandItem();
@@ -30,6 +32,7 @@ public class Farming {
           land.setDaysToHarvest(seed.getDayToHarvest());
           player.getInventory().removeItem(onHandItem, 1);
           player.updateOnHandItem();
+          farmController.updateHotbar();
           actionResult =  "You just planted " + seed.getItemName() + ", it can be harvested in " + seed.getDayToHarvest() + " day. Do not forget to water it every two days so it does not wither.";
         }
         

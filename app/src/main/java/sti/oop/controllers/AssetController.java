@@ -12,13 +12,13 @@ import sti.oop.models.Player;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
-import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
+import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
-import sti.oop.models.deployedObject.House;
-import sti.oop.models.deployedObject.Pond;
-import sti.oop.models.deployedObject.ShippingBin;
+import sti.oop.models.deploys.House;
+import sti.oop.models.deploys.Pond;
+import sti.oop.models.deploys.ShippingBin;
 import sti.oop.utils.Constants;
 import sti.oop.utils.RandomizeFarm;
 
@@ -39,7 +39,9 @@ public class AssetController {
     assetsOnFarm.add(house);
     Teleporter teleportToHouse = new Teleporter(house.getX() + (int) (2.5 * Constants.TILE_SIZE),house.getY() + 6 * Constants.TILE_SIZE, MapName.HOUSE, 16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE);
     assetsOnFarm.add(teleportToHouse);
-    assetsOnFarm.add(new Pond(farmMap));
+    Pond pond = new Pond(farmMap);
+    assetsOnFarm.add(pond);
+    assetsOnFarm.add(new PondArea(pond));
     assetsOnFarm.add(new ShippingBin(farmMap));
     assetsOnFarm.addAll(lands);
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);

@@ -309,8 +309,24 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
   
   public void updateOnHandItem() {
     Item[] allItems = inventory.getAllItem().toArray(new Item[0]);
+
+    if (onHandItem != null) {
+      int currentQuantity = inventory.getItemCount(onHandItem);
+      if (currentQuantity <= 0) {
+        onHandItem = null;
+        onHandInventoryIndex = -1;
+        return;
+      }
+    }
     if (onHandInventoryIndex >= 0 && onHandInventoryIndex < allItems.length) {
-      onHandItem = allItems[onHandInventoryIndex];
+        Item itemAtIndex = allItems[onHandInventoryIndex];
+        if (inventory.getItemCount(itemAtIndex) > 0) {
+            onHandItem = itemAtIndex;
+        } 
+        else {
+            onHandItem = null;
+            onHandInventoryIndex = -1;
+        }
     }
     else {
       onHandItem = null;
