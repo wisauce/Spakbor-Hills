@@ -10,8 +10,8 @@ public class FishingArea extends Asset implements Interactable {
   }
 
   @Override
-  public String accept(Action action) {
-    return "apa kekk";
+  public void accept(Action action) {
+    action.act(this);
   }
 
   @Override

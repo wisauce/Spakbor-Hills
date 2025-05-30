@@ -15,8 +15,8 @@ public class SleepingArea extends Asset implements Interactable {
   }
 
   @Override
-  public String accept(Action action) {
-    return action.act(this);
+  public void accept(Action action) {
+    action.act(this);
   }
 
   public int getSpawnAreaX() {

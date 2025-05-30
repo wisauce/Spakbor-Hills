@@ -63,8 +63,8 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
   }
 
   @Override
-  public String accept(Action action) {
-    return action.act(this);
+  public void accept(Action action) {
+    action.act(this);
   }
 
   public LandState getState() {
