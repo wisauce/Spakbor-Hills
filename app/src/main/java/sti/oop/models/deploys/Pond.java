@@ -1,4 +1,4 @@
-package sti.oop.models.deployedObject;
+package sti.oop.models.deploys;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

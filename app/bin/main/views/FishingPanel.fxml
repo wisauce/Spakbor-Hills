@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="sti.oop.controllers.FishingPanelController"
+      spacing="10"
+      fx:id="rootFishing"
+      visible="false"
+      managed="false">
+  
+  <padding>
+    <Insets top="10" right="10" bottom="10" left="10" />
+  </padding>
+
+  <children>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+      <children>
+        <TextField fx:id="numberInput" promptText="Enter a number (1-100)" maxWidth="150" />
+        <Button fx:id="confirmButton" text="Confirm" />
+      </children>
+    </HBox>
+  </children>
+
+</VBox>

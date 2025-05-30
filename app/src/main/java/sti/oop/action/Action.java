@@ -52,7 +52,7 @@ public class Action implements Actor {
   public void act(Land acted) {
     String actionResult = null;
     Farming farming = new Farming();
-    actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted);
+    actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted, farmController);
     if (hasEnergyRanOut()) {
       sleepImmediately();
       actionResult = "you are too tired from yesterday farming";
