@@ -12,8 +12,6 @@ import sti.oop.models.Player;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
-import sti.oop.models.assets.FishingArea;
-import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.SleepingArea;

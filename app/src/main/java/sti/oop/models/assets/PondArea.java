@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Item.Fish;
-import sti.oop.models.deployedObject.Pond;
+import sti.oop.models.deploys.Pond;
 import sti.oop.utils.Constants;
 
 public class PondArea extends FishingArea {

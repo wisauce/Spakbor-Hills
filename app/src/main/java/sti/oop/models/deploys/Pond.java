@@ -1,10 +1,5 @@
 package sti.oop.models.deploys;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-
-import sti.oop.models.Item.Fish;
 import sti.oop.models.assets.Asset;
 import sti.oop.utils.Constants;
 import sti.oop.utils.RandomizeFarm;
