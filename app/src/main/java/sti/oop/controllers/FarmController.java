@@ -1,6 +1,7 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -29,6 +30,7 @@ import sti.oop.models.NPC.Emily;
 import sti.oop.models.NPC.MayorTadi;
 import sti.oop.models.NPC.NPC;
 import sti.oop.models.NPC.Perry;
+import sti.oop.models.assets.Asset;
 import sti.oop.utils.Constants;
 import sti.oop.utils.ItemSpriteManager;
 
@@ -130,11 +132,13 @@ private StackPane BottomPanel;
       
       
       /* Initialize Contoller */
-      assetController = new AssetController(player);
+      LandSetter landSetter = new LandSetter();
+      List<Asset> lands = landSetter.setLandOnFarm();
+      assetController = new AssetController(player,lands);
       collisionController = new CollisionController();  
       gameMapController = new GameMapController(player);
       playerController = new PlayerController(player, collisionController, this);
-      farm = new Farm(playerController);
+      farm = new Farm(playerController, lands);
       timeController = new TimeController(farm, timeDisplay, dateDisplay);
       // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 * Constants.TILE_SIZE, "/images/monyet.jpg", true));
       // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 * Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
@@ -170,9 +174,6 @@ private StackPane BottomPanel;
             
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             gameMapController.render(gc);
-            if (playerController.isToggled()) {
-            }
-            
             
             renderNPCs();
             

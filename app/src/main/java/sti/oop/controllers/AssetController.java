@@ -8,16 +8,17 @@ import java.util.Map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import sti.oop.controllers.GameMapController.MapName;
-import sti.oop.models.deployedObject.House;
-import sti.oop.models.deployedObject.Pond;
-import sti.oop.models.deployedObject.ShippingBin;
 import sti.oop.models.Player;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
+import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
+import sti.oop.models.deployedObject.House;
+import sti.oop.models.deployedObject.Pond;
+import sti.oop.models.deployedObject.ShippingBin;
 import sti.oop.utils.Constants;
 import sti.oop.utils.RandomizeFarm;
 
@@ -26,7 +27,7 @@ public class AssetController {
   List<Asset> currentAssets;
   Player player;
 
-  public AssetController(Player player) {
+  public AssetController(Player player, List<Asset> lands) {
     mapOfListOfAssets = new HashMap<>();
 
     /*Initialze farmMap */
@@ -40,8 +41,7 @@ public class AssetController {
     assetsOnFarm.add(teleportToHouse);
     assetsOnFarm.add(new Pond(farmMap));
     assetsOnFarm.add(new ShippingBin(farmMap));
-    LandSetter landSetter = new LandSetter();
-    assetsOnFarm.addAll(landSetter.setLandOnFarm());
+    assetsOnFarm.addAll(lands);
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);
 
     /*Initialize house */

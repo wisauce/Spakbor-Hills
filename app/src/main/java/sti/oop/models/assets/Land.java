@@ -16,10 +16,12 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
     PLANTED_LAND,
     HARVESTABLE_LAND
   }
+
   private Image tillableLandImage = null;
   private Image tilledLandImage;
   private Image plantedLandImage;
   private Image harvestableLandImage;
+  private Image plantedAndWateredLandImage;
 
   private LandState state;
 
@@ -27,18 +29,23 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
   private Item requiredForLandRecovery = new Equipment("Pickaxe");
   private Item requiredForWatering = new Equipment("Watering Can");
 
+  private final int MAX_DAYS_NOT_WATERED = 2;
+
   private Seed seed;
-  private Crop crop;
+  private int daysToHarvest;
+  private int daysPassed;
   private int daysNotWatered;
+  private boolean isTodayWatered;
 
   private int energyRequired = 5;
 
-  public Land(int x, int y, Image tilledLandImage, Image plantedLandImage, Image harvestableLandImage) {
+  public Land(int x, int y, Image tilledLandImage, Image plantedLandImage, Image harvestableLandImage, Image plantedAndWateredLandImage) {
     super(x, y, false);
     state = LandState.TILLABLE_LAND;
     this.tilledLandImage = tilledLandImage;
     this.plantedLandImage = plantedLandImage;
     this.harvestableLandImage = harvestableLandImage;
+    this.plantedAndWateredLandImage = plantedAndWateredLandImage;
   }
 
   public void changeLandState(LandState state) {
@@ -50,14 +57,13 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
       setImage(plantedLandImage);
     } else if (state.equals(LandState.HARVESTABLE_LAND)) {
       setImage(harvestableLandImage);
-
     }
     System.out.println("change state from " + this.state + " to " + state);
     this.state = state;
   }
 
   @Override
-  public String accept(Action action)  {
+  public String accept(Action action) {
     return action.act(this);
   }
 
@@ -80,7 +86,6 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
   public Seed getSeed() {
     return seed;
   }
-
   public void setSeed(Seed seed) {
     this.seed = seed;
   }
@@ -93,12 +98,39 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
     this.daysNotWatered = daysNotWatered;
   }
 
-  public Crop getCrop() {
-    return crop;
+  public void updateStateOfPlantedLand() {
+    if (state.equals(LandState.PLANTED_LAND)) {
+      System.out.println(daysNotWatered);
+      if (!isTodayWatered) {
+        daysNotWatered++;
+      } else {
+        setImage(plantedLandImage);
+      }
+      daysPassed++;
+      System.out.println("daystoharvest" + daysToHarvest);
+      System.out.println("daysPassed" + daysPassed);
+      System.out.println(state);
+      if (daysPassed == daysToHarvest) {
+        changeLandState(LandState.HARVESTABLE_LAND);
+        daysNotWatered = 0;
+        daysPassed = 0;
+        daysToHarvest = 0;
+      } else if (daysNotWatered > MAX_DAYS_NOT_WATERED) {
+        changeLandState(LandState.TILLED_LAND);
+        seed = null;
+        daysNotWatered = 0;
+        daysPassed = 0;
+        daysToHarvest = 0;
+      }
+      isTodayWatered = false;
+    }
   }
 
-  public void setCrop(Crop crop) {
-    this.crop = crop;
+  
+
+  public void setTodayWatered(boolean isTodayWatered) {
+    this.isTodayWatered = isTodayWatered;
+    if (isTodayWatered) setImage(plantedAndWateredLandImage);
   }
 
   @Override
@@ -111,11 +143,21 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
     return false;
   }
 
+  public void setDaysToHarvest(int daysToHarvest) {
+    this.daysToHarvest = daysToHarvest;
+  }
+
+  public boolean isTodayWatered() {
+    return isTodayWatered;
+  }
+
   
 
-
-  // JANGNA LUPA BIKIN LOGIC BUAT BIAR TIAP GANTI HARI DAY NOT WATERED NAIK + KALO UJAN KERESET 
   
 
-  // JANGAN LUPA BIKIN LOGIC BIAR KALO UDH HARVEST DAY NANTI KESET SENDIRI CROPNYA JADI ADA DAN BISA DIHARVEST
+  // JANGNA LUPA BIKIN LOGIC BUAT BIAR TIAP GANTI HARI DAY NOT WATERED NAIK + KALO
+  // UJAN KERESET
+
+  // JANGAN LUPA BIKIN LOGIC BIAR KALO UDH HARVEST DAY NANTI KESET SENDIRI CROPNYA
+  // JADI ADA DAN BISA DIHARVEST
 }

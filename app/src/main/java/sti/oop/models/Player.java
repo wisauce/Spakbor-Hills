@@ -84,6 +84,7 @@ public class Player {
     inventory.addItem(new Equipment("WateringCan"), 1);
     inventory.addItem(new Equipment("FishingRod"), 1);
     inventory.addItem(new Seed("ParsnipSeeds", 1, 20, Seed.Season.SPRING), 15);
+    inventory.addItem(new Seed("PotatoSeeds", 3, 50, Seed.Season.SPRING), 1);
   }
 
   public int getX() {

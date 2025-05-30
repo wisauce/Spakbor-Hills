@@ -29,8 +29,8 @@ public class Action implements Actor {
     new Sleep().sleep(farmController, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE);
   }
 
-  public boolean hasEnergyRanOut(int energyLeft) {
-    return energyLeft == farmController.getPlayerController().getPlayer().getMIN_ENERGY();
+  public boolean hasEnergyRanOut() {
+    return farmController.getPlayerController().getPlayer().getEnergy() == farmController.getPlayerController().getPlayer().getMIN_ENERGY();
   }
 
   @Override
@@ -48,69 +48,14 @@ public class Action implements Actor {
 
   @Override
   public String act(Land acted) {
-    if (isActionDoable(acted)) {
-      Player player = farmController.getPlayerController().getPlayer();
-      Item onHandItem = player.getOnHandItem();
-      if (acted.getState().equals(LandState.TILLABLE_LAND)) {
-        if (player.hasItemInHand("Hoe")) {
-          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-          acted.changeLandState(LandState.TILLED_LAND);
-        } else {
-          return "You need a Hoe to till the land!";
-        }
-        // belum implement time
-      }
-
-      else if (acted.getState().equals(LandState.TILLED_LAND)) {
-        if (player.hasItemTypeInHand("SEED")) { // nanti true ganti sama getitemOnHand, IF yang dipegang seed
-          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-          acted.changeLandState(LandState.PLANTED_LAND);
-          acted.setSeed((Seed) onHandItem); // nanti ganti jadi seed on hand
-          player.getInventory().removeItem(onHandItem, 1);
-          player.updateOnHandItem();
-          return "You just planted " + onHandItem.getItemName();
-        }
-        
-        else if (player.hasItemInHand("Pickaxe")) {
-          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-          acted.changeLandState(LandState.TILLABLE_LAND);
-        }
-        
-        else {
-          return "You need seeds to plant or pickaxe to recover land!";
-        }
-        // if (item di tangan adalah pickaxe) {
-          // balik ke state TILLED LAND
-          // }
-      }
-
-      else if (acted.getState().equals(LandState.PLANTED_LAND)) { // && PUNYA WATERING CAN
-        if (player.hasItemInHand("WateringCan")) {
-          player.setEnergy(farmController.getPlayerController().getPlayer().getEnergy() - acted.getEnergyRequired());
-          acted.setDaysNotWatered(0);
-          acted.changeLandState(LandState.HARVESTABLE_LAND); // NANTI DIKOMEN, CUMA BUAT TESTING
-        } else {
-          return "You need a watering can to water the plant";
-        }
-      }
-
-      else if (acted.getState().equals(LandState.HARVESTABLE_LAND)) {
-        String seedName = acted.getSeed().getItemName();
-        String cropName = seedName.replaceAll("(?i)Seeds", "");
-        player.putItemInventory(cropName, 1);
-        acted.setCrop(null);
-        acted.changeLandState(LandState.TILLED_LAND);
-        return "Harvested " + cropName + ", it is now in your inventory";
-      }
-      if (hasEnergyRanOut(player.getEnergy())) {
-        sleepImmediately();
-        return "You were exhausted because of yesterday farming";
-      }
-      return null;
-    } else {
-      return "you are too tired to farm today";
-    }
-    
+    String actionResult = null;
+    Farming farming = new Farming();
+    actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted);
+    if (hasEnergyRanOut()) {
+      sleepImmediately();
+      actionResult = "you are too tired from yesterday farming";
+    } 
+    return actionResult;
   }
 
   @Override

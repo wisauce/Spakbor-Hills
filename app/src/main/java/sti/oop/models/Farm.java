@@ -1,10 +1,13 @@
 package sti.oop.models;
 
+import java.util.List;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
-import sti.oop.action.Sleep;
 import sti.oop.controllers.PlayerController;
+import sti.oop.models.assets.Asset;
+import sti.oop.models.assets.Land;
+import sti.oop.models.assets.Land.LandState;
 
 public class Farm {
   private String name;
@@ -16,6 +19,8 @@ public class Farm {
   private String timeOfDay = "AM";
   private boolean timeFrozen = false;
   private final int MINUTES_PER_SECOND = 5; 
+
+  private List<Asset> lands;
 
   private int worldDay = 1;
   private int worldMonth = 1;
@@ -40,9 +45,10 @@ public class Farm {
 
   private Random random = new Random();
 
-  public Farm(PlayerController playerController) {
+  public Farm(PlayerController playerController, List<Asset> lands) {
     this.playerController = playerController;
     name = playerController.getPlayer().getFarmName();
+    this.lands = lands;
   }
 
   public String getName() {
@@ -102,6 +108,16 @@ public class Farm {
     boolean newMonth = false;
 
     randomizedDailyWeather();
+
+    for (Asset asset : lands) {
+      Land land = (Land) asset;
+      if (land.getState() == LandState.PLANTED_LAND) {
+        if (weather == Weather.RAINY) {
+          land.setTodayWatered(true);
+        }
+        land.updateStateOfPlantedLand();
+      }
+    }
 
     if (worldMonth == 2) {
         if (worldDay > 28) {
