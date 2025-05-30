@@ -46,6 +46,14 @@ public class Player {
   private int y = 25 * Constants.TILE_SIZE;
 
   private HealthBarUpdater healthBarUpdater;
+
+  /* Recipe Unlock Barrier */
+  private int amountOfFishReeled = 0;
+  private boolean everPufferfish = false;
+  private boolean everHarvest = false;
+  private boolean everHotPepper = false;
+  private boolean everLegendaryFish = false;
+  //TODO: Develop with other logics!
   
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
@@ -62,30 +70,103 @@ public class Player {
     energy = MAX_ENERGY;
 
     onHandItem = null;
-    
 
     giveStarterItems();
 
-    inventory.addItem(new Misc("Coal", 100, 50), 1);
-    inventory.addItem(new Misc("Firewood", 150, 75), 1);
-    inventory.addItem(new Misc("Gift", 250, 125), 1);
-    inventory.addItem(new Misc("WeddingRing", 1500, 50), 1);
-    inventory.addItem(new Fish("Angler", EnumSet.of(Fish.Season.SPRING), new int[]{6,18}, EnumSet.of(Fish.Weather.SUNNY), EnumSet.of(Fish.Location.OCEAN), "COMMON"),  1);
-
-
-    for (int i = 1; i <= 30; i++) {
-      inventory.addItem(new Equipment("TestTool" + i), i);
-    }
   }
 
-  private void giveStarterItems() {
-    inventory.addItem(new Equipment("Hoe"), 1);
-    inventory.addItem(new Equipment("Pickaxe"), 1);
-    inventory.addItem(new Equipment("WateringCan"), 1);
-    inventory.addItem(new Equipment("FishingRod"), 1);
-    inventory.addItem(new Seed("ParsnipSeeds", 1, 20, Seed.Season.SPRING), 15);
-    inventory.addItem(new Seed("PotatoSeeds", 3, 50, Seed.Season.SPRING), 1);
-  }
+private void giveStarterItems() { //TODO: CHANGE LATER!
+    /* Equipment */
+    inventory.addItem(ItemRegistry.createItem("Hoe"), 1);
+    inventory.addItem(ItemRegistry.createItem("Pickaxe"), 1);
+    inventory.addItem(ItemRegistry.createItem("WateringCan"), 1);
+    inventory.addItem(ItemRegistry.createItem("FishingRod"), 1);
+
+    /* Seeds */
+    inventory.addItem(ItemRegistry.createItem("ParsnipSeeds"), 15);
+    inventory.addItem(ItemRegistry.createItem("CauliflowerSeeds"), 10);
+    inventory.addItem(ItemRegistry.createItem("PotatoSeeds"), 12);
+    inventory.addItem(ItemRegistry.createItem("WheatSeeds"), 8);
+    inventory.addItem(ItemRegistry.createItem("BlueberrySeeds"), 5);
+    inventory.addItem(ItemRegistry.createItem("TomatoSeeds"), 8);
+    inventory.addItem(ItemRegistry.createItem("HotPepperSeeds"), 3);
+    inventory.addItem(ItemRegistry.createItem("MelonSeeds"), 4);
+    inventory.addItem(ItemRegistry.createItem("CranberrySeeds"), 5);
+    inventory.addItem(ItemRegistry.createItem("PumpkinSeeds"), 3);
+    inventory.addItem(ItemRegistry.createItem("GrapeSeeds"), 4);
+
+    /* Fish */
+    // Common Fish
+    inventory.addItem(ItemRegistry.createItem("Bullhead"), 2);
+    inventory.addItem(ItemRegistry.createItem("Carp"), 3);
+    inventory.addItem(ItemRegistry.createItem("Chub"), 2);
+    
+    // Regular Fish
+    inventory.addItem(ItemRegistry.createItem("LargemouthBass"), 1);
+    inventory.addItem(ItemRegistry.createItem("RainbowTrout"), 1);
+    inventory.addItem(ItemRegistry.createItem("Sturgeon"), 1);
+    inventory.addItem(ItemRegistry.createItem("MidnightCarp"), 1);
+    inventory.addItem(ItemRegistry.createItem("Flounder"), 1);
+    inventory.addItem(ItemRegistry.createItem("Halibut"), 1);
+    inventory.addItem(ItemRegistry.createItem("Octopus"), 1);
+    inventory.addItem(ItemRegistry.createItem("Pufferfish"), 1);
+    inventory.addItem(ItemRegistry.createItem("Sardine"), 4);
+    inventory.addItem(ItemRegistry.createItem("SuperCucumber"), 1);
+    inventory.addItem(ItemRegistry.createItem("Catfish"), 1);
+    inventory.addItem(ItemRegistry.createItem("Salmon"), 1);
+    
+    // Legendary Fish
+    inventory.addItem(ItemRegistry.createItem("Angler"), 1);
+    inventory.addItem(ItemRegistry.createItem("Crimsonfish"), 1);
+    inventory.addItem(ItemRegistry.createItem("Glacierfish"), 1);
+    inventory.addItem(ItemRegistry.createItem("Legend"), 1);
+
+    /* Crop */
+    inventory.addItem(ItemRegistry.createItem("Parsnip"), 8);
+    inventory.addItem(ItemRegistry.createItem("Cauliflower"), 5);
+    inventory.addItem(ItemRegistry.createItem("Potato"), 10);
+    inventory.addItem(ItemRegistry.createItem("Wheat"), 12);
+    inventory.addItem(ItemRegistry.createItem("Blueberry"), 6);
+    inventory.addItem(ItemRegistry.createItem("Tomato"), 7);
+    inventory.addItem(ItemRegistry.createItem("HotPepper"), 4);
+    inventory.addItem(ItemRegistry.createItem("Melon"), 2);
+    inventory.addItem(ItemRegistry.createItem("Cranberry"), 8);
+    inventory.addItem(ItemRegistry.createItem("Pumpkin"), 3);
+    inventory.addItem(ItemRegistry.createItem("Grape"), 10);
+
+    /* Food */
+    inventory.addItem(ItemRegistry.createItem("FishnChips"), 2);
+    inventory.addItem(ItemRegistry.createItem("Baguette"), 3);
+    inventory.addItem(ItemRegistry.createItem("Sashimi"), 2);
+    inventory.addItem(ItemRegistry.createItem("Fugu"), 1);
+    inventory.addItem(ItemRegistry.createItem("Wine"), 2);
+    inventory.addItem(ItemRegistry.createItem("PumpkinPie"), 2);
+    inventory.addItem(ItemRegistry.createItem("VeggieSoup"), 2);
+    inventory.addItem(ItemRegistry.createItem("FishStew"), 2);
+    inventory.addItem(ItemRegistry.createItem("SpakborSalad"), 1);
+    inventory.addItem(ItemRegistry.createItem("FishSandwich"), 2);
+    inventory.addItem(ItemRegistry.createItem("TheLegendsOfSpakbor"), 1);
+    inventory.addItem(ItemRegistry.createItem("CookedPigsHead"), 1);
+
+    /* Misc */
+    inventory.addItem(ItemRegistry.createItem("Coal"), 10);
+    inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
+    inventory.addItem(ItemRegistry.createItem("Gift"), 2);
+    inventory.addItem(ItemRegistry.createItem("WeddingRing"), 1);
+
+    /* Recipe */
+    inventory.addItem(ItemRegistry.createItem("FishnChipsRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("BaguetteRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("SashimiRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("FuguRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("WineRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("PumpkinPieRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("VeggieSoupRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("FishStewRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("SpakborSaladRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("FishSandwichRecipe"), 1);
+    inventory.addItem(ItemRegistry.createItem("TheLegendsOfSpakborRecipe"), 1);
+}
 
   public int getX() {
     return x;

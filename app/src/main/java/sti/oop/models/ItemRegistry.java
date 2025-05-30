@@ -19,6 +19,7 @@ public class ItemRegistry {
         itemRegisterSeed();
         itemRegisterFurniture();
         itemRegisterFood();
+        itemRegisterRecipe();
     }
 
     //TODO: Finish all other items
@@ -279,8 +280,22 @@ public class ItemRegistry {
         ITEM_CREATORS.put("SpakborSalad", () -> new Food("SpakborSalad", 70, 0, 250));
         ITEM_CREATORS.put("FishSandwich", () -> new Food("FishSandwich", 50, 200, 180));
         ITEM_CREATORS.put("TheLegendsOfSpakbor", () -> new Food("TheLegendsOfSpakbor", 100, 0, 2000));
-        ITEM_CREATORS.put("CookedPigsHead", () -> new Food("FishCookedPigsHeadnChips", 100, 1000, 0));
+        ITEM_CREATORS.put("CookedPigsHead", () -> new Food("CookedPigsHeadnChips", 100, 1000, 0));
 
+    }
+
+    private static void itemRegisterRecipe() {
+        ITEM_CREATORS.put("FishnChipsRecipe", () -> new Recipe("FishnChipsRecipe", 150, 0));
+        ITEM_CREATORS.put("BaguetteRecipe", () -> new Recipe("BaguetteRecipe", 0, 0));
+        ITEM_CREATORS.put("SashimiRecipe", () -> new Recipe("SashimiRecipe", 0, 0));
+        ITEM_CREATORS.put("FuguRecipe", () -> new Recipe("FuguRecipe", 0, 0));
+        ITEM_CREATORS.put("WineRecipe", () -> new Recipe("WineRecipe", 0, 0));
+        ITEM_CREATORS.put("PumpkinPieRecipe", () -> new Recipe("PumpkinPieRecipe", 0, 0));
+        ITEM_CREATORS.put("VeggieSoupRecipe", () -> new Recipe("VeggieSoupRecipe", 0, 0));
+        ITEM_CREATORS.put("FishStewRecipe", () -> new Recipe("FishStewRecipe", 0, 0));
+        ITEM_CREATORS.put("SpakborSaladRecipe", () -> new Recipe("SpakborSaladRecipe", 0, 0));
+        ITEM_CREATORS.put("FishSandwichRecipe", () -> new Recipe("FishSandwichRecipe", 150, 0));
+        ITEM_CREATORS.put("TheLegendsOfSpakborRecipe", () -> new Recipe("TheLegendsOfSpakborRecipe", 0, 0));
     }
 
     public static Item createItem(String itemName){
