@@ -3,7 +3,7 @@ package sti.oop.models.NPC;
 import javafx.scene.image.Image;
 import sti.oop.models.Player;
 import sti.oop.models.Point;
-import sti.oop.models.Item.*;
+import sti.oop.models.item.*;
 
 import java.util.List;
 
@@ -54,10 +54,6 @@ public class NPC {
     loadSprite();
     this.conversation = conversation;
 
-    // hitboxWidth = 128;
-    // hitboxHeight = 128;
-    // hitbox = new Rectangle2D(getLocation().x, getLocation().y, hitboxWidth,
-    // hitboxHeight);
   }
 
   private void loadSprite() {

@@ -12,6 +12,8 @@ import sti.oop.models.Player;
 import sti.oop.models.NPC.Dasco;
 import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
+import sti.oop.models.assets.CookingArea;
+import sti.oop.models.assets.Stove;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.SleepingArea;
@@ -51,7 +53,9 @@ public class AssetController {
     List<Asset> assetsOnHome = new ArrayList<>();
     assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, MapName.FARM, teleportToHouse.getX(), teleportToHouse.getY()));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
+    assetsOnHome.add(new Stove(27 * Constants.TILE_SIZE, 17 * Constants.TILE_SIZE));
     assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 9 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
+    assetsOnHome.add(new CookingArea(27 * Constants.TILE_SIZE, 17 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);
 
     /*Initialize World*/

@@ -12,7 +12,7 @@ import sti.oop.action.Action;
 import sti.oop.interfaces.Renderable;
 import sti.oop.models.Inventory;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Item;
+import sti.oop.models.item.Item;
 import sti.oop.utils.Constants;
 
 public class PlayerController implements Renderable {
@@ -32,6 +32,13 @@ public class PlayerController implements Renderable {
   private boolean key2Pressed = false;
   private boolean key3Pressed = false;
   private boolean key4Pressed = false;
+  private boolean key5Pressed = false;
+  private boolean key6Pressed = false;
+  private boolean key7Pressed = false;
+  private boolean key8Pressed = false;
+  private boolean key9Pressed = false;
+  private boolean key0Pressed = false;
+  private boolean keyBackQuotePressed = false;
   private boolean toggleInteraction = false;
   private boolean justInteracted = false;
   private boolean justEaten = false;
@@ -288,6 +295,48 @@ public class PlayerController implements Renderable {
           }
           key4Pressed = true;
         }
+        case KeyCode.DIGIT5 -> {
+          if (!key5Pressed) {
+            justInteracted = true;
+          }
+          key5Pressed = true;
+        }
+        case KeyCode.DIGIT6 -> {
+          if (!key6Pressed) {
+            justInteracted = true;
+          }
+          key6Pressed = true;
+        }
+        case KeyCode.DIGIT7 -> {
+          if (!key7Pressed) {
+            justInteracted = true;
+          }
+          key7Pressed = true;
+        }
+        case KeyCode.DIGIT8 -> {
+          if (!key8Pressed) {
+            justInteracted = true;
+          }
+          key8Pressed = true;
+        }
+        case KeyCode.DIGIT9 -> {
+          if (!key9Pressed) {
+            justInteracted = true;
+          }
+          key9Pressed = true;
+        }
+        case KeyCode.DIGIT0 -> {
+          if (!key0Pressed) {
+            justInteracted = true;
+          }
+          key0Pressed = true;
+        }
+        case KeyCode.BACK_QUOTE -> {
+          if (!keyBackQuotePressed) {
+            justInteracted = true;
+          }
+          keyBackQuotePressed = true;
+        }
         case KeyCode.T -> {
           if (!keyTPressed) {
             justEaten = true;
@@ -328,6 +377,27 @@ public class PlayerController implements Renderable {
         }
         case KeyCode.DIGIT4 -> {
           key4Pressed = false;
+        }
+        case KeyCode.DIGIT5 -> {
+          key5Pressed = false;
+        }
+        case KeyCode.DIGIT6 -> {
+          key6Pressed = false;
+        }
+        case KeyCode.DIGIT7 -> {
+          key7Pressed = false;
+        }
+        case KeyCode.DIGIT8 -> {
+          key8Pressed = false;
+        }
+        case KeyCode.DIGIT9 -> {
+          key9Pressed = false;
+        }
+        case KeyCode.DIGIT0 -> {
+          key0Pressed = false;
+        }
+        case KeyCode.BACK_QUOTE -> {
+          keyBackQuotePressed = false;
         }
 
         default -> {
@@ -382,6 +452,10 @@ public class PlayerController implements Renderable {
     noCollidingAsset = isColliding;
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                             Key Pressed Logics                             */
+  /* -------------------------------------------------------------------------- */
+
   public boolean isKeyLeftPressed() {
     return keyLeftPressed;
   }
@@ -400,6 +474,34 @@ public class PlayerController implements Renderable {
 
   public boolean isKey4Pressed() {
     return key4Pressed;
+  }
+
+  public boolean isKey5Pressed() {
+    return key5Pressed;
+  }
+
+  public boolean isKey6Pressed() {
+    return key6Pressed;
+  }
+
+  public boolean isKey7Pressed() {
+    return key7Pressed;
+  }
+
+  public boolean isKey8Pressed() {
+    return key8Pressed;
+  }
+
+  public boolean isKey9Pressed() {
+    return key9Pressed;
+  }
+
+  public boolean isKey0Pressed() {
+    return key0Pressed;
+  }
+
+  public boolean isKeyBackQuotePressed() {
+    return keyBackQuotePressed;
   }
 
   public boolean isKeyRightPressed() {

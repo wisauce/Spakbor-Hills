@@ -6,14 +6,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import sti.oop.models.Item.Crop;
-import sti.oop.models.Item.Equipment;
-import sti.oop.models.Item.Fish;
-import sti.oop.models.Item.Food;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Misc;
-import sti.oop.models.Item.Recipe;
-import sti.oop.models.Item.Seed;
+import sti.oop.models.item.Crop;
+import sti.oop.models.item.Equipment;
+import sti.oop.models.item.Fish;
+import sti.oop.models.item.Food;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Misc;
+import sti.oop.models.item.Recipe;
+import sti.oop.models.item.Seed;
 
 public class ItemRegistry {
     private static final Map<String, Supplier<Item>> ITEM_CREATORS = new HashMap<>();

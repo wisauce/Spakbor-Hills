@@ -5,9 +5,9 @@ import sti.oop.action.Action;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Interactable;
 import sti.oop.models.Weather;
-import sti.oop.models.Item.Equipment;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Seed;
+import sti.oop.models.item.Equipment;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Seed;
 
 public class Land extends Asset implements Interactable, EnergyConsuming {
   public enum LandState {

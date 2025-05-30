@@ -3,10 +3,10 @@ package sti.oop.action;
 import sti.oop.controllers.FarmController;
 import sti.oop.models.Farm;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Seed;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.Land.LandState;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Seed;
 
 public class Farming {
   public String doFarm(Player player, Land land, FarmController farmController) {

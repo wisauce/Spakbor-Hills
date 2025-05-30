@@ -8,7 +8,7 @@ import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Season;
 import sti.oop.models.Weather;
-import sti.oop.models.Item.Fish;
+import sti.oop.models.item.Fish;
 
 public class Fishing {
     private final Random random = new Random();

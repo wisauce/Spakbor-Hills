@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import sti.oop.models.ItemRegistry;
-import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Recipe;
+import sti.oop.models.item.Item;
+import sti.oop.models.item.Recipe;
 import javafx.scene.image.PixelWriter;
 
 import java.util.concurrent.ConcurrentHashMap;

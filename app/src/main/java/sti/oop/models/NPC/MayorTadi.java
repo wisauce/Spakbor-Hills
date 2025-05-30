@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Point;
+import sti.oop.models.item.Item;
 import sti.oop.utils.Constants;
-import sti.oop.models.Item.Item;
 
 
 public class MayorTadi extends NPC {
