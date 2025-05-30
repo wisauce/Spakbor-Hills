@@ -3,7 +3,10 @@ package sti.oop.action;
 import sti.oop.controllers.FarmController;
 import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
+import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
+import sti.oop.models.Player;
+import sti.oop.models.Item.Item;
 import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
@@ -49,7 +52,7 @@ public class Action implements Actor {
   public void act(Land acted) {
     String actionResult = null;
     Farming farming = new Farming();
-    actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted);
+    actionResult = farming.doFarm(farmController.getPlayerController().getPlayer(), acted, farmController);
     if (hasEnergyRanOut()) {
       sleepImmediately();
       actionResult = "you are too tired from yesterday farming";
@@ -68,6 +71,13 @@ public class Action implements Actor {
     panelController.showFishing(inputValue -> {
       panelController.showDialog(inputValue.toString());
     });
+  }
+
+  @Override
+  public void act(Edible acted) {
+    Player player = farmController.getPlayerController().getPlayer();
+    player.setEnergy(player.getEnergy()+acted.getEnergy());
+    player.getInventory().removeItem((Item)acted, 1);
   }
 
 }

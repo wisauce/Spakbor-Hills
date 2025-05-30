@@ -18,9 +18,9 @@ import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
-import sti.oop.models.deployedObject.House;
-import sti.oop.models.deployedObject.Pond;
-import sti.oop.models.deployedObject.ShippingBin;
+import sti.oop.models.deploys.House;
+import sti.oop.models.deploys.Pond;
+import sti.oop.models.deploys.ShippingBin;
 import sti.oop.utils.Constants;
 import sti.oop.utils.RandomizeFarm;
 

@@ -65,6 +65,14 @@ public class HotbarController {
         Item onHandItem = player.getOnHandItem();
         
         if (onHandItem != null) {
+            int quantity = player.getInventory().getItemCount(onHandItem);
+
+            if (quantity <= 0) {
+                deselectOnHandItem();
+            }
+        }
+
+        if (onHandItem != null) {
             Image sprite = ItemSpriteManager.getItemSprite(onHandItem.getItemID());
             onHandItemDisplay.setImage(sprite);
             onHandItemName.setText(onHandItem.getItemName());
