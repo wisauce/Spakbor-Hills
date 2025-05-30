@@ -34,7 +34,7 @@ public class Farm {
 
   private Season season = Season.SPRING;
 
-  private enum Weather {
+  public enum Weather {
     SUNNY,
     RAINY
   }
@@ -112,10 +112,7 @@ public class Farm {
     for (Asset asset : lands) {
       Land land = (Land) asset;
       if (land.getState() == LandState.PLANTED_LAND) {
-        if (weather == Weather.RAINY) {
-          land.setTodayWatered(true);
-        }
-        land.updateStateOfPlantedLand();
+        land.updateStateOfPlantedLand(weather);
       }
     }
 

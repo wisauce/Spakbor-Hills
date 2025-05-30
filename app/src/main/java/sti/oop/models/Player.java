@@ -40,7 +40,7 @@ public class Player {
   private Item onHandItem;
   private int onHandInventoryIndex = 0;
   private int speed = walkingSpeed;
-  private double runBoost = 1.5;
+  private double runBoost = 4;
   private final int runningSpeed = (int) (walkingSpeed * runBoost);
   private int x = 16 * Constants.TILE_SIZE;
   private int y = 25 * Constants.TILE_SIZE;

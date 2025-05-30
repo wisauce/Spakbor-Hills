@@ -1,11 +1,11 @@
 package sti.oop.models.assets;
 
 import javafx.scene.image.Image;
+import sti.oop.action.Action;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Interactable;
-import sti.oop.action.Action;
-import sti.oop.models.Item.Crop;
 import sti.oop.models.Item.Equipment;
+import sti.oop.models.Farm.Weather;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
 
@@ -98,13 +98,20 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
     this.daysNotWatered = daysNotWatered;
   }
 
-  public void updateStateOfPlantedLand() {
+  public void updateStateOfPlantedLand(Weather weather) {
     if (state.equals(LandState.PLANTED_LAND)) {
-      System.out.println(daysNotWatered);
-      if (!isTodayWatered) {
-        daysNotWatered++;
+      if (weather.equals(Weather.RAINY)) {
+        daysNotWatered = 0;
+        setImage(plantedAndWateredLandImage);
+        isTodayWatered = true;
       } else {
-        setImage(plantedLandImage);
+        if (!isTodayWatered) {
+          daysNotWatered++;
+        } else {
+          setImage(plantedLandImage);
+          daysNotWatered = 0;
+        }
+        isTodayWatered = false;
       }
       daysPassed++;
       System.out.println("daystoharvest" + daysToHarvest);
@@ -122,7 +129,6 @@ public class Land extends Asset implements Interactable, EnergyConsuming {
         daysPassed = 0;
         daysToHarvest = 0;
       }
-      isTodayWatered = false;
     }
   }
 

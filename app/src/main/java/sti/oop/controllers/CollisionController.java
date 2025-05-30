@@ -20,8 +20,7 @@ public class CollisionController {
     mapOfCollisionMaps = Map.ofEntries(
         Map.entry(MapName.FARM, new CollisionMap("/maps/farmCollision.txt")),
         Map.entry(MapName.HOUSE, new CollisionMap("/maps/housecollisionnew.txt")),
-        Map.entry(MapName.WORLD,new CollisionMap("/maps/worldCollision.txt"))
-        );
+        Map.entry(MapName.WORLD, new CollisionMap("/maps/worldCollision.txt")));
     currentCollisionMap = mapOfCollisionMaps.get(MapName.FARM);
   }
 
@@ -74,14 +73,12 @@ public class CollisionController {
             panelController.showDialog(((Interactable) asset).accept(playerController.getAction()));
             playerController.clearJustInteracted();
           }
-
           if (playerController.isJustInteracted() && !playerController.isToggled()) {
             Interactable interactable = (Interactable) asset;
             if (interactable.multipleInput()) {
               playerController.toggle(); // masuk ke interaction mode
-            } else {
-              panelController.showDialog(interactable.accept(playerController.getAction()));
-            }
+            } 
+            panelController.showDialog(interactable.accept(playerController.getAction()));
             playerController.clearJustInteracted();
           }
         }
