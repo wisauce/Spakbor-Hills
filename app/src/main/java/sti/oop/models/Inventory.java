@@ -3,8 +3,11 @@ package sti.oop.models;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.List;
+import java.util.ArrayList;
 
-import sti.oop.models.Item.Item;
+import sti.oop.models.Item.*;
 
 import java.util.Collections;
 
@@ -14,6 +17,10 @@ public class Inventory {
     public Inventory() {
         items = new LinkedHashMap<>();
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                 Item Logics                                */
+    /* -------------------------------------------------------------------------- */
 
     public int getItemCount(Item itemName) {
         return items.getOrDefault(itemName, 0);
@@ -43,7 +50,7 @@ public class Inventory {
             throw new IllegalArgumentException("Item not found: " + itemName);
         }
     }
-    
+
     public void addItemByName(String itemName, int quantity) {
         Item existingItem = getItemByName(itemName);
         if (existingItem != null) {
@@ -78,5 +85,80 @@ public class Inventory {
         } else {
             items.put(item, newQuantity);
         }
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Fish Item Logics                              */
+    /* -------------------------------------------------------------------------- */
+
+    public int getTotalFish() {
+        return items.entrySet().stream()
+            .filter(entry -> entry.getKey().getItemType().equals("FISH"))
+            .mapToInt(Map.Entry::getValue).sum();
+    }
+
+    public int getTotalLegendaryFish() {
+        return items.entrySet().stream()
+            .filter(entry -> entry.getKey().getItemType().equals("FISH"))
+            .filter(entry -> ((Fish) entry.getKey()).getGrade().equals("LEGENDARY"))
+            .mapToInt(Map.Entry::getValue).sum();
+    }
+
+    public boolean hasEnoughFish(int requiredAmount) {
+        return getTotalFish() >= requiredAmount;
+    }
+
+    public boolean hasEnoughLegendaryFish(int requiredAmount) {
+        return getTotalLegendaryFish() >= requiredAmount;
+    }
+
+    public void removeAnyFishWithPriority(int quantity) {
+        int remaining = quantity;
+
+        String[] priorities = {"COMMON", "REGULAR", "LEGENDARY"};
+
+        for (String grade : priorities) {
+            if (remaining <= 0) {
+                break;
+            }
+
+            List<Item> fishGrade = items.keySet().stream()
+                .filter(item -> item.getItemType().equals("FISH"))
+                .filter(item -> ((Fish) item).getGrade().equals(grade))
+                .collect(Collectors.toList());
+            
+            for (Item fish : fishGrade) {
+                if (remaining <= 0) {
+                    break;
+                }
+
+                int available = items.get(fish);
+                int toRemove = Math.min(available, remaining);
+                removeItem(fish, toRemove);
+                remaining -= toRemove;
+            }
+        }
+    }
+
+    public void removeAnyLegendaryFish(int quantity) {
+        int remaining = quantity;
+
+        List<Item> fishGrade = items.keySet().stream()
+            .filter(item -> item.getItemType().equals("FISH"))
+            .filter(item -> ((Fish) item).getGrade().equals("LEGENDARY"))
+            .collect(Collectors.toList());
+        
+        for (Item fish : fishGrade) {
+            if (remaining <= 0) {
+                break;
+            }
+
+            int available = items.get(fish);
+            int toRemove = Math.min(available, remaining);
+            removeItem(fish, toRemove);
+            remaining -= toRemove;
+        }
+        
     }
 }
