@@ -340,6 +340,10 @@ public class FarmController {
     return panelController;
   }
 
+  public Farm getFarm() {
+    return farm;
+  }
+
   
 
   /*
