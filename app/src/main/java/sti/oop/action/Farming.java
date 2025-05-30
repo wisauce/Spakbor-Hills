@@ -63,7 +63,7 @@ public class Farming {
         player.setEnergy(player.getEnergy() - land.getEnergyRequired());
         String seedName = land.getSeed().getItemName();
         String cropName = seedName.replaceAll("(?i)Seeds", "");
-        player.putItemInventory(cropName, 1);
+        player.getInventory().addItemByName(cropName, 1);
         land.changeLandState(LandState.TILLED_LAND);
         land.setSeed(null);
         actionResult =  "Harvested " + cropName + ", it is now in your inventory";

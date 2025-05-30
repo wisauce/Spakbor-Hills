@@ -1,16 +1,9 @@
 package sti.oop.action;
 
-
-import java.util.Random;
-
-import com.google.common.cache.Weigher;
-
 import sti.oop.controllers.FarmController;
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Food;
 import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Misc;
 import sti.oop.models.Item.Recipe;
 
 public class Cooking {
@@ -19,18 +12,15 @@ public class Cooking {
 
         int fuel = 0;
 
-        Item Coal = ItemRegistry.createItem("Coal");
-        Item Firewood = ItemRegistry.createItem("Firewood");
-
         if (fuel == 0) {
 
-            if (player.getInventory().hasItem(Coal)) {
-                player.getInventory().removeItem(Coal, 1);
+            if (player.getInventory().hasItemByName("Coal")) {
+                player.getInventory().removeItemByName("Coal", 1);
                 fuel += 2;
             } 
 
-            else if (player.getInventory().hasItem(Firewood)){
-                player.getInventory().removeItem(Firewood, 1);
+            else if (player.getInventory().hasItemByName("Firewood")){
+                player.getInventory().removeItemByName("Firewood", 1);
                 fuel += 1;
             }
         }

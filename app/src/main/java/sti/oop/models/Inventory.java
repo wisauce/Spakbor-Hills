@@ -22,7 +22,38 @@ public class Inventory {
     public boolean hasItem(Item itemName) {
         return items.containsKey(itemName);
     }
+
+    public boolean hasItemByName(String itemName) {
+        return items.keySet().stream().anyMatch(item -> item.getItemName().equals(itemName));
+    }
+
+    public int getItemCountByName(String itemName) {
+        return items.entrySet().stream().filter(entry -> entry.getKey().getItemName().equals(itemName)).mapToInt(Map.Entry::getValue).sum();
+    }
+
+    public Item getItemByName(String itemName) {
+        return items.keySet().stream().filter(item -> item.getItemName().equals(itemName)).findFirst().orElse(null);
+    }
+
+    public void removeItemByName(String itemName, int quantity) {
+        Item item = getItemByName(itemName);
+        if (item != null) {
+            removeItem(item, quantity);
+        } else {
+            throw new IllegalArgumentException("Item not found: " + itemName);
+        }
+    }
     
+    public void addItemByName(String itemName, int quantity) {
+        Item existingItem = getItemByName(itemName);
+        if (existingItem != null) {
+            addItem(existingItem, quantity);
+        } else {
+            Item newItem = ItemRegistry.createItem(itemName);
+            addItem(newItem, quantity);
+        }
+    }
+        
     public Set<Item> getAllItem() {
         return Collections.unmodifiableSet(items.keySet());
     }
