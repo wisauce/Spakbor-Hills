@@ -25,21 +25,21 @@ public class Farm {
   private int worldDay = 1;
   private int worldMonth = 1;
 
-  private enum Season {
-    SPRING,
-    SUMMER,
-    AUTUMN,
-    WINTER
-  }
+  // private enum Season {
+  //   SPRING,
+  //   SUMMER,
+  //   AUTUMN,
+  //   WINTER
+  // }
 
   private Season season = Season.SPRING;
 
-  public enum Weather {
-    SUNNY,
-    RAINY
-  }
-  // private housemap
-  // private worldmap
+  // public enum Weather {
+  //   SUNNY,
+  //   RAINY
+  // }
+  // // private housemap
+  // // private worldmap
   
   private Weather weather = Weather.SUNNY;
 
@@ -202,23 +202,8 @@ public class Farm {
     }
   }
 
-  public String getSeason(){
-    switch (season) {
-      case SPRING:
-        return "Spring";
-      
-      case SUMMER:
-        return "Summer";
-      
-      case AUTUMN:
-        return "Autumn";
-
-      case WINTER:
-        return "Winter";
-
-      default:
-        return "NULL";
-    }
+  public Season getSeason(){
+    return season;
   }
 
   /* -------------------------------------------------------------------------- */
@@ -236,17 +221,8 @@ public class Farm {
     }
   }
 
-  public String getWeather() {
-    switch (weather) {
-      case SUNNY:
-        return "Sunny";
-      
-      case RAINY:
-        return "Rainy";
-        
-      default:
-        return "NULL";
-    }
+  public Weather getWeather() {
+    return weather;
   }
 
   /* -------------------------------------------------------------------------- */
