@@ -50,3 +50,15 @@ tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+tasks.withType<JavaCompile> {
+    destinationDirectory.set(layout.buildDirectory.dir("classes/java/main"))
+}
+
+tasks.register<Delete>("cleanBin") {
+    delete("bin")
+}
+
+tasks.named("clean") {
+    dependsOn("cleanBin")
+}

@@ -3,7 +3,7 @@ package sti.oop.models.NPC;
 import javafx.scene.image.Image;
 import sti.oop.models.Player;
 import sti.oop.models.Point;
-import sti.oop.models.item.*;
+import sti.oop.models.Item.*;
 
 import java.util.List;
 

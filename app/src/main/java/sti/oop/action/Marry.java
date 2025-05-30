@@ -3,8 +3,8 @@ package sti.oop.action;
 import sti.oop.interfaces.EnergyConsuming;
 // import sti.oop.models.Inventory;
 import sti.oop.models.Player;
+import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
-import sti.oop.models.item.Item;
 
 public class Marry implements EnergyConsuming {
   private int energyRequired = 80;

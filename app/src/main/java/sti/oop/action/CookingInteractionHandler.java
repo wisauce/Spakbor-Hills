@@ -3,8 +3,8 @@ package sti.oop.action;
 import sti.oop.controllers.PlayerController;
 import sti.oop.controllers.FarmController;
 import sti.oop.models.assets.CookingArea;
-import sti.oop.models.item.Recipe;
 import sti.oop.models.ItemRegistry;
+import sti.oop.models.Item.Recipe;
 
 public class CookingInteractionHandler {
   private PlayerController playerController;

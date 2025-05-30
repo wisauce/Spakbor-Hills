@@ -8,10 +8,10 @@ import com.google.common.cache.Weigher;
 import sti.oop.controllers.FarmController;
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
-import sti.oop.models.item.Food;
-import sti.oop.models.item.Item;
-import sti.oop.models.item.Misc;
-import sti.oop.models.item.Recipe;
+import sti.oop.models.Item.Food;
+import sti.oop.models.Item.Item;
+import sti.oop.models.Item.Misc;
+import sti.oop.models.Item.Recipe;
 
 public class Cooking {
     //TODO: Change String agar Notification!

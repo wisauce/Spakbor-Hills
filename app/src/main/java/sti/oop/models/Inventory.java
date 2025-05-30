@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import sti.oop.models.item.Item;
+import sti.oop.models.Item.Item;
 
 import java.util.Collections;
 

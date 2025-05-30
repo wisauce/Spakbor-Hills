@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import sti.oop.models.Player;
-import sti.oop.models.item.Item;
+import sti.oop.models.Item.Item;
 import sti.oop.utils.ItemSpriteManager;
 
 public class HotbarController {
