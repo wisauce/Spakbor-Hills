@@ -1,6 +1,8 @@
 package sti.oop.action;
 
 import sti.oop.controllers.FarmController;
+import sti.oop.models.Farm;
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
@@ -16,6 +18,7 @@ public class Farming {
         if (player.hasItemInHand("Hoe")) {
           player.setEnergy(player.getEnergy() - land.getEnergyRequired());
           land.changeLandState(LandState.TILLED_LAND);
+          updateTimeFarming(farmController.getFarm());
         } else {
           actionResult =  "You need a Hoe to till the land!";
         }
@@ -32,12 +35,14 @@ public class Farming {
           player.getInventory().removeItem(onHandItem, 1);
           player.updateOnHandItem();
           farmController.updateHotbar();
+          updateTimeFarming(farmController.getFarm());
           actionResult =  "You just planted " + seed.getItemName() + ", it can be harvested in " + seed.getDayToHarvest() + " day. Do not forget to water it every two days so it does not wither.";
         }
         
         else if (player.hasItemInHand("Pickaxe")) {
-          player.setEnergy(player.getEnergy() - land.getEnergyRequired());
+          player.setEnergy(player.getEnergy() - land.getEnergyRequired());;
           land.changeLandState(LandState.TILLABLE_LAND);
+          updateTimeFarming(farmController.getFarm());
         }
         
         else {
@@ -50,6 +55,7 @@ public class Farming {
           if (!land.isTodayWatered()) {
             player.setEnergy(player.getEnergy() - land.getEnergyRequired());
             land.setTodayWatered(true);
+            updateTimeFarming(farmController.getFarm());
           } else {
             actionResult = "This plant is already watered";
           }
@@ -67,18 +73,52 @@ public class Farming {
         land.setSeed(null);
         if (!player.getEverHarvest()) {
           player.wasEverHarvest();
-          player.getInventory().addItemByName("VeggieSoupRecipe", 1);
+          player.getInventory().addItem(ItemRegistry.createItem("VeggieSoupRecipe"), 1);
         }
         if (!player.getEverHotPepper() && cropName.equals("HotPepper")) {
           player.wasEverHotPepper();
-          player.getInventory().addItemByName("FishStewRecipe", 1);
+          player.getInventory().addItem("FishStewRecipe", 1);
         }
+        updateTimeFarming(farmController.getFarm());
         actionResult =  "Harvested " + cropName + ", it is now in your inventory";
       }
     } else {
       actionResult =  "you are too tired to farm today";
     }
     return actionResult;
-
   } 
+
+  private void updateTimeFarming(Farm farm) {
+      int currentHour = farm.getInGameHour();
+      int currentMinute = farm.getInGameMinute();
+      String timeOfDay = farm.getTimeOfDay();
+
+      int newMinute = currentMinute + 5;
+      int newHour = currentHour;
+      String newTimeOfDay = timeOfDay;
+
+      if (newMinute >= 60) {
+        newMinute -= 60;
+        newHour++;
+        if (newHour == 12 && timeOfDay.equals("AM")) {
+          newTimeOfDay = "PM";
+        }
+        else if (newHour == 12 && timeOfDay.equals("PM")) {
+          newTimeOfDay = "AM";
+        }
+
+        else if (newHour > 12) {
+          newHour = 1;
+        }
+      }
+
+      farm.setTime(newHour, newMinute);
+
+      if (!newTimeOfDay.equals(timeOfDay)) {
+        farm.setTimeOfDay(newTimeOfDay);
+        if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
+          farm.nextDay();
+        }
+      }
+  }
 }

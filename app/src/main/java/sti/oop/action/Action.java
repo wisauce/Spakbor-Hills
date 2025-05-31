@@ -22,6 +22,9 @@ public class Action implements Actor {
   FarmController farmController;
   PanelController panelController;
 
+  private boolean stoveOpen = false;
+  private boolean isFishing = false;
+
   public Action(FarmController farmController) {
     this.farmController = farmController;
     this.panelController = farmController.getPanelController();
@@ -50,8 +53,7 @@ public class Action implements Actor {
 
   @Override
   public void act(NPCArea acted) {
-    new NPCInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
-        panelController);
+    new NPCInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(), panelController, farmController);
     farmController.updateHotbar();
   }
 
@@ -74,13 +76,29 @@ public class Action implements Actor {
     panelController.showDialog("Good morning. Did you sleep well?");
   }
 
-  // In your Action class, where you handle the fishing action
-  public void act(FishingArea acted) { // Or however you trigger this
-    
-    Fishing fishing = new Fishing();
-    List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
-    Fish randomizedFish = fishing.randomizeFish(availableFishes);
-    fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController);
+  public void act(FishingArea acted) {
+    if (isFishing) {
+      isFishing = false;
+      farmController.getTimeController().setTimeFrozen(false);
+    } else {
+      isFishing = true;
+      farmController.getTimeController().setTimeFrozen(true);
+      Fishing fishing = new Fishing();
+      List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
+      Fish randomizedFish = fishing.randomizeFish(availableFishes);
+      fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController, this);
+    }
+  }
+
+  public void closeFishingInterface() {
+    if (isFishing) {
+      isFishing = false;
+      farmController.getTimeController().setTimeFrozen(false);
+    }
+  }
+
+  public boolean isFishing() {
+    return isFishing;
   }
 
   public String handleEating() {
@@ -98,16 +116,31 @@ public class Action implements Actor {
 
   @Override
   public void act(CookingArea acted) {
-    System.out.println("=== COOKING ACTION TRIGGERED ===");
-    System.out.println("CookingArea position: " + acted.getX() + ", " + acted.getY());
-
-    try {
-      new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
-          farmController.getTimeController().getFarm(), panelController);
-    } catch (Exception e) {
-      System.err.println("Error in cooking action: " + e.getMessage());
-      e.printStackTrace();
+  if (stoveOpen) {
+    stoveOpen = false;
+    farmController.getTimeController().setTimeFrozen(false);
+  } else {
+      stoveOpen = true;
+      farmController.getTimeController().setTimeFrozen(true);
+      try {
+        new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
+            farmController.getFarm(), panelController);
+      } catch (Exception e) {
+        System.err.println("Error in cooking action: " + e.getMessage());
+        e.printStackTrace();
+      }
     }
+  }
+
+  public void closeCookingInterface() {
+    if (stoveOpen) {
+      stoveOpen = false;
+      farmController.getTimeController().setTimeFrozen(false);
+    }
+  }
+
+  public boolean isStoveOpen() {
+    return stoveOpen;
   }
 
   @Override

@@ -2,11 +2,14 @@ package sti.oop.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
 import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
+import sti.oop.interfaces.Valuable;
 import sti.oop.utils.Constants;
 
 public class Player {
@@ -50,10 +53,11 @@ public class Player {
   private boolean everHarvest = false;
   private boolean everHotPepper = false;
   private boolean everLegendaryFish = false;
-  //TODO: Develop with other logics!
 
   /* Bin Barrier */
-  private List<Item> shippingBin = new ArrayList<>();
+  private Map<Item, Integer> shippingBinItems = new HashMap<>();
+  private Map<Item, Integer> pendingShipments = new HashMap<>();
+  private static final int MAX_SHIPPING_ITEMS = 16;
   private boolean isBinOpen = false;
   
   
@@ -126,7 +130,7 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     inventory.addItem(ItemRegistry.createItem("Parsnip"), 8);
     inventory.addItem(ItemRegistry.createItem("Cauliflower"), 5);
     inventory.addItem(ItemRegistry.createItem("Potato"), 10);
-    inventory.addItem(ItemRegistry.createItem("Wheat"), 12);
+    inventory.addItem(ItemRegistry.createItem("Wheat"), 999);
     inventory.addItem(ItemRegistry.createItem("Blueberry"), 6);
     inventory.addItem(ItemRegistry.createItem("Tomato"), 7);
     inventory.addItem(ItemRegistry.createItem("HotPepper"), 4);
@@ -150,8 +154,8 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     inventory.addItem(ItemRegistry.createItem("CookedPigsHead"), 1);
 
     /* Misc */
-    inventory.addItem(ItemRegistry.createItem("Coal"), 10);
-    inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
+    inventory.addItem(ItemRegistry.createItem("Coal"), 100);
+    // inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
     inventory.addItem(ItemRegistry.createItem("Gift"), 2);
     inventory.addItem(ItemRegistry.createItem("WeddingRing"), 1);
 
@@ -229,6 +233,10 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
 
   public void setGold(int gold) {
     this.gold = gold;
+  }
+
+  public void addGold(int gold) {
+    this.gold += gold;
   }
 
   public CurrentMap getCurrentMap() {
@@ -398,7 +406,102 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     isBinOpen = false;
   }
 
-  private void addItemToShippingBin(Item item) {
-    shippingBin.add(item);
+  public void clearShippingBin() {
+    shippingBinItems.clear();
   }
+
+  public boolean addItemToShippingBin(Item item, int amount) {
+    if (shippingBinItems.size() >= MAX_SHIPPING_ITEMS && !shippingBinItems.containsKey(item)) {
+      return false;
+    }
+
+    int availableQuantity = inventory.getItemCount(item);
+    if (availableQuantity < amount) {
+      return false;
+    }
+
+    shippingBinItems.put(item, shippingBinItems.getOrDefault(item, 0) + amount);
+    return true;
+  }
+
+  public boolean removeItemFromShippingBin(Item item, int amount) {
+      if (!shippingBinItems.containsKey(item)) {
+          return false;
+      }
+      
+      int currentAmount = shippingBinItems.get(item);
+      if (currentAmount <= amount) {
+          shippingBinItems.remove(item);
+      } else {
+          shippingBinItems.put(item, currentAmount - amount);
+      }
+      return true;
+  }
+
+  public Map<Item, Integer> getShippingBinItems() {
+      return new HashMap<>(shippingBinItems);
+  }
+
+  public int getShippingBinItemCount() {
+      return shippingBinItems.size();
+  }
+
+  public int getMaxShippingItems() {
+      return MAX_SHIPPING_ITEMS;
+  }
+
+  public void shipItems() {
+      int totalGold = 0;
+      
+      for (Map.Entry<Item, Integer> entry : shippingBinItems.entrySet()) {
+        Item item = entry.getKey();
+        int amount = entry.getValue();    
+        inventory.removeItem(item, amount);
+         
+        pendingShipments.put(item, pendingShipments.getOrDefault(item, 0) +  amount);
+      }
+      clearShippingBin();
+  }
+
+  public int processPendingShipments() {
+    int totalGold = 0;
+
+    for (Map.Entry<Item, Integer> entry : pendingShipments.entrySet()) {
+      Item item = entry.getKey();
+      int amount = entry.getValue();
+
+      if (item instanceof Valuable) {
+        totalGold += ((Valuable) item).getSellPrice() * amount;
+      }
+    }
+
+    pendingShipments.clear();
+    
+    if (totalGold > 0) {
+      addGold(totalGold);
+    }
+    return totalGold;
+  }
+
+  public Map<Item, Integer> getPendingShipments() {
+    return new HashMap<>(pendingShipments);
+  }
+
+  public boolean hasPendingShipments() {
+    return !pendingShipments.isEmpty();
+  }
+
+  public int getPendingShipmentsValue() {
+    int totalValue = 0;
+    for (Map.Entry<Item, Integer> entry : pendingShipments.entrySet()) {
+        Item item = entry.getKey();
+        int amount = entry.getValue();
+        
+        if (item instanceof sti.oop.interfaces.Valuable) {
+            totalValue += ((sti.oop.interfaces.Valuable) item).getSellPrice() * amount;
+        }
+    }
+    return totalValue;
+  }
+
 }
