@@ -1,15 +1,13 @@
     package sti.oop.utils;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
-import sti.oop.models.ItemRegistry;
-import javafx.scene.image.PixelWriter;
-
-import java.util.concurrent.ConcurrentHashMap;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
 public class ItemSpriteManager {
     private static final Map<String, Image> spriteCache = new ConcurrentHashMap<>();

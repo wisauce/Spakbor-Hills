@@ -1,21 +1,15 @@
 package sti.oop.action;
 
 
-import java.util.Random;
-
-import com.google.common.cache.Weigher;
-
-import sti.oop.controllers.FarmController;
+import sti.oop.models.Farm;
 import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
-import sti.oop.models.Item.Food;
 import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Misc;
 import sti.oop.models.Item.Recipe;
 
 public class Cooking {
     //TODO: Change String agar Notification!
-    public String doCooking(Player player, Recipe recipe, FarmController farmController){
+    public String doCooking(Player player, Recipe recipe, Farm farm){
 
         int fuel = 0;
 
@@ -37,9 +31,9 @@ public class Cooking {
 
         if (fuel > 0) {
 
-            int currentHour = farmController.getTimeController().getFarm().getInGameHour();
-            int currentMinute = farmController.getTimeController().getFarm().getInGameMinute();
-            String timeOfDay = farmController.getTimeController().getFarm().getTimeOfDay();
+            int currentHour = farm.getInGameHour();
+            int currentMinute = farm.getInGameMinute();
+            String timeOfDay = farm.getTimeOfDay();
 
             int newHour = currentHour + 1;
             String newTimeOfDay = timeOfDay;
@@ -53,11 +47,11 @@ public class Cooking {
                 }
             }
 
-            farmController.getTimeController().getFarm().setTime(newHour, currentMinute);
+            farm.setTime(newHour, currentMinute);
 
             if (!newTimeOfDay.equals(timeOfDay)) {
                 if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
-                    farmController.getTimeController().getFarm().nextDay();
+                    farm.nextDay();
                 }
             }
         

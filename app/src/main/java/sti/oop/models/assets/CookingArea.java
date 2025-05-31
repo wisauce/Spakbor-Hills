@@ -1,14 +1,16 @@
 package sti.oop.models.assets;
 
 
-import sti.oop.models.Interactable;
-import sti.oop.action.Action;
+import java.util.List;
 
-public class CookingArea extends Asset implements Interactable {
-  String choosenCook = "";
+import sti.oop.action.Action;
+import sti.oop.interfaces.MultipleOptions;
+import sti.oop.models.Interactable;
+
+public class CookingArea extends Asset implements Interactable, MultipleOptions {
+
   public CookingArea(int x, int y, int w, int h) {
     super(x, y, w, h, false);
-
   }
 
   @Override
@@ -16,18 +18,13 @@ public class CookingArea extends Asset implements Interactable {
     action.act(this);
   }
 
-  public String getChoosenCook() {
-    return choosenCook;
-  }
-
-  public void setChoosenCook(String choosenCook) {
-    this.choosenCook = choosenCook;
+  @Override
+  public boolean multipleInput() {
+    return false;
   }
 
   @Override
-  public boolean multipleInput() {
-    return true;
+  public List<String> getOptions() {
+    return List.of("FishnChips", "Baguette", "Sashimi", "Fugu", "Wine", "Pumpkin Pie", "Veggie Soup", "Fish Stew", "Spakbor Salad", "Fish Sandwich", "The Legends of Spakbor");
   }
-
-  
 }

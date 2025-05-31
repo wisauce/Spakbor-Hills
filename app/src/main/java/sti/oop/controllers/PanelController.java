@@ -1,6 +1,7 @@
 package sti.oop.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import sti.oop.models.NPC.NPC;
 
 public class PanelController {
   @FXML
@@ -108,6 +110,20 @@ public class PanelController {
       callback.accept(input); // Kirim balik ke pemanggil
     });
     fishingPanelController.show();
+  }
+
+  public void multipleOptionPanel(List<String> options, Consumer<String> callback) {
+    hideAllBottom();
+    List<Button> buttons = new ArrayList<>();
+    for (String option : options) {
+      Button optionButton = new Button(option);
+      optionButton.setOnAction(e -> {
+        hideAllBottom();
+        callback.accept(option);
+      });
+      buttons.add(optionButton);
+    }
+    showButtons(buttons);
   }
 
   public FishingPanelController getFishingPanelController() {
