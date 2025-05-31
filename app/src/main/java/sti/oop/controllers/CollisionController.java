@@ -86,7 +86,7 @@ public class CollisionController {
     boolean isMoving = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
         || playerController.isKeyRightPressed() || playerController.isKeyUpPressed());
     if (isMoving) {
-      panelController.hideAllBottom();
+      panelController.hideAllBottomPanels();
     }
   }
 }
