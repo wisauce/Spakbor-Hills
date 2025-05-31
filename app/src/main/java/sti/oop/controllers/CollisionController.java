@@ -26,7 +26,7 @@ public class CollisionController {
         Map.entry(MapName.NPC4_HOUSE,new CollisionMap("/maps/npcHouseCollision.txt")),
         Map.entry(MapName.NPC5_HOUSE,new CollisionMap("/maps/npcHouseCollision.txt"))
         );
-    currentCollisionMap = mapOfCollisionMaps.get(MapName.FARM);
+    currentCollisionMap = mapOfCollisionMaps.get(MapName.STORE);
   }
 
   public boolean isCollision(int x, int y) {
