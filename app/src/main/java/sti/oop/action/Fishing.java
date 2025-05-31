@@ -93,6 +93,7 @@ public class Fishing {
         if (fishToCatch == null) {
             panelController.showDialog("Hmm, nothing seems to be biting right now.");
             if (farmController != null) farmController.updateHotbar(); 
+            action.closeFishingInterface();
             return;
         }
 

@@ -50,10 +50,10 @@ public class Gifting implements EnergyConsuming {
       } 
       
       else {
-        return "i think sleeping is a better idea";
+        return "I think sleeping is a better idea";
       }
     } else {
-      return "you should hold the gift you want to give";
+      return "You should hold the gift you want to give";
     }
   }
 

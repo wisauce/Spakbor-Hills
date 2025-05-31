@@ -287,7 +287,7 @@ public class ItemRegistry {
         ITEM_CREATORS.put("SpakborSalad", () -> new Food("SpakborSalad", 70, 0, 250));
         ITEM_CREATORS.put("FishSandwich", () -> new Food("FishSandwich", 50, 200, 180));
         ITEM_CREATORS.put("TheLegendsOfSpakbor", () -> new Food("TheLegendsOfSpakbor", 100, 0, 2000));
-        ITEM_CREATORS.put("CookedPigsHead", () -> new Food("CookedPigsHeadnChips", 100, 1000, 0));
+        ITEM_CREATORS.put("CookedPigsHead", () -> new Food("CookedPigsHead", 100, 1000, 0));
 
     }
 
