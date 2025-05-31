@@ -9,47 +9,51 @@ public class Gifting implements EnergyConsuming {
   private int energyRequired = 5;
 
   public String doGifting(Player player, NPC npc, Farm farm) {
-    if (player.getEnergy() >= energyRequired) {
-      int currentHour = farm.getInGameHour();
-      int currentMinute = farm.getInGameMinute();
-      String timeOfDay = farm.getTimeOfDay();
-
-      int newMinute = currentMinute + 10;
-      int newHour = currentHour;
-      String newTimeOfDay = timeOfDay;
-
-      if (newMinute >= 60) {
-        newMinute -= 60;
-        newHour++;
-        if (newHour == 12 && timeOfDay.equals("AM")) {
-          newTimeOfDay = "PM";
+    if (player.getOnHandItem() != null) {
+      if (player.getEnergy() >= energyRequired) {
+        int currentHour = farm.getInGameHour();
+        int currentMinute = farm.getInGameMinute();
+        String timeOfDay = farm.getTimeOfDay();
+  
+        int newMinute = currentMinute + 10;
+        int newHour = currentHour;
+        String newTimeOfDay = timeOfDay;
+  
+        if (newMinute >= 60) {
+          newMinute -= 60;
+          newHour++;
+          if (newHour == 12 && timeOfDay.equals("AM")) {
+            newTimeOfDay = "PM";
+          }
+          else if (newHour == 12 && timeOfDay.equals("PM")) {
+            newTimeOfDay = "AM";
+          }
+  
+          else if (newHour > 12) {
+            newHour = 1;
+          }
         }
-        else if (newHour == 12 && timeOfDay.equals("PM")) {
-          newTimeOfDay = "AM";
+        npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(player.getOnHandItem()));
+        player.setEnergy(player.getEnergy() - 10);
+        player.getInventory().removeItem(player.getOnHandItem(), 1);
+        player.updateOnHandItem();
+        
+        farm.setTime(newHour, currentMinute);
+  
+        if (!newTimeOfDay.equals(timeOfDay)) {
+          farm.setTimeOfDay(newTimeOfDay);
+          if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
+            farm.nextDay();
+          }
         }
-
-        else if (newHour > 12) {
-          newHour = 1;
-        }
-      }
-      npc.setHeartPoints(npc.getHeartPoints() + npc.getHeartPointsforItems(player.getOnHandItem()));
-      player.setEnergy(player.getEnergy() - 10);
-      player.getInventory().removeItem(player.getOnHandItem(), 1);
-      player.updateOnHandItem();
+        return npc.getName() + " is happy with your gift!";
+      } 
       
-      farm.setTime(newHour, currentMinute);
-
-      if (!newTimeOfDay.equals(timeOfDay)) {
-        farm.setTimeOfDay(newTimeOfDay);
-        if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
-          farm.nextDay();
-        }
+      else {
+        return "i think sleeping is a better idea";
       }
-      return npc.getName() + " is happy with your gift!";
-    } 
-    
-    else {
-      return "i think sleeping is a better idea";
+    } else {
+      return "you should hold the gift you want to give";
     }
   }
 
