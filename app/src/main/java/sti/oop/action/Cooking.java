@@ -59,7 +59,7 @@ public class Cooking {
 
             String actionResult;
         
-            if (recipe.getItemName().equals("FishnChipsRecipe")) {
+            if (recipe.getItemName().equals("FishnChipsRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
                 if (player.getInventory().getItemCountByName("Wheat") >= 1 && player.getInventory().getItemCountByName("Potato") >= 1 && player.getInventory().hasEnoughFish(2)) {
                     player.getInventory().removeItemByName("Wheat", 1);
                     player.getInventory().removeItemByName("Potato", 1);
@@ -75,7 +75,7 @@ public class Cooking {
                 }
             } 
 
-            else if (recipe.getItemName().equals("BaguetteRecipe")) {
+            else if (recipe.getItemName().equals("BaguetteRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
                 if (player.getInventory().getItemCountByName("Wheat") >= 3 ) {
                     player.getInventory().removeItemByName("Wheat", 3);
                     
@@ -90,7 +90,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("SashimiRecipe")) {
+            else if (recipe.getItemName().equals("SashimiRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
 
                 if (player.getInventory().getItemCountByName("Salmon") >= 3) {
                     player.getInventory().removeItemByName("Salmon", 3);
@@ -106,7 +106,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("FuguRecipe")) {
+            else if (recipe.getItemName().equals("FuguRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
 
                 if (player.getInventory().getItemCountByName("Pufferfish") >= 1) {
                     player.getInventory().removeItemByName("Pufferfish", 1);
@@ -122,7 +122,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("WineRecipe")) {
+            else if (recipe.getItemName().equals("WineRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
                 if (player.getInventory().getItemCountByName("Grape") >= 2) {
                     player.getInventory().removeItemByName("Grape", 2);
                     
@@ -137,7 +137,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("PumpkinPieRecipe")) {
+            else if (recipe.getItemName().equals("PumpkinPieRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
 
                 if (player.getInventory().getItemCountByName("Wheat") >= 1 && player.getInventory().getItemCountByName("Egg") >= 1 && player.getInventory().getItemCountByName("Pumpkin") >= 1) {
                     player.getInventory().removeItemByName("Wheat", 1);
@@ -155,7 +155,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("VeggieSoupRecipe")) {
+            else if (recipe.getItemName().equals("VeggieSoupRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
                 if (player.getInventory().getItemCountByName("Cauliflower") >= 1 && player.getInventory().getItemCountByName("Parsnip") >= 1 && player.getInventory().getItemCountByName("Potato") >= 1 && player.getInventory().getItemCountByName("Tomato") >= 1) {
                     player.getInventory().removeItemByName("Cauliflower", 1);
                     player.getInventory().removeItemByName("Parsnip", 1);
@@ -174,7 +174,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("FishStewRecipe")) { 
+            else if (recipe.getItemName().equals("FishStewRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) { 
                 if (player.getInventory().getItemCountByName("HotPepper") >= 1 && player.getInventory().getItemCountByName("Cauliflower") >= 2 && player.getInventory().hasEnoughFish(2)) {
                     player.getInventory().removeItemByName("HotPepper", 1);
                     player.getInventory().removeItemByName("Cauliflower", 2);
@@ -190,7 +190,7 @@ public class Cooking {
                 }
             }
             
-            else if (recipe.getItemName().equals("SpakborSaladRecipe")) {
+            else if (recipe.getItemName().equals("SpakborSaladRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) {
 
                 if (player.getInventory().getItemCountByName("Melon") >= 1 && player.getInventory().getItemCountByName("Cranberry") >= 1 && player.getInventory().getItemCountByName("Blueberry") >= 1 && player.getInventory().getItemCountByName("Tomato") >= 1) {
                     player.getInventory().removeItemByName("Melon", 1);
@@ -210,7 +210,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("FishSandwichRecipe")) { 
+            else if (recipe.getItemName().equals("FishSandwichRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) { 
 
                 if (player.getInventory().getItemCountByName("Wheat") >= 2 && player.getInventory().getItemCountByName("HotPepper") >= 1 && player.getInventory().getItemCountByName("Tomato") >= 1 && player.getInventory().hasEnoughFish(1)) {
                     player.getInventory().removeItemByName("Wheat", 2);
@@ -230,7 +230,7 @@ public class Cooking {
                 }
             }
 
-            else if (recipe.getItemName().equals("TheLegendsOfSpakborRecipe")) { 
+            else if (recipe.getItemName().equals("TheLegendsOfSpakborRecipe") && player.getInventory().hasItemByName(recipe.getItemName())) { 
 
                 if (player.getInventory().getItemCountByName("Potato") >= 2 && player.getInventory().getItemCountByName("Parsnip") >= 1 && player.getInventory().getItemCountByName("Tomato") >= 1 && player.getInventory().hasEnoughLegendaryFish(1)) {
                     player.getInventory().removeItemByName("Potato", 2);

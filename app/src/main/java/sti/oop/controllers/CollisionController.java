@@ -48,14 +48,11 @@ public class CollisionController {
     Rectangle playerSolidArea = playerController.getSolidArea();
     int speed = playerController.getPlayer().getSpeed();
 
-    // Reset asset collision flags in PlayerController
     playerController.setNoCollidingAssetUp(true);
     playerController.setNoCollidingAssetDown(true);
     playerController.setNoCollidingAssetLeft(true);
     playerController.setNoCollidingAssetRight(true);
 
-    // Check SOLID asset collisions for each direction INDEPENDENTLY
-    // UP
     if (playerController.isKeyUpPressed()) {
         Rectangle tempAreaUp = new Rectangle(
             playerSolidArea.getX(),
@@ -70,7 +67,6 @@ public class CollisionController {
         }
     }
 
-    // DOWN
     if (playerController.isKeyDownPressed()) {
         Rectangle tempAreaDown = new Rectangle(
             playerSolidArea.getX(),
@@ -115,8 +111,6 @@ public class CollisionController {
         }
     }
 
-    // Handle INTERACTION
-    // Determine the player's potential next position for interaction, considering all collision constraints
     double potentialInteractX = playerSolidArea.getX();
     double potentialInteractY = playerSolidArea.getY();
 
@@ -138,28 +132,24 @@ public class CollisionController {
         playerSolidArea.getWidth(),
         playerSolidArea.getHeight());
 
-    playerController.setInteractionGuide(false); // Default to false
+    playerController.setInteractionGuide(false); 
 
     for (Asset asset : assets) {
         if (potentialInteractionArea.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
-            if (!asset.isCollisionOn()) { // Is an interactable asset
+            if (!asset.isCollisionOn()) {
                 playerController.setInteractionGuide(true);
                 if (playerController.isJustInteracted()) {
                     Interactable interactable = (Interactable) asset;
                     interactable.accept(playerController.getAction());
                     playerController.clearJustInteracted();
                 }
-                break; // Process only the first interactable asset found by the potential move
+                break;
             } else {
-                // If the potential move first hits a SOLID asset, then no interaction through it.
-                // This asset would have already been caught by directional checks if it blocked movement.
-                // Break because we only care about the first thing the potential move would hit for interaction.
                 break;
             }
         }
     }
 
-    // Hide panels if any movement key is pressed (original logic)
     boolean isMovingKeyPressed = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
         || playerController.isKeyRightPressed() || playerController.isKeyUpPressed());
     if (isMovingKeyPressed) {

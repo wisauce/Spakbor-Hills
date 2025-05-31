@@ -1,0 +1,123 @@
+2025-05-31,fix: double initiate player
+2025-05-31,feat: some push
+2025-05-31,fix: bug Movement Cooking
+2025-05-31,feat : adding Document
+2025-05-31,feat: Conversation
+2025-05-31,fix : fixing Bugs:
+2025-05-31,fix: collision on asset is now smoother
+2025-05-31,feat : add Store Area
+2025-05-31,feat: add README
+2025-05-31,feat: add import
+2025-05-31,feat: add Store
+2025-05-31,feat: add Store
+2025-05-31,fix: bug on auto interact
+2025-05-31,feat: add location Display
+2025-05-31,fix: wrong fxml file
+2025-05-31,feat: add main menu button, credit
+2025-05-31,fix : updating House for Cooking
+2025-05-31,feat: add all time for actions
+2025-05-31,feat: add time update for a few actions
+2025-05-31,feat: add Bin Logics
+2025-05-31,feat : adding Fishing Area on worldMap
+2025-05-31,feat: add new multiple cooking
+2025-05-31,fix: NPC Houses & Store Position
+2025-05-31,feat: add working fishing interface (bug: fishing process still happens when it's time to sleep
+2025-05-31,refactor!: change multiple option logic with new lambda accepting handler for better modularity and scalability
+2025-05-31,feat: finish Logics of Recipe Barrier
+2025-05-31,feat: tried to implement bin
+2025-05-31,feat: added new Inventory Fish Logics and Cooking
+2025-05-31,feat: add new Logics for Inventory fetch
+2025-05-30,fix: bug on different Package bin and main
+2025-05-30,feat
+2025-05-30,feat: add Coking
+2025-05-30,feat: adding NPC in their Houses and logic Area
+2025-05-30,feat: gifting logics
+2025-05-30,feat: remove emoji
+2025-05-30,feat: add new fishing and itemregistry logics
+2025-05-30,feat: finish Eating Logics
+2025-05-30,feat: add new Cooking logics
+2025-05-30,fix: import wrong deploys
+2025-05-30,feat: add GUI for fishing, integrate with japrul logic soon
+2025-05-30,feat: add auto deselect onHand and deploys
+2025-05-30,feat: somethin
+2025-05-30,refactor!: move panelController use to action for complex actions
+2025-05-30,fix: watering land on rain problem and npc interaction notification not shown
+2025-05-30,fix: double watering problem
+2025-05-30,feat: farming logic now integrated with time, watering logic fix
+2025-05-30,feat: add Recipe, Cooking Logics, Player O
+2025-05-30,feat: add untilling
+2025-05-29,fix: double energy cost for multiple input
+2025-05-29,fix: polish panel logic and toggle logic
+2025-05-29,fix: fix harvest item addition
+2025-05-29,feat: add new itemSprite
+2025-05-29,refactor!: separate multiple path from action logic by using toggle logic
+2025-05-29,feat: add notification panel
+2025-05-29,fix: player teleportation logic, teleportation now requires destination coordinate to prevent multiple destination coordinate in one map problem
+2025-05-29,feat: add panelController
+2025-05-29,feat: add new Deselect Hotbar
+2025-05-29,feat: add new Starter Item
+2025-05-29,feat: add modal for notifications and interactions (NOT FINISHED)
+2025-05-29,feat: fix player spawn position, modify map to make teleporter out of the randomizing zone
+2025-05-29,refactor: delete unnecessary import
+2025-05-29,feat: add sleeping area, auto sleep, energy state handling, fix tile not full on map bug
+2025-05-28,refactor: tidy up comments
+2025-05-28,feat: add Hotbar and Fix NPC
+2025-05-28,feat: add bed, change assetcontroller constructors
+2025-05-28,feat: change house map
+2025-05-28,feat: add new Item Logics
+2025-05-28,feat: add LandSetter to set all land on the map
+2025-05-28,feat: add action tilling, planting, watering, harvesting (NOTE: some method are not fully implemented yet waiting for ardy currentItemOnHand function AND recover land is not implemented yet
+2025-05-28,feat: add energyBar and name display
+2025-05-27,feat: Add Item Sprites
+2025-05-27,Merge branch 'feature/-backup' of https://github.com/wisauce/Spakbor-Hills into feature/-backup
+2025-05-27,feat: add Equipment Sprites
+2025-05-27,feat: add New InventorySprite Logic
+2025-05-27,feat: add new MarryArea
+2025-05-27,feat: add new Logics for Storing Inventory
+2025-05-27,feature: add Multiple Inventory Page
+2025-05-27,fix: add handler so only can interact on one time button press
+2025-05-27,fix: fix asset collision, rendering, and interaction (note: ready for adding interactions)
+2025-05-27,feat: add object interaction logic, able to swap map using the visitor pattern WARNING: STILL BUGGY
+2025-05-26,feature: add Inventory Logics
+2025-05-26,feature: added SpriteManager
+2025-05-26,feat: add asset, assetController, assetCollision NOTE: INTERACTABLE IS NOT FINISHED)
+2025-05-26,feat: add auto fullscreen and dynamic canvas auto resize (note: some constants is deleted to support dynamic sizing)
+2025-05-26,feat: add Color Transition of Day
+2025-05-26,refactor: clean up TODO Inventory GUI
+2025-05-26,feat: added Color Hue based on time and weather
+2025-05-26,feat: added Weather Logics
+2025-05-26,feat: Added Day & Season Counter & GUI
+2025-05-26,feat: added Inventory Grid
+2025-05-25,fix!: resize tilesheet and spritesheet to its original minimum form and set imagesmoothing to false so image can be scaled up without being blurry. (FIX HUGE RENDERING PROBLEM)
+2025-05-25,feature: Added NPC to map
+2025-05-25,feature: Added items & refactor: folder Items and NPC
+2025-05-25,feat: add improved farm map, add house map, make logic for switching map and collisionMap (next: make GUI to switch maps)
+2025-05-25,feat: add a separate TimeController class for in-game time logic
+2025-05-25,feat: added Items and Inventory
+2025-05-25,feat: test with smaller tilesheet
+2025-05-24,feat: print minvram and maxvram for debugging
+2025-05-24,fix: move gameTime.start() inside Platform.runLater to make sure everything ready before rendering
+2025-05-24,fix: change the javaFX version for each FXML to 21.0.2
+2025-05-24,fix: collision bug because of running speed
+2025-05-24,feat: add collision detection
+2025-05-24,feat: add camera and map rendering logic
+2025-05-24,refactor: create a dedicated playerController class for player state update and rendering logic
+2025-05-21,feature: added logics to run
+2025-05-21,feat: added a few logics
+2025-05-20,feat: added logics of merge
+2025-05-20,feat: added for merge purposes
+2025-05-17,refactor: removed imports and added comments
+2025-05-16,feat: Added new Inventory GUI
+2025-05-15,feat: add tilemap collision
+2025-05-15,refactor: change player control and render logic to follow the MVC principle
+2025-05-13,feat: add camera logic, fix map renderer
+2025-05-13,feat: add maprenderer (still on progress)
+2025-05-11,feat/perf: modify GUI Inventory, add Sprint, fix Player Sprite
+2025-05-09,refactor: delete unnecessary import
+2025-05-09,feat: created InventoryController, OwnedItem, and InventoryGUI and added Sprites for Each Player
+2025-05-05,feat: add spritesheet animation to player movement
+2025-05-05,feat: implement spritesheet on player
+2025-05-05,feat: added class NPC with each inheritance
+2025-05-04,feat: add mvc for main menu and farm, gameloop, and fix character walk logic
+2025-05-04,feat: add stage, movable object, game thread, keyboard input
+2025-05-02,feat: add maven quickstart archetype

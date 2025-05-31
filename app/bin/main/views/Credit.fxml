@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.CreditController">
+  <children>
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background: #000000; -fx-border-color: transparent;">
+      <content>
+        <VBox fx:id="creditBox" alignment="CENTER" spacing="20" style="-fx-text-fill: white;">
+          <padding>
+            <Insets top="20" right="20" bottom="20" left="20" />
+          </padding>
+        </VBox>
+      </content>
+    </ScrollPane>
+  </children>
+</StackPane>

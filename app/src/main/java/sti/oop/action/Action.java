@@ -127,6 +127,7 @@ public class Action implements Actor {
 
   @Override
   public void act(CookingArea acted) {
+  System.out.println("StoveOpen: " + stoveOpen); 
   if (stoveOpen) {
     stoveOpen = false;
     farmController.getTimeController().setTimeFrozen(false);
@@ -154,6 +155,7 @@ public class Action implements Actor {
   }
 
   public void toggleStoveOpen() {
+    System.out.println("Test123");
     stoveOpen = false;
   }
 
