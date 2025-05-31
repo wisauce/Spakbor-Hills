@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
@@ -101,14 +100,11 @@
             </BorderPane>
          </top>
           <bottom>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER" visible="true">
+            <HBox alignment="CENTER" visible="true" BorderPane.alignment="CENTER">
               <children>
-                <StackPane fx:id="bottomPanel" stylesheets="@panel.css">
-                  <styleClass>
-                    <String fx:value="stardew-panel" />
-                  </styleClass>
+                <StackPane fx:id="bottomPanel">
                   <children>
-                    <VBox fx:id="dialogBox" alignment="CENTER_LEFT" spacing="10.0" visible="false" managed ="false">
+                    <VBox fx:id="dialogBox" alignment="CENTER_LEFT" managed="false" spacing="10.0" visible="false">
                       <padding>
                         <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                       </padding>
@@ -120,7 +116,7 @@
                       </children>
                     </VBox>
 
-                    <HBox fx:id="buttonPanel" alignment="CENTER" spacing="10.0" visible="false" />
+                    <HBox fx:id="buttonPanel" alignment="CENTER" spacing="10.0" stylesheets="@panel.css" visible="false" />
                   </children>
                 </StackPane>
               </children>

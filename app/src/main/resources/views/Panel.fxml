@@ -31,7 +31,7 @@
           </children>
         </VBox>
 
-        <HBox fx:id="buttonPanel" alignment="CENTER" spacing="10.0" visible="false" />
+        <HBox fx:id="buttonPanel" alignment="CENTER" spacing="10.0" visible="false" stylesheets="@panel.css" />
       </children>
     </StackPane>
   </children>
