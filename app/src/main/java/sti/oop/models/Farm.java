@@ -69,7 +69,7 @@ public class Farm {
 
   public void updateTime() {
     if (timeFrozen) return;
-    if (inGameHour == 12 && timeOfDay.equals("AM")) playerController.getAction().sleepImmediately();
+    if (inGameHour == 2 && timeOfDay.equals("AM")) playerController.getAction().sleepImmediately();
     inGameMinute += MINUTES_PER_SECOND;
     if (inGameMinute >= 60) {
       inGameHour += inGameMinute / 60;
@@ -108,6 +108,13 @@ public class Farm {
     boolean newMonth = false;
 
     randomizedDailyWeather();
+
+    Player player = getPlayer();
+    int shippingGold = player.processPendingShipments();
+
+    if (shippingGold > 0) {
+      System.out.println("You received " + shippingGold + "g from yesterday's shipments!");
+    }
 
     for (Asset asset : lands) {
       Land land = (Land) asset;
@@ -357,6 +364,10 @@ public class Farm {
   public void setTime(int hour, int minute) {
     this.inGameHour = hour;
     this.inGameMinute = minute;
+  }
+
+  public void setTimeOfDay(String timeOfDay) {
+    this.timeOfDay = timeOfDay;
   }
 
 }

@@ -21,6 +21,7 @@ import javafx.scene.Node;
 
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
+import sti.oop.interfaces.Valuable;
 import sti.oop.models.Inventory;
 import sti.oop.utils.ItemSpriteManager;
 
@@ -474,21 +475,31 @@ public class InventoryController {
     Button shipButton = new Button("SHIP ITEMS");
     shipButton.setStyle("-fx-background-color: #FF6B35; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-font-size: 12px; -fx-background-radius: 10;");
     shipButton.setOnAction(e -> {
-        if (player.getShippingBinItemCount() > 0) {
-            farmController.getPanelController().multipleOptionPanel(
-                List.of("Confirm Ship", "Cancel"),
-                (choice) -> {
-                    if (choice.equals("Confirm Ship")) {
-                        player.shipItems();
-                        farmController.getPanelController().showDialog("Items shipped successfully! Gold added to your account.");
-                        closeInventory();
-                    }
+    if (player.getShippingBinItemCount() > 0) {
+        farmController.getPanelController().multipleOptionPanel(
+            List.of("Confirm Ship", "Cancel"),
+            (choice) -> {
+                if (choice.equals("Confirm Ship")) {
+                    int pendingValue = player.getShippingBinItems().entrySet().stream()
+                        .mapToInt(entry -> {Item item = entry.getKey(); int amount = entry.getValue();
+                            if (item instanceof Valuable) {
+                                return ((Valuable) item).getSellPrice() * amount;
+                            }
+                            return 0;
+                        }).sum();
+                    
+                    player.shipItems();             
+                    farmController.getPanelController().showDialog("Items shipped successfully! You will receive " + pendingValue + "g tomorrow morning.");
+                    closeInventory();
                 }
-            );
-        } else {
-            farmController.getPanelController().showDialog("No items selected for shipping!");
-        }
-    });
+            }
+        );
+    } 
+    
+    else {
+        farmController.getPanelController().showDialog("No items selected for shipping!");
+    }
+  });
 
     VBox shippingControls = new VBox(5);
     shippingControls.setAlignment(javafx.geometry.Pos.TOP_CENTER);

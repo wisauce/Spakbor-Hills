@@ -45,13 +45,16 @@ public class Cooking {
             int newHour = currentHour + 1;
             String newTimeOfDay = timeOfDay;
 
-            if (newHour > 12) {
+            if (newHour == 12 && timeOfDay.equals("AM")) {
+                newTimeOfDay = "PM";
+            } 
+            
+            else if (newHour == 12 && timeOfDay.equals("PM")) {
+                newTimeOfDay = "AM";
+            } 
+            
+            else if (newHour > 12) {
                 newHour = 1;
-                if (timeOfDay.equals("AM")) {
-                    newTimeOfDay = "PM";
-                } else { 
-                    newTimeOfDay = "AM";
-                }
             }
 
             String actionResult;
@@ -256,6 +259,7 @@ public class Cooking {
                 farm.setTime(newHour, currentMinute);
 
                 if (!newTimeOfDay.equals(timeOfDay)) {
+                    farm.setTimeOfDay(newTimeOfDay);
                     if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
                         farm.nextDay();
                     }

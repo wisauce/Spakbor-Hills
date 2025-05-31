@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
 import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
+import sti.oop.interfaces.Valuable;
 import sti.oop.utils.Constants;
 
 public class Player {
@@ -55,6 +56,7 @@ public class Player {
 
   /* Bin Barrier */
   private Map<Item, Integer> shippingBinItems = new HashMap<>();
+  private Map<Item, Integer> pendingShipments = new HashMap<>();
   private static final int MAX_SHIPPING_ITEMS = 16;
   private boolean isBinOpen = false;
   
@@ -128,7 +130,7 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     inventory.addItem(ItemRegistry.createItem("Parsnip"), 8);
     inventory.addItem(ItemRegistry.createItem("Cauliflower"), 5);
     inventory.addItem(ItemRegistry.createItem("Potato"), 10);
-    inventory.addItem(ItemRegistry.createItem("Wheat"), 12);
+    inventory.addItem(ItemRegistry.createItem("Wheat"), 999);
     inventory.addItem(ItemRegistry.createItem("Blueberry"), 6);
     inventory.addItem(ItemRegistry.createItem("Tomato"), 7);
     inventory.addItem(ItemRegistry.createItem("HotPepper"), 4);
@@ -152,7 +154,7 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     inventory.addItem(ItemRegistry.createItem("CookedPigsHead"), 1);
 
     /* Misc */
-    inventory.addItem(ItemRegistry.createItem("Coal"), 1);
+    inventory.addItem(ItemRegistry.createItem("Coal"), 100);
     // inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
     inventory.addItem(ItemRegistry.createItem("Gift"), 2);
     inventory.addItem(ItemRegistry.createItem("WeddingRing"), 1);
@@ -452,20 +454,54 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
       int totalGold = 0;
       
       for (Map.Entry<Item, Integer> entry : shippingBinItems.entrySet()) {
-          Item item = entry.getKey();
-          int amount = entry.getValue();
-          
-          inventory.removeItem(item, amount);
-          
-          if (item instanceof sti.oop.interfaces.Valuable) {
-              totalGold += ((sti.oop.interfaces.Valuable) item).getSellPrice() * amount;
-          } 
-          else {
-              totalGold += 0; 
-          }
+        Item item = entry.getKey();
+        int amount = entry.getValue();    
+        inventory.removeItem(item, amount);
+         
+        pendingShipments.put(item, pendingShipments.getOrDefault(item, 0) +  amount);
       }
-      
-      addGold(totalGold);
       clearShippingBin();
   }
+
+  public int processPendingShipments() {
+    int totalGold = 0;
+
+    for (Map.Entry<Item, Integer> entry : pendingShipments.entrySet()) {
+      Item item = entry.getKey();
+      int amount = entry.getValue();
+
+      if (item instanceof Valuable) {
+        totalGold += ((Valuable) item).getSellPrice() * amount;
+      }
+    }
+
+    pendingShipments.clear();
+    
+    if (totalGold > 0) {
+      addGold(totalGold);
+    }
+    return totalGold;
+  }
+
+  public Map<Item, Integer> getPendingShipments() {
+    return new HashMap<>(pendingShipments);
+  }
+
+  public boolean hasPendingShipments() {
+    return !pendingShipments.isEmpty();
+  }
+
+  public int getPendingShipmentsValue() {
+    int totalValue = 0;
+    for (Map.Entry<Item, Integer> entry : pendingShipments.entrySet()) {
+        Item item = entry.getKey();
+        int amount = entry.getValue();
+        
+        if (item instanceof sti.oop.interfaces.Valuable) {
+            totalValue += ((sti.oop.interfaces.Valuable) item).getSellPrice() * amount;
+        }
+    }
+    return totalValue;
+  }
+
 }

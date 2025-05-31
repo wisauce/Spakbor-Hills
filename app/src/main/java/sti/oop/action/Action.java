@@ -50,8 +50,7 @@ public class Action implements Actor {
 
   @Override
   public void act(NPCArea acted) {
-    new NPCInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
-        panelController);
+    new NPCInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(), panelController, farmController);
     farmController.updateHotbar();
   }
 
@@ -99,7 +98,7 @@ public class Action implements Actor {
   public void act(CookingArea acted) {
     try {
       new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
-          farmController.getTimeController().getFarm(), panelController);
+          farmController.getFarm(), panelController);
     } catch (Exception e) {
       System.err.println("Error in cooking action: " + e.getMessage());
       e.printStackTrace();
