@@ -76,6 +76,7 @@ public class Action implements Actor {
 
   // In your Action class, where you handle the fishing action
   public void act(FishingArea acted) { // Or however you trigger this
+    
     Fishing fishing = new Fishing();
     List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
     Fish randomizedFish = fishing.randomizeFish(availableFishes);
