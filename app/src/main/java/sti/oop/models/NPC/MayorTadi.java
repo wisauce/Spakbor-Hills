@@ -26,7 +26,7 @@ public class MayorTadi extends NPC {
             ), //likedItems
 
             getHatedItemsForMayorTadi(), //hatedItems
-            "i love gemoy people. btw don't forget to get your free lunch! it's good for your health"
+            List.of("i love gemoy people. btw don't forget to get your free lunch! it's good for your health", "OKE GAS OKE GAS, Akui Zionis Jadi Negar")
         );
     }
 

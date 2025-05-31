@@ -34,7 +34,7 @@ public class Dasco extends NPC {
                 ItemRegistry.createItem("Pufferfish"),
                 ItemRegistry.createItem("Salmon")
             ), //hatedItems
-            "LETSSS GOOOOO GAMBLINGGGG 🤑🤑🤑"
+            List.of("LETSSS GOOOOO GAMBLINGGGG 🤑🤑🤑", "I am the GOD of Gambiling", "PENTA INFO", "Masa Iya Ga Masang?!")
         );
     }
 }

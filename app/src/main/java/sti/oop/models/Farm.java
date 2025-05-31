@@ -67,6 +67,7 @@ public class Farm {
   /*                                 TIME LOGICS                                */
   /* -------------------------------------------------------------------------- */
 
+
   public void updateTime() {
     if (timeFrozen) return;
     if (inGameHour == 2 && timeOfDay.equals("AM")) playerController.getAction().sleepImmediately();

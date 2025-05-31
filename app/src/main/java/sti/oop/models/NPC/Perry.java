@@ -38,7 +38,7 @@ public class Perry extends NPC {
                 ItemRegistry.createItem("Glacierfish"),
                 ItemRegistry.createItem("Legend")
             ), //hatedItems
-            "Aksually.... Platypus is a mammal and not a vertebrate "
+            List.of("Aksually.... Platypus is a mammal and not a vertebrate ", "Im not Purry, Im Perry", "PurrMart? seems Familiar")
         );
     }
 }

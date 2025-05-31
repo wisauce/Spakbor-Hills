@@ -122,8 +122,6 @@ public class SetupController {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Farm.fxml"));
       Parent farmRoot = loader.load();
       FarmController farmController = loader.getController();
-      farmController.initializePlayerData(playerName, selectedGenderOptionText, farmName);
-
       if (farmController != null) {
         farmController.initializePlayerData(playerName, selectedGenderOptionText, farmName);
       }

@@ -12,11 +12,11 @@ import sti.oop.models.Item.Recipe;
 import sti.oop.models.assets.CookingArea;
 public class CookingInteractionHandler {
   
-  public void handleInteraction(CookingArea cookingArea, Player player, Farm farm, PanelController panelController) {
-    handleCookingWithFuelCheck(cookingArea, player, farm, panelController, 0);
+  public void handleInteraction(CookingArea cookingArea, Player player, Farm farm, PanelController panelController, Action action) {
+    handleCookingWithFuelCheck(cookingArea, player, farm, panelController, action, 0);
   }
   
-  private void handleCookingWithFuelCheck(CookingArea cookingArea, Player player, Farm farm, PanelController panelController, int remainingFuel) {
+  private void handleCookingWithFuelCheck(CookingArea cookingArea, Player player, Farm farm, PanelController panelController, Action action, int remainingFuel) {
     String message = remainingFuel > 0 ? 
       "Fuel remaining: " + remainingFuel + ". Cook another recipe?" : 
       "What would you like to cook?";
@@ -72,9 +72,10 @@ public class CookingInteractionHandler {
           panelController.multipleOptionPanel(java.util.List.of("Cook more", "Stop cooking"), 
           (choice) -> {
             if (choice.equals("Cook more")) {
-              handleCookingWithFuelCheck(cookingArea, player, farm, panelController, result.getRemainingFuel());
+              handleCookingWithFuelCheck(cookingArea, player, farm, panelController, action, result.getRemainingFuel());
             } else {
               farm.setTimeFrozen(false);
+              action.toggleStoveOpen();
             }
           }
         );
@@ -82,6 +83,7 @@ public class CookingInteractionHandler {
         cookingTimeline.play();
       } else {
         farm.setTimeFrozen(false);
+        action.toggleStoveOpen();
       }
       
     });

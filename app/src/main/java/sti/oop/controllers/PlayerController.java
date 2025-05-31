@@ -107,7 +107,7 @@ public class PlayerController implements Renderable {
   /* -------------------------------------------------------------------------- */
 
   public void keyHandler() {
-    if (farmController.getStatusInventory()) {
+    if (farmController.getStatusInventory() || action.isStoveOpen() || action.isFishing()) {
       return;
     }
     boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
@@ -244,6 +244,18 @@ public class PlayerController implements Renderable {
   public void keyMapper(Scene scene) {
     scene.setOnKeyPressed(e -> {
       System.out.println("Key pressed: " + e.getCode());
+
+      if (action.isStoveOpen()) {
+        switch (e.getCode())  {
+          case KeyCode.ESCAPE -> {
+            action.closeCookingInterface();
+          }
+          case KeyCode.F -> {
+            farmController.toggleInventory();
+          }
+          default -> {return;}
+        }
+      }
       switch (e.getCode()) {
         case KeyCode.A -> keyLeftPressed = true;
         case KeyCode.W -> keyUpPressed = true;
@@ -262,7 +274,6 @@ public class PlayerController implements Renderable {
             justEaten = true;
           }
           keyTPressed = true;
-          justEaten = false;
         }
         default -> {
         }
@@ -271,6 +282,10 @@ public class PlayerController implements Renderable {
 
     /* Key Release Toggle Controls */
     scene.setOnKeyReleased(e -> {
+      if (action.isStoveOpen()) {
+        return;
+      }
+
       switch (e.getCode()) {
         case KeyCode.A -> keyLeftPressed = false;
         case KeyCode.W -> {
@@ -295,7 +310,6 @@ public class PlayerController implements Renderable {
   }
 
   @Override
-  // Contoh di PlayerController.java
   public void render(GraphicsContext gc) {
     keyHandler();
 
@@ -307,7 +321,7 @@ public class PlayerController implements Renderable {
     double playerScreenY = (canvasHeight / 2) - (Constants.TILE_SIZE / 2);
 
     gc.drawImage(playerSpriteSheet, sourceX(), sourceY(), playerFrameWidth, playerFrameHeight,
-        playerScreenX, playerScreenY, // Gunakan posisi dinamis ini
+        playerScreenX, playerScreenY,
         Constants.TILE_SIZE, Constants.TILE_SIZE);
     double screenHitboxX = playerScreenX + hitboxOffsetX;
     double screenHitboxY = playerScreenY + hitboxOffsetY;
