@@ -17,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
@@ -56,6 +58,8 @@ public class FarmController {
   @FXML
   private ProgressBar energyBar;
 
+  private MediaPlayer backgroundMusicPlayer;
+
   private long lastTime = 0;
 
   private Scene scene;
@@ -80,11 +84,9 @@ public class FarmController {
   int idleCounter = 0;
   boolean isIdle = true;
 
-  public void render() {
-  }
-
   @FXML
   public void initialize() throws IOException {
+    playBackgroundMusic();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Panel.fxml"));
     Parent panelRoot = loader.load();
     panelController = loader.getController();
@@ -287,6 +289,17 @@ public void initializePlayerData(String playerName, String gender, String farmNa
 
   public Farm getFarm() {
     return farm;
+  }
+
+  private void playBackgroundMusic() {
+    try {
+      Media media = new Media(getClass().getResource("/audio/Spring.mp3").toExternalForm());
+      backgroundMusicPlayer = new MediaPlayer(media);
+      backgroundMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop musiknya
+      backgroundMusicPlayer.play();
+    } catch (Exception e) {
+      System.err.println("Gagal memutar musik: " + e.getMessage());
+    }
   }
 
   /*

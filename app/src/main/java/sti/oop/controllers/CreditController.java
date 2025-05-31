@@ -33,42 +33,59 @@ public class CreditController {
   @FXML
   public void initialize() {
     playBackgroundMusic();
-    addCredit("Director", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+ addCredit("Game Directors", List.of("Wisa Ahmaduta", "S. Ardy Bramantyo", "Fajrul 'Japrul'", "Rai Wiguna Dharma"));
     addSeparator();
-    addCredit("Programmer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Producers", List.of("Wisa Ahmaduta", "S. Ardy Bramantyo", "Fajrul 'Japrul'", "Rai Wiguna Dharma")); // Berdasarkan aktivitas merge dan integrasi fitur [cite: 9, 15, 21]
     addSeparator();
-    addCredit("UI Designer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Lead Software Architect", List.of("Wisa Ahmaduta")); // Refactor modularisasi action logic dengan lambda, refactor controller logic agar sesuai MVC [cite: 8]
     addSeparator();
-    addCredit("Sound & Music", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Engine & Core Systems Programmer", List.of("Wisa Ahmaduta")); // Menambahkan controller waktu[cite: 4], fitur auto fullscreen, dynamic canvas, kamera, collision detection, rendering map, map switching logic [cite: 5]
     addSeparator();
-    addCredit("Special Thanks", List.of("Everyone who supported us!","Dhaffin yang ngilang buat kami semangat!"));
-    addCredit("Director", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Lead Gameplay Designers", List.of(
+        "Wisa Ahmaduta", // Konsep mekanik inti: fishing[cite: 1, 2], tilling, planting, watering, harvesting, energi [cite: 3]
+        "S. Ardy Bramantyo", // Konsep sistem inventory, cooking, farming recipe, NPC [cite: 11]
+        "Fajrul 'Japrul'" // Konsep interaksi NPC mendalam (chatting, gifting, proposing, marrying)[cite: 22], fitur eating [cite: 22]
+    ));
     addSeparator();
-    addCredit("Programmer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Core Gameplay Mechanics Programmer", List.of("Wisa Ahmaduta")); // Logic untuk action seperti tilling, planting, watering, harvesting[cite: 3], logika untuk energi[cite: 3], GUI & interface fishing [cite: 1, 2]
     addSeparator();
-    addCredit("UI Designer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Advanced Gameplay Systems Programmer", List.of("S. Ardy Bramantyo")); // Logika bin, cooking, inventory, farming recipe, NPC, recipe barrier[cite: 11], logika penyimpanan item, starter item, cooking logics, deselect item [cite: 13]
     addSeparator();
-    addCredit("Sound & Music", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("NPC Interaction Designer & Programmer", List.of("Fajrul 'Japrul'")); // Membuat seluruh NPC Interaction (chatting, gifting, proposing, marrying) [cite: 22]
     addSeparator();
-    addCredit("Special Thanks", List.of("Everyone who supported us!","Dhaffin yang ngilang buat kami semangat!"));
-    addCredit("Director", List.of("John Doe"));
+    addCredit("World Systems Programmer", List.of("S. Ardy Bramantyo")); // Menambahkan fitur cuaca, waktu, musim, dan transisi warna hari [cite: 13]
     addSeparator();
-    addCredit("Director", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Lead UI/UX Designers", List.of(
+        "Wisa Ahmaduta", // Desain awal main menu, fishing GUI, panel notifikasi [cite: 1, 2]
+        "S. Ardy Bramantyo" // Desain Inventory GUI, Hotbar, struktur GUI Inventory [cite: 12, 14]
+    ));
     addSeparator();
-    addCredit("Programmer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("UI Programmers & Implementers", List.of(
+        "Wisa Ahmaduta",    // Menambahkan main menu button, credit, GUI untuk fishing, panelController, notification panel, modal [cite: 1, 2]
+        "S. Ardy Bramantyo", // Menambahkan GUI Inventory, Item Sprites, Equipment, Hotbar, Inventory Controller [cite: 12, 14]
+        "Fajrul 'Japrul'"   // Menyesuaikan Ul dan integrasi GUI [cite: 23]
+    ));
     addSeparator();
-    addCredit("UI Designer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("UI Artist", List.of("S. Ardy Bramantyo")); // Item Sprites, Equipment (visual elemen UI) [cite: 12]
     addSeparator();
-    addCredit("Sound & Music", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("World Designer & Cartographer", List.of("Rai Wiguna Dharma")); // Menambahkan Fishing Area, NPC Houses, koneksi world map ke farm[cite: 18], Mengubah house map [cite: 19]
     addSeparator();
-    addCredit("Special Thanks", List.of("Everyone who supported us!","Dhaffin yang ngilang buat kami semangat!"));
-    addCredit("Director", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Level Designer & Environmental Scripter", List.of("Rai Wiguna Dharma")); // Integrasi mapping randomize[cite: 18], logic NPC ke map, posisi rumah[cite: 18], logika interaksi dengan NPC dan lokasi[cite: 19], Menghubungkan map secara dinamis [cite: 20]
     addSeparator();
-    addCredit("Programmer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Character Animator", List.of("Wisa Ahmaduta")); // Menambahkan spritesheet animation untuk player [cite: 5]
     addSeparator();
-    addCredit("UI Designer", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Build & Tools Engineer", List.of("Wisa Ahmaduta")); // Mengganti sistem build dari Maven ke Gradle[cite: 10], Menyesuaikan versi JavaFX [cite: 10]
     addSeparator();
-    addCredit("Sound & Music", List.of("Wisa", "Ardy", "Fajrul(Japrul)","RaiDharma"));
+    addCredit("Lead QA Tester", List.of("Rai Wiguna Dharma")); // Testing, updating, merging mapping [cite: 20]
+    addSeparator();
+    addCredit("QA & Bug Squashing Team", List.of(
+        "Wisa Ahmaduta", // Memperbaiki file FXML, teleportation logic, bug hujan & interaksi, double watering/energy cost, asset collision, rendering, interaksi [cite: 6, 7]
+        "S. Ardy Bramantyo", // Memperbaiki bug package dan item saat harvest, logic harvest dan error package bin [cite: 16]
+        "Rai Wiguna Dharma", // Testing, updating, revert perubahan mapping (implikasi penanganan bug) [cite: 20]
+        "Fajrul 'Japrul'" // Menyesuaikan Ul dan integrasi GUI (implikasi perbaikan isu integrasi)[cite: 23], merge branches [cite: 21]
+    ));
+    addSeparator();
+    addCredit("Sound & Music", List.of("Wisa Ahmaduta", "S. Ardy Bramantyo", "Fajrul 'Japrul'", "Rai Wiguna Dharma")); // Mengikuti pola contoh untuk kontribusi yang tidak tercatat spesifik di log
     addSeparator();
     addCredit("Special Thanks", List.of("Everyone who supported us!","Dhaffin yang ngilang buat kami semangat!"));
     addImage("/images/gacor.jpg");
@@ -80,7 +97,7 @@ public class CreditController {
     scrollPane.addEventFilter(javafx.scene.input.KeyEvent.ANY, event -> event.consume());
     Timeline timeline = new Timeline();
     KeyValue kv = new KeyValue(scrollPane.vvalueProperty(), 1);
-    KeyFrame kf = new KeyFrame(Duration.seconds(20), kv); // scroll dalam 20 detik
+    KeyFrame kf = new KeyFrame(Duration.seconds(300), kv); // scroll dalam 20 detik
     timeline.getKeyFrames().add(kf);
     timeline.play();
 

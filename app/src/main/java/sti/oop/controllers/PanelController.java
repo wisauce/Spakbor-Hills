@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -27,7 +27,7 @@ public class PanelController {
   private StackPane bottomPanel; // Main container where different panels are shown
 
   @FXML
-  private HBox buttonPanel; // For NPC options etc.
+  private FlowPane buttonPanel; // For NPC options etc.
 
   @FXML
   private VBox dialogBox; // For text dialogs
@@ -248,26 +248,16 @@ public class PanelController {
     currentAttempts++;
 
     if (guessedValue == targetNumber) {
-      updateFishingPrompt("Correct! You guessed " + targetNumber + ".");
-      // Delay hiding and calling callback to show success message
-      Timeline successTimeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> {
-        hideFishingPanel();
-        if (currentFishingCallback != null) {
-          currentFishingCallback.accept(OptionalInt.of(guessedValue));
-        }
-      }));
-      successTimeline.play();
+      hideFishingPanel();
+      if (currentFishingCallback != null) {
+        currentFishingCallback.accept(OptionalInt.of(guessedValue));
+      }
     } else {
       if (currentAttempts >= maxAttempts) {
-        updateFishingPrompt("Wrong! No more attempts. The number was " + targetNumber + ".");
-        // Delay hiding and calling callback
-        Timeline failureTimeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
-          hideFishingPanel();
-          if (currentFishingCallback != null) {
-            currentFishingCallback.accept(OptionalInt.empty()); // No guess or failed
-          }
-        }));
-        failureTimeline.play();
+        hideFishingPanel();
+        if (currentFishingCallback != null) {
+          currentFishingCallback.accept(OptionalInt.empty()); // No guess or failed
+        }
       } else {
         String hint = guessedValue < targetNumber ? "Too low." : "Too high.";
         updateFishingPrompt(hint + " Try again. Attempts left: " + (maxAttempts - currentAttempts));

@@ -6,16 +6,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.FlowPane?> <!-- Tambahkan ini -->
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" visible="true" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.PanelController">
+
+<HBox alignment="CENTER" visible="true" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sti.oop.controllers.PanelController" maxWidth="800.0">
 
   <padding>
     <Insets bottom="20.0" />
   </padding>
 
   <children>
-    <StackPane fx:id="bottomPanel" styleClass="stardew-panel" stylesheets="@panel.css">
+    <StackPane fx:id="bottomPanel" styleClass="stardew-panel" stylesheets="@panel.css" visible="false" maxWidth="2000.0">
 
       <children>
         <VBox fx:id="dialogBox" alignment="CENTER_LEFT" managed="false" spacing="10.0" visible="false">
@@ -31,7 +33,8 @@
           </children>
         </VBox>
 
-        <HBox fx:id="buttonPanel" alignment="CENTER" spacing="10.0" visible="false" stylesheets="@panel.css" />
+        <FlowPane fx:id="buttonPanel" alignment="CENTER" hgap="10.0" vgap="10.0" maxWidth="2000.0"
+          visible="false" stylesheets="@panel.css" />
       </children>
     </StackPane>
   </children>

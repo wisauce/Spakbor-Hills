@@ -46,7 +46,7 @@ public class NPC{
 
   public NPC(String name, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, List<String> conversation) {
     this.name = name;
-    heartPoints = MAX_HEART_POINTS; 
+    heartPoints = 0; 
     this.lovedItems = lovedItems;
     this.likedItems = likedItems;
     this.hatedItems = hatedItems;

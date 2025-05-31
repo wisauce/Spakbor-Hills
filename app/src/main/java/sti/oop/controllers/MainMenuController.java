@@ -33,9 +33,10 @@ public class MainMenuController {
   }
 
   @FXML
-  private void handleHelp() {
-    System.out.println("Help clicked!");
-    // TODO: tampilkan dialog/help scene
+  private void handleHelp(Event event) throws IOException {
+    Parent farmParent = FXMLLoader.load(getClass().getResource("/views/Help.fxml"));
+    Scene scene = (Scene) ((Node) event.getSource()).getScene();
+    scene.setRoot(farmParent);
   }
 
   @FXML
@@ -48,8 +49,6 @@ public class MainMenuController {
 
   @FXML
   private void handleExit() {
-    System.out.println("Exit clicked!");
-    // Keluar aplikasi
     Platform.exit();
   }
 }
