@@ -51,7 +51,7 @@ public class AssetController {
     assetsOnFarm.add(pond);
     assetsOnFarm.add(new PondArea(pond));
     assetsOnFarm.add(new ShippingBin(farmMap));
-    assetsOnFarm.add(new BinArea( (farmMap.getShippingBinLoc()[2]+9)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+9)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[2]+9)*Constants.TILE_SIZE*9, (farmMap.getShippingBinLoc()[0]+9)*Constants.TILE_SIZE*6) );
+    assetsOnFarm.add(new BinArea( (farmMap.getShippingBinLoc()[2]+8)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+8)*Constants.TILE_SIZE, 5*Constants.TILE_SIZE, Constants.TILE_SIZE*3) );
     assetsOnFarm.addAll(lands);
     assetsOnFarm.add(new Teleporter(29 * Constants.TILE_SIZE, 43* Constants.TILE_SIZE, 2* Constants.TILE_SIZE, 1* Constants.TILE_SIZE, MapName.WORLD, 1* Constants.TILE_SIZE, 47* Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);

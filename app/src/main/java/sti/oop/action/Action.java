@@ -97,9 +97,6 @@ public class Action implements Actor {
 
   @Override
   public void act(CookingArea acted) {
-    System.out.println("=== COOKING ACTION TRIGGERED ===");
-    System.out.println("CookingArea position: " + acted.getX() + ", " + acted.getY());
-
     try {
       new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
           farmController.getTimeController().getFarm(), panelController);

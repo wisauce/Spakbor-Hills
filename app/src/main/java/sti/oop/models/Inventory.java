@@ -21,13 +21,7 @@ public class Inventory {
     /*                                 Item Logics                                */
     /* -------------------------------------------------------------------------- */
 
-    public int getItemCount(Item itemName) {
-        return items.getOrDefault(itemName, 0);
-    }
-    
-    public boolean hasItem(Item itemName) {
-        return items.containsKey(itemName);
-    }
+    /* By Name */
 
     public boolean hasItemByName(String itemName) {
         return items.keySet().stream().anyMatch(item -> item.getItemName().equals(itemName));
@@ -59,33 +53,80 @@ public class Inventory {
             addItem(newItem, quantity);
         }
     }
+
+    /* By Item */
         
     public Set<Item> getAllItem() {
         return Collections.unmodifiableSet(items.keySet());
     }
 
     public void addItem(Item item, int quantity) {
-        if (quantity <= 0) throw new IllegalArgumentException("Quantity is not valid! Quantity must be over 0");
-        
-        if (items.containsKey(item)) {
-            items.put(item, getItemCount(item) + quantity);
-        }
-        
+        Item existingItem = findItemByName(item.getItemName());
+
+        if (existingItem != null) {
+            int currentQuantity = items.get(existingItem);
+            items.put(existingItem, currentQuantity + quantity);
+        } 
         else {
             items.put(item, quantity);
         }
     }
 
+    public int getItemCount(Item item) {
+        Item existingItem = findItemByName(item.getItemName());
+        if (existingItem != null) {
+            return items.get(existingItem);
+        }
+        return 0;
+    }
+
     public void removeItem(Item item, int quantity) {
-        if (getItemCount(item) < quantity) throw new IllegalArgumentException("Not enough of item: " + item);
-        int newQuantity = getItemCount(item) - quantity;
+        Item existingItem = findItemByName(item.getItemName());
+        
+        if (existingItem == null) {
+            throw new IllegalArgumentException("Item not found in inventory: " + item.getItemName());
+        }
+        
+        int currentQuantity = items.get(existingItem);
+        if (currentQuantity < quantity) {
+            throw new IllegalArgumentException("Not enough of item: " + item.getItemName() + 
+                " (have " + currentQuantity + ", need " + quantity + ")");
+        }
+        
+        int newQuantity = currentQuantity - quantity;
         if (newQuantity == 0) {
-            items.remove(item);
+            items.remove(existingItem);
         } else {
-            items.put(item, newQuantity);
+            items.put(existingItem, newQuantity);
         }
     }
 
+    private Item findItemByName (String itemName) {
+        for (Item inventoryItem : items.keySet()) {
+            if (inventoryItem.getItemName().equals(itemName)) {
+                return inventoryItem;
+            }
+        }
+        return null;
+    }
+
+    /* Item Name Wrapper */
+
+    public int getItemCount(String itemName) {
+        return getItemCountByName(itemName); 
+    }
+
+    public boolean hasItem(String itemName) {
+        return hasItemByName(itemName); 
+    }
+
+    public void removeItem(String itemName, int quantity) {
+        removeItemByName(itemName, quantity); 
+    }
+
+    public void addItem(String itemName, int quantity) {
+        addItemByName(itemName, quantity);
+    }
 
     /* -------------------------------------------------------------------------- */
     /*                              Fish Item Logics                              */

@@ -150,8 +150,8 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     inventory.addItem(ItemRegistry.createItem("CookedPigsHead"), 1);
 
     /* Misc */
-    inventory.addItem(ItemRegistry.createItem("Coal"), 10);
-    inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
+    inventory.addItem(ItemRegistry.createItem("Coal"), 1);
+    // inventory.addItem(ItemRegistry.createItem("Firewood"), 15);
     inventory.addItem(ItemRegistry.createItem("Gift"), 2);
     inventory.addItem(ItemRegistry.createItem("WeddingRing"), 1);
 

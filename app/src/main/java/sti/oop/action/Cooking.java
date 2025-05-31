@@ -6,13 +6,25 @@ import sti.oop.models.Player;
 import sti.oop.models.Item.Recipe;
 
 public class Cooking {
-    //TODO: Change String agar Notification!
-    public String doCooking(Player player, Recipe recipe, Farm farm){
+    public static class CookingResult {
+        private String message;
+        private int remainingFuel;
 
-        int fuel = 0;
+        public CookingResult(String message, int remainingFuel) {
+            this.message = message;
+            this.remainingFuel = remainingFuel;
+        }
 
+        public String getMessage() {
+            return message;
+        }
+
+        public int getRemainingFuel() {
+            return remainingFuel;
+        }
+    }
+    public CookingResult doCookingWithFuel(Player player, Recipe recipe, Farm farm, int fuel){
         if (fuel == 0) {
-
             if (player.getInventory().hasItemByName("Coal")) {
                 player.getInventory().removeItemByName("Coal", 1);
                 fuel += 2;
@@ -42,13 +54,7 @@ public class Cooking {
                 }
             }
 
-            farm.setTime(newHour, currentMinute);
-
-            if (!newTimeOfDay.equals(timeOfDay)) {
-                if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
-                    farm.nextDay();
-                }
-            }
+            String actionResult;
         
             if (recipe.getItemName().equals("FishnChipsRecipe")) {
                 if (player.getInventory().getItemCountByName("Wheat") >= 1 && player.getInventory().getItemCountByName("Potato") >= 1 && player.getInventory().hasEnoughFish(2)) {
@@ -58,11 +64,11 @@ public class Cooking {
                     player.getInventory().addItemByName("FishnChips", 1);
 
                     fuel--;
-                    return "Sucess! Fish n' Chips has been Added to Inventory";
+                    actionResult = "Success! Fish n' Chips has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Wheat" + " 1x, " + "Potato" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Wheat" + " 1x, " + "Potato" + " 1x.";
                 }
             } 
 
@@ -73,11 +79,11 @@ public class Cooking {
                     player.getInventory().addItemByName("Baguette", 1);
 
                     fuel--;
-                    return "Sucess! Baguette has been Added to Inventory";
+                    actionResult = "Success! Baguette has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Wheat" + " 3x.";
+                    actionResult = "You don't have enough ingredient : " + "Wheat" + " 3x.";
                 }
             }
 
@@ -89,11 +95,11 @@ public class Cooking {
                     player.getInventory().addItemByName("Sashimi", 1);
                     
                     fuel--;
-                    return "Sucess! Sashimi has been Added to Inventory";
+                    actionResult = "Success! Sashimi has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Salmon" + " 3x.";
+                    actionResult = "You don't have enough ingredient : " + "Salmon" + " 3x.";
                 }
             }
 
@@ -105,11 +111,11 @@ public class Cooking {
                     player.getInventory().addItemByName("Fugu", 1);
                     
                     fuel--;
-                    return "Sucess! Fugu has been Added to Inventory";
+                    actionResult = "Success! Fugu has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Pufferfish" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Pufferfish" + " 1x.";
                 }
             }
 
@@ -120,11 +126,11 @@ public class Cooking {
                     player.getInventory().addItemByName("Wine", 1);
                     
                     fuel--;
-                    return "Sucess! Wine has been Added to Inventory";
+                    actionResult = "Success! Wine has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Grape" + " 2x.";
+                    actionResult = "You don't have enough ingredient : " + "Grape" + " 2x.";
                 }
             }
 
@@ -138,11 +144,11 @@ public class Cooking {
                     player.getInventory().addItemByName("PumpkinPie", 1);
                     
                     fuel--;
-                    return "Sucess! PumpkinPie has been Added to Inventory";
+                    actionResult = "Success! PumpkinPie has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Wheat"+ " 1x, " + "Egg" + " 1x, " + "Pumpkin" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Wheat"+ " 1x, " + "Egg" + " 1x, " + "Pumpkin" + " 1x.";
                 }
             }
 
@@ -156,12 +162,12 @@ public class Cooking {
                     player.getInventory().addItemByName("VeggieSoup", 1);
                     
                     fuel--;
-                    return "Sucess! VeggieSoup has been Added to Inventory";
+                    actionResult = "Success! VeggieSoup has been Added to Inventory";
 
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Cauliflower" + " 1x, " + "Parsnip" + " 1x, " + "Potato" + " 1x, " + "Tomato" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Cauliflower" + " 1x, " + "Parsnip" + " 1x, " + "Potato" + " 1x, " + "Tomato" + " 1x.";
                 }
             }
 
@@ -173,11 +179,11 @@ public class Cooking {
                     player.getInventory().addItemByName("FishStew", 1);
                     
                     fuel--;
-                    return "Sucess! FishStew has been Added to Inventory";
+                    actionResult = "Success! FishStew has been Added to Inventory";
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "HotPepper"+ " 1x, " + "Cauliflower" + " 2x.";
+                    actionResult = "You don't have enough ingredient : " + "HotPepper"+ " 1x, " + "Cauliflower" + " 2x.";
                 }
             }
             
@@ -192,12 +198,12 @@ public class Cooking {
                     player.getInventory().addItemByName("SpakborSalad", 1);
                     
                     fuel--;
-                    return "Sucess! SpakborSalad has been Added to Inventory";
+                    actionResult = "Success! SpakborSalad has been Added to Inventory";
 
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Melon" + " 1x, " + "Cranberry" + " 1x, " + "Blueberry" + " 1x, " + "Tomato" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Melon" + " 1x, " + "Cranberry" + " 1x, " + "Blueberry" + " 1x, " + "Tomato" + " 1x.";
                 }
             }
 
@@ -212,12 +218,12 @@ public class Cooking {
                     player.getInventory().addItemByName("FishSandwich", 1);
                     
                     fuel--;
-                    return "Sucess! FishSandwich has been Added to Inventory";
+                    actionResult = "Success! FishSandwich has been Added to Inventory";
 
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Wheat" + " 1x, " + "HotPepper" + " 1x, " + "Tomato" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Wheat" + " 1x, " + "HotPepper" + " 1x, " + "Tomato" + " 1x.";
                 }
             }
 
@@ -232,23 +238,41 @@ public class Cooking {
                     player.getInventory().addItemByName("TheLegendsOfSpakbor", 1);
                     
                     fuel--;
-                    return "Sucess! TheLegendsOfSpakbor has been Added to Inventory";
+                    actionResult = "Success! TheLegendsOfSpakbor has been Added to Inventory";
 
                 }
 
                 else {
-                    return "You don't have enough ingredient : " + "Potato" + " 1x, " + "Parsnip" + " 1x, " + "Tomato" + " 1x.";
+                    actionResult = "You don't have enough ingredient : " + "Potato" + " 1x, " + "Parsnip" + " 1x, " + "Tomato" + " 1x.";
                 }
             }
 
             else {
-                return "You don't have the correct recipe for " + recipe.getItemName();
+                actionResult = "You don't have the correct recipe for " + recipe.getItemName();
             }
+
+
+            if (!actionResult.startsWith("You don't have")){
+                farm.setTime(newHour, currentMinute);
+
+                if (!newTimeOfDay.equals(timeOfDay)) {
+                    if (timeOfDay.equals("PM") && newTimeOfDay.equals("AM")) {
+                        farm.nextDay();
+                    }
+                }
+            }
+
+            return new CookingResult(actionResult, fuel);
         }
 
         else {
-            return "You don't have any fuel!";
+            return new CookingResult("You don't have any fuel!", fuel);
         }
 
+    }
+
+    public String doCooking(Player player, Recipe recipe, Farm farm) {
+        CookingResult cookingResult = doCookingWithFuel(player, recipe, farm, 0);
+        return cookingResult.getMessage();
     }
 }
