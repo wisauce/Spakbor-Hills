@@ -27,7 +27,7 @@ public class MainMenuController {
 
   @FXML
   private void handleNewGame(Event event) throws IOException {
-    Parent farmParent = FXMLLoader.load(getClass().getResource("/views/Farm.fxml"));
+    Parent farmParent = FXMLLoader.load(getClass().getResource("/views/Setup.fxml"));
     Scene scene = (Scene) ((Node) event.getSource()).getScene();
     scene.setRoot(farmParent);
   }
