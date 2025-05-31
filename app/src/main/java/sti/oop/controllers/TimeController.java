@@ -7,12 +7,16 @@ public class TimeController {
   private Farm farm;
   private Label timeDisplay;
   private Label dateDisplay;
+  private Label locationDisplay;
+  private FarmController farmController;
   
 
-  public TimeController(Farm farm, Label timeDisplay, Label dateDisplay) {
+  public TimeController(Farm farm, FarmController farmController, Label timeDisplay, Label dateDisplay, Label locationDisplay) {
     this.farm = farm;
+    this.farmController = farmController;
     this.timeDisplay = timeDisplay;
     this.dateDisplay = dateDisplay;
+    this.locationDisplay = locationDisplay;
   }
 
   public void update() {
@@ -25,6 +29,9 @@ public class TimeController {
     }
     if (dateDisplay != null) {
       dateDisplay.setText(farm.getFormatDateMonthSeason());
+    }
+    if (locationDisplay != null) {
+      locationDisplay.setText(farmController.getGameMapController().getCurrentMap().toString());
     }
   }
 

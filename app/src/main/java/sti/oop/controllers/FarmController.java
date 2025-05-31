@@ -33,6 +33,9 @@ public class FarmController {
   private Label dateDisplay;
 
   @FXML
+  private Label locationDisplay;
+
+  @FXML
   private AnchorPane anchorPane;
 
   @FXML
@@ -118,7 +121,7 @@ public class FarmController {
     gameMapController = new GameMapController(player);
     playerController = new PlayerController(player, collisionController, this);
     farm = new Farm(playerController, lands);
-    timeController = new TimeController(farm, timeDisplay, dateDisplay);
+    timeController = new TimeController(farm, this, timeDisplay, dateDisplay, locationDisplay);
     // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 *
     // Constants.TILE_SIZE, "/images/monyet.jpg", true));
     // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 *
@@ -206,6 +209,10 @@ public class FarmController {
 
   public PlayerController getPlayerController() {
     return playerController;
+  }
+
+  public GameMapController getGameMapController() {
+    return gameMapController;
   }
 
   /* Inventory Logics */
