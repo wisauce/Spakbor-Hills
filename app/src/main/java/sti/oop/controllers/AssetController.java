@@ -25,6 +25,7 @@ import sti.oop.models.assets.OceanArea;
 import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.RiverArea;
 import sti.oop.models.assets.SleepingArea;
+import sti.oop.models.assets.StoreArea;
 import sti.oop.models.assets.Teleporter;
 import sti.oop.models.deploys.House;
 import sti.oop.models.deploys.Pond;
