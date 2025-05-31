@@ -30,12 +30,16 @@ public class PlayerController implements Renderable {
   private boolean keyTPressed = false;
   private boolean justInteracted = false;
   private boolean justEaten = false;
+  private boolean canMoveLeft = true;
+  private boolean canMoveRight = true;
+  private boolean canMoveUp = true;
+  private boolean canMoveDown = true;
 
   public void setJustEaten(boolean justEaten) {
     this.justEaten = justEaten;
   }
 
-  public boolean isJustEaten()  {
+  public boolean isJustEaten() {
     return justEaten;
   }
 
@@ -52,7 +56,10 @@ public class PlayerController implements Renderable {
   private final int playerFrameWidth = 32;
   private final int playerFrameHeight = 32;
   private Image playerSpriteSheet = new Image(getClass().getResourceAsStream("/sprites/spritePlayer.png"));
-  private boolean noCollidingAsset = true;
+  private boolean noCollidingAssetUp = true;
+  private boolean noCollidingAssetLeft = true;
+  private boolean noCollidingAssetRight = true;
+  private boolean noCollidingAssetDown = true;
 
   public boolean isJustInteracted() {
     return justInteracted;
@@ -118,11 +125,6 @@ public class PlayerController implements Renderable {
     int intersectPoint2X = 0;
     int intersectPoint2Y = 0;
 
-    boolean canMoveLeft = true;
-    boolean canMoveRight = true;
-    boolean canMoveUp = true;
-    boolean canMoveDown = true;
-
     if (keyLeftPressed) {
       intersectPoint1X = player.getX() + hitboxOffsetX - player.getSpeed();
       intersectPoint2X = intersectPoint1X;
@@ -167,10 +169,10 @@ public class PlayerController implements Renderable {
           !collisionController.isCollision(intersectPoint2X, intersectPoint2Y);
     }
 
-    boolean leftMovement = keyLeftPressed && canMoveLeft && noCollidingAsset;
-    boolean rightMovement = keyRightPressed && canMoveRight && noCollidingAsset;
-    boolean upMovement = keyUpPressed && canMoveUp && noCollidingAsset;
-    boolean downMovement = keyDownPressed && canMoveDown && noCollidingAsset;
+    boolean leftMovement = keyLeftPressed && canMoveLeft && noCollidingAssetLeft;
+    boolean rightMovement = keyRightPressed && canMoveRight && noCollidingAssetRight;
+    boolean upMovement = keyUpPressed && canMoveUp && noCollidingAssetUp;
+    boolean downMovement = keyDownPressed && canMoveDown && noCollidingAssetDown;
 
     if (upMovement) {
       player.moveUp();
@@ -334,13 +336,27 @@ public class PlayerController implements Renderable {
     return playerSpriteSheet;
   }
 
-  public void setnoCollidingAsset(boolean isColliding) {
-    noCollidingAsset = isColliding;
-  }
+  
 
   /* -------------------------------------------------------------------------- */
-  /*                             Key Pressed Logics                             */
+  /* Key Pressed Logics */
   /* -------------------------------------------------------------------------- */
+
+  public void setNoCollidingAssetUp(boolean noCollidingAssetUp) {
+    this.noCollidingAssetUp = noCollidingAssetUp;
+  }
+
+  public void setNoCollidingAssetLeft(boolean noCollidingAssetLeft) {
+    this.noCollidingAssetLeft = noCollidingAssetLeft;
+  }
+
+  public void setNoCollidingAssetRight(boolean noCollidingAssetRight) {
+    this.noCollidingAssetRight = noCollidingAssetRight;
+  }
+
+  public void setNoCollidingAssetDown(boolean noCollidingAssetDown) {
+    this.noCollidingAssetDown = noCollidingAssetDown;
+  }
 
   public boolean isKeyLeftPressed() {
     return keyLeftPressed;
@@ -374,6 +390,22 @@ public class PlayerController implements Renderable {
     }
   }
 
+  public void setCanMoveLeft(boolean canMoveLeft) {
+    this.canMoveLeft = canMoveLeft;
+  }
+
+  public void setCanMoveRight(boolean canMoveRight) {
+    this.canMoveRight = canMoveRight;
+  }
+
+  public void setCanMoveUp(boolean canMoveUp) {
+    this.canMoveUp = canMoveUp;
+  }
+
+  public void setCanMoveDown(boolean canMoveDown) {
+    this.canMoveDown = canMoveDown;
+  }
+
   private void cycleToNextItem() {
     Inventory inventory = player.getInventory();
     int totalItems = inventory.getAllItem().size();
@@ -391,5 +423,55 @@ public class PlayerController implements Renderable {
         System.out.println("No item selected");
       }
     }
+  }
+
+  public CollisionController getCollisionController() {
+    return collisionController;
+  }
+
+  public FarmController getFarmController() {
+    return farmController;
+  }
+
+  public boolean isKeyEPressed() {
+    return keyEPressed;
+  }
+
+  public boolean isKeyTPressed() {
+    return keyTPressed;
+  }
+
+  public boolean isCanMoveLeft() {
+    return canMoveLeft;
+  }
+
+  public boolean isCanMoveRight() {
+    return canMoveRight;
+  }
+
+  public boolean isCanMoveUp() {
+    return canMoveUp;
+  }
+
+  public boolean isCanMoveDown() {
+    return canMoveDown;
+  }
+
+
+
+  public boolean isNoCollidingAssetUp() {
+    return noCollidingAssetUp;
+  }
+
+  public boolean isNoCollidingAssetLeft() {
+    return noCollidingAssetLeft;
+  }
+
+  public boolean isNoCollidingAssetRight() {
+    return noCollidingAssetRight;
+  }
+
+  public boolean isNoCollidingAssetDown() {
+    return noCollidingAssetDown;
   }
 }

@@ -10,8 +10,6 @@ import sti.oop.models.Interactable;
 import sti.oop.models.assets.Asset;
 import sti.oop.utils.Constants;
 
-// import sti.oop.models.Constants;
-
 public class CollisionController {
   private Map<MapName, CollisionMap> mapOfCollisionMaps;
   private CollisionMap currentCollisionMap;
@@ -34,6 +32,11 @@ public class CollisionController {
   public boolean isCollision(int x, int y) {
     int tileX = x / Constants.TILE_SIZE;
     int tileY = y / Constants.TILE_SIZE;
+    // Ensure tileX and tileY are within bounds
+    if (tileY < 0 || tileY >= currentCollisionMap.getCollisionMatrix().size() ||
+        tileX < 0 || tileX >= currentCollisionMap.getCollisionMatrix().get(0).size()) {
+        return true; // Treat out-of-bounds as collision
+    }
     return currentCollisionMap.getCollisionMatrix().get(tileY).get(tileX);
   }
 
@@ -42,53 +45,124 @@ public class CollisionController {
   }
 
   public void checkAssetCollision(List<Asset> assets, PlayerController playerController, PanelController panelController) {
-    // Reset collision flag before checking
-    playerController.setnoCollidingAsset(true);
-    for (Asset asset : assets) {
-      Rectangle tempArea = new Rectangle(
-          playerController.getSolidArea().getX(),
-          playerController.getSolidArea().getY(),
-          playerController.getSolidArea().getWidth(),
-          playerController.getSolidArea().getHeight());
+    Rectangle playerSolidArea = playerController.getSolidArea();
+    int speed = playerController.getPlayer().getSpeed();
 
-      int speed = playerController.getPlayer().getSpeed();
+    // Reset asset collision flags in PlayerController
+    playerController.setNoCollidingAssetUp(true);
+    playerController.setNoCollidingAssetDown(true);
+    playerController.setNoCollidingAssetLeft(true);
+    playerController.setNoCollidingAssetRight(true);
 
-      // Simulate movement
-      if (playerController.isKeyUpPressed()) {
-        tempArea.setY(tempArea.getY() - speed);
-      }
-      if (playerController.isKeyDownPressed()) {
-        tempArea.setY(tempArea.getY() + speed);
-      }
-      if (playerController.isKeyLeftPressed()) {
-        tempArea.setX(tempArea.getX() - speed);
-      }
-      if (playerController.isKeyRightPressed()) {
-        tempArea.setX(tempArea.getX() + speed);
-      }
-
-      // Check collision
-      if (tempArea.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
-        if (asset.isCollisionOn()) {
-          playerController.setnoCollidingAsset(false);
-        } else {
-          playerController.setInteractionGuide(true);
-          Interactable interactable = (Interactable) asset;
-          if (playerController.isJustInteracted()) {
-            interactable.accept(playerController.getAction());
-            playerController.clearJustInteracted();
-          }
+    // Check SOLID asset collisions for each direction INDEPENDENTLY
+    // UP
+    if (playerController.isKeyUpPressed()) {
+        Rectangle tempAreaUp = new Rectangle(
+            playerSolidArea.getX(),
+            playerSolidArea.getY() - speed,
+            playerSolidArea.getWidth(),
+            playerSolidArea.getHeight());
+        for (Asset asset : assets) {
+            if (asset.isCollisionOn() && tempAreaUp.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+                playerController.setNoCollidingAssetUp(false);
+                break; 
+            }
         }
-        break; // keluar dari loop kalau sudah collision
-      } else {
-        playerController.setInteractionGuide(false);
-      }
     }
 
-    // Setelah loop selesai
-    boolean isMoving = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
+    // DOWN
+    if (playerController.isKeyDownPressed()) {
+        Rectangle tempAreaDown = new Rectangle(
+            playerSolidArea.getX(),
+            playerSolidArea.getY() + speed,
+            playerSolidArea.getWidth(),
+            playerSolidArea.getHeight());
+        for (Asset asset : assets) {
+            if (asset.isCollisionOn() && tempAreaDown.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+                playerController.setNoCollidingAssetDown(false);
+                break; 
+            }
+        }
+    }
+
+    // LEFT
+    if (playerController.isKeyLeftPressed()) {
+        Rectangle tempAreaLeft = new Rectangle(
+            playerSolidArea.getX() - speed,
+            playerSolidArea.getY(),
+            playerSolidArea.getWidth(),
+            playerSolidArea.getHeight());
+        for (Asset asset : assets) {
+            if (asset.isCollisionOn() && tempAreaLeft.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+                playerController.setNoCollidingAssetLeft(false);
+                break; 
+            }
+        }
+    }
+
+    // RIGHT
+    if (playerController.isKeyRightPressed()) {
+        Rectangle tempAreaRight = new Rectangle(
+            playerSolidArea.getX() + speed,
+            playerSolidArea.getY(),
+            playerSolidArea.getWidth(),
+            playerSolidArea.getHeight());
+        for (Asset asset : assets) {
+            if (asset.isCollisionOn() && tempAreaRight.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+                playerController.setNoCollidingAssetRight(false);
+                break; 
+            }
+        }
+    }
+
+    // Handle INTERACTION
+    // Determine the player's potential next position for interaction, considering all collision constraints
+    double potentialInteractX = playerSolidArea.getX();
+    double potentialInteractY = playerSolidArea.getY();
+
+    if (playerController.isKeyUpPressed() && playerController.isNoCollidingAssetUp() && playerController.isCanMoveUp()) {
+        potentialInteractY -= speed;
+    } else if (playerController.isKeyDownPressed() && playerController.isNoCollidingAssetDown() && playerController.isCanMoveDown()) {
+        potentialInteractY += speed;
+    }
+
+    if (playerController.isKeyLeftPressed() && playerController.isNoCollidingAssetLeft() && playerController.isCanMoveLeft()) {
+        potentialInteractX -= speed;
+    } else if (playerController.isKeyRightPressed() && playerController.isNoCollidingAssetRight() && playerController.isCanMoveRight()) {
+        potentialInteractX += speed;
+    }
+    
+    Rectangle potentialInteractionArea = new Rectangle(
+        potentialInteractX,
+        potentialInteractY,
+        playerSolidArea.getWidth(),
+        playerSolidArea.getHeight());
+
+    playerController.setInteractionGuide(false); // Default to false
+
+    for (Asset asset : assets) {
+        if (potentialInteractionArea.getBoundsInParent().intersects(asset.getSolidArea().getBoundsInParent())) {
+            if (!asset.isCollisionOn()) { // Is an interactable asset
+                playerController.setInteractionGuide(true);
+                if (playerController.isJustInteracted()) {
+                    Interactable interactable = (Interactable) asset;
+                    interactable.accept(playerController.getAction());
+                    playerController.clearJustInteracted();
+                }
+                break; // Process only the first interactable asset found by the potential move
+            } else {
+                // If the potential move first hits a SOLID asset, then no interaction through it.
+                // This asset would have already been caught by directional checks if it blocked movement.
+                // Break because we only care about the first thing the potential move would hit for interaction.
+                break;
+            }
+        }
+    }
+
+    // Hide panels if any movement key is pressed (original logic)
+    boolean isMovingKeyPressed = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
         || playerController.isKeyRightPressed() || playerController.isKeyUpPressed());
-    if (isMoving) {
+    if (isMovingKeyPressed) {
       panelController.hideAllBottomPanels();
     }
   }
