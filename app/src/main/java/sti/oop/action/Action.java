@@ -7,6 +7,7 @@ import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Fish;
 import sti.oop.models.assets.BinArea;
@@ -78,16 +79,20 @@ public class Action implements Actor {
   }
 
   public void act(FishingArea acted) {
-    if (isFishing) {
-      isFishing = false;
-      farmController.getTimeController().setTimeFrozen(false);
+    if (farmController.getPlayerController().getPlayer().getOnHandItem() != null && farmController.getPlayerController().getPlayer().getOnHandItem().getItemName().equals("FishingRod")) {
+      if (isFishing) {
+        isFishing = false;
+        farmController.getTimeController().setTimeFrozen(false);
+      } else {
+        isFishing = true;
+        farmController.getTimeController().setTimeFrozen(true);
+        Fishing fishing = new Fishing();
+        List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
+        Fish randomizedFish = fishing.randomizeFish(availableFishes);
+        fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController, this);
+      }
     } else {
-      isFishing = true;
-      farmController.getTimeController().setTimeFrozen(true);
-      Fishing fishing = new Fishing();
-      List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
-      Fish randomizedFish = fishing.randomizeFish(availableFishes);
-      fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController, this);
+      panelController.showDialog("You need a Fishing Rod to fish!");
     }
   }
 
