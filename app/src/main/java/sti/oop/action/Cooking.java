@@ -265,7 +265,6 @@ public class Cooking {
                     }
                 }
             }
-
             return new CookingResult(actionResult, fuel);
         }
 

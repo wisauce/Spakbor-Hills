@@ -73,11 +73,15 @@ public class CookingInteractionHandler {
           (choice) -> {
             if (choice.equals("Cook more")) {
               handleCookingWithFuelCheck(cookingArea, player, farm, panelController, result.getRemainingFuel());
+            } else {
+              farm.setTimeFrozen(false);
             }
           }
         );
         }));
         cookingTimeline.play();
+      } else {
+        farm.setTimeFrozen(false);
       }
       
     });
