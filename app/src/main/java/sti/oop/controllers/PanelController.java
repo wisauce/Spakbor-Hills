@@ -24,44 +24,37 @@ import javafx.util.Duration;
 public class PanelController {
 
   @FXML
-  private StackPane bottomPanel; // Main container where different panels are shown
+  private StackPane bottomPanel; 
 
   @FXML
-  private HBox buttonPanel; // For NPC options etc.
+  private HBox buttonPanel;
 
   @FXML
-  private VBox dialogBox; // For text dialogs
+  private VBox dialogBox;
   @FXML
   private Label dialogLabel;
 
   private Timeline currentDialogTimeline;
 
-  // --- Fishing Panel UI Elements (Loaded from FXML) ---
-  private VBox fishingRootNode; // The root VBox from FishingPanel.fxml
+  private VBox fishingRootNode;
   private TextField fishingNumberInput;
   private Button fishingConfirmButton;
-  private Label fishingPromptLabel; // Assuming you add an fx:id for this in FXML
+  private Label fishingPromptLabel;
 
-  // --- State for the Fishing Guessing Loop ---
   private int targetNumber;
   private int maxAttempts;
   private int currentAttempts;
-  private Consumer<OptionalInt> currentFishingCallback; // OptionalInt for clear success/failure
+  private Consumer<OptionalInt> currentFishingCallback;
   private int fishingMinRange;
   private int fishingMaxRange;
 
   @FXML
   public void initialize() {
-    // Load the fishing panel FXML and get its nodes
     try {
       FXMLLoader fishingLoader = new FXMLLoader(getClass().getResource("/views/FishingPanel.fxml"));
-      fishingRootNode = fishingLoader.load(); // fishingRootNode is the VBox with fx:id="rootFishing"
-
-      // Find nodes within the loaded FXML. Make sure fx:id are set in your FXML.
+      fishingRootNode = fishingLoader.load(); 
       fishingNumberInput = (TextField) fishingRootNode.lookup("#numberInput");
       fishingConfirmButton = (Button) fishingRootNode.lookup("#confirmButton");
-      // Add a Label for prompts/feedback in your FishingPanel.fxml with
-      // fx:id="fishingPromptLabel"
       fishingPromptLabel = (Label) fishingRootNode.lookup("#fishingPromptLabel");
 
       if (fishingNumberInput == null || fishingConfirmButton == null || fishingPromptLabel == null) {
@@ -69,14 +62,12 @@ public class PanelController {
         return;
       }
 
-      // Initial setup (hide it)
       fishingRootNode.setVisible(false);
       fishingRootNode.setManaged(false);
-      bottomPanel.getChildren().add(fishingRootNode); // Add it to the main panel container
+      bottomPanel.getChildren().add(fishingRootNode);
 
     } catch (IOException e) {
       e.printStackTrace();
-      // Handle FXML loading error
     }
   }
 
@@ -84,7 +75,7 @@ public class PanelController {
     if (message == null || message.trim().isEmpty()) {
       return;
     }
-    hideAllBottomPanels(); // Hide other panels before showing dialog
+    hideAllBottomPanels();
     bottomPanel.setVisible(true);
     dialogLabel.setText(message);
     dialogLabel.setWrapText(true);
@@ -115,7 +106,7 @@ public class PanelController {
     buttonPanel.setManaged(true);
   }
 
-  public void hideAllBottomPanels() { // Renamed for clarity
+  public void hideAllBottomPanels() {
     dialogBox.setVisible(false);
     dialogBox.setManaged(false);
 
@@ -136,8 +127,6 @@ public class PanelController {
     }
   }
 
-  // --- NPC Interaction Panel (Example from before, ensure it uses
-  // hideAllBottomPanels) ---
   public void multipleOptionPanel(List<String> options, Consumer<String> callback) {
     hideAllBottomPanels();
     List<Button> buttons = new ArrayList<>();
@@ -152,12 +141,12 @@ public class PanelController {
       optionButton.getStyleClass().add("stardew-panel");
       optionButton.getStyleClass().add("dialog-text");
       optionButton.setOnAction(e -> {
-        hideAllBottomPanels(); // Hide options panel
+        hideAllBottomPanels(); 
         callback.accept(option);
       });
       buttons.add(optionButton);
     }
-    showButtons(buttons); // This now makes buttonPanel visible
+    showButtons(buttons); 
   }
 
   // --- New Fishing Guessing Game Logic ---
@@ -182,9 +171,8 @@ public class PanelController {
       return;
     }
 
-    hideAllBottomPanels(); // Hide other UI
+    hideAllBottomPanels(); 
     bottomPanel.setVisible(true);
-    // Store game state
     this.targetNumber = dynamicTarget;
     this.maxAttempts = attempts;
     this.currentAttempts = 0;
@@ -192,16 +180,9 @@ public class PanelController {
     this.fishingMinRange = minRange;
     this.fishingMaxRange = maxRange;
 
-    // Setup TextFormatter with dynamic range
     UnaryOperator<TextFormatter.Change> filter = change -> {
       String newText = change.getControlNewText();
-      // Regex to match numbers from minRange to maxRange
-      // This regex is a bit simplistic for arbitrary ranges, especially with leading
-      // zeros.
-      // For a robust solution, parsing in the action handler is better.
-      // For now, a simple digit check might be okay, and validate range on submit.
-      if (newText.matches("\\d*")) { // Allows only digits
-        // Further validation for actual range (1-100, 1-10 etc.) will be done on submit
+      if (newText.matches("\\d*")) { 
         return change;
       }
       return null;
@@ -212,10 +193,8 @@ public class PanelController {
     updateFishingPrompt(prompt + " (Attempts left: " + (maxAttempts - currentAttempts) + ")");
     fishingNumberInput.clear();
 
-    // Configure the confirm button's action for this game session
     fishingConfirmButton.setOnAction(e -> handleFishingGuess());
 
-    // Show the fishing panel
     fishingRootNode.setVisible(true);
     fishingRootNode.setManaged(true);
     fishingNumberInput.requestFocus();
@@ -237,7 +216,6 @@ public class PanelController {
       return;
     }
 
-    // Validate against dynamic range
     if (guessedValue < fishingMinRange || guessedValue > fishingMaxRange) {
       updateFishingPrompt("Number must be between " + fishingMinRange + " and " + fishingMaxRange + ". Attempts left: "
           + (maxAttempts - currentAttempts));
@@ -249,7 +227,6 @@ public class PanelController {
 
     if (guessedValue == targetNumber) {
       updateFishingPrompt("Correct! You guessed " + targetNumber + ".");
-      // Delay hiding and calling callback to show success message
       Timeline successTimeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> {
         hideFishingPanel();
         if (currentFishingCallback != null) {
@@ -260,11 +237,10 @@ public class PanelController {
     } else {
       if (currentAttempts >= maxAttempts) {
         updateFishingPrompt("Wrong! No more attempts. The number was " + targetNumber + ".");
-        // Delay hiding and calling callback
         Timeline failureTimeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
           hideFishingPanel();
           if (currentFishingCallback != null) {
-            currentFishingCallback.accept(OptionalInt.empty()); // No guess or failed
+            currentFishingCallback.accept(OptionalInt.empty()); 
           }
         }));
         failureTimeline.play();
@@ -288,7 +264,6 @@ public class PanelController {
       fishingRootNode.setVisible(false);
       fishingRootNode.setManaged(false);
     }
-    // Detach the specific game session's action handler
     if (fishingConfirmButton != null) {
       fishingConfirmButton.setOnAction(null);
     }

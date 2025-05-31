@@ -44,7 +44,6 @@ public class AssetController {
     /*Initialze farmMap */
     List<Asset> assetsOnFarm = new ArrayList<>();
     RandomizeFarm farmMap = new RandomizeFarm();
-    // assetsOnFarm.add(new NPCArea(new Dasco()));
     farmMap.generateMap(farmMap);
     House house = new House(farmMap);
     assetsOnFarm.add(house);
@@ -74,7 +73,7 @@ public class AssetController {
     assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     
     assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,41*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
-    assetsOnWorld.add(new Teleporter(5 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Teleporter(4 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
 
     assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,11*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_1.png",true));
     assetsOnWorld.add(new Teleporter(17 * Constants.TILE_SIZE,16 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC1_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
