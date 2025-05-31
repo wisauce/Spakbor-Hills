@@ -107,7 +107,7 @@ public class PlayerController implements Renderable {
   /* -------------------------------------------------------------------------- */
 
   public void keyHandler() {
-    if (farmController.getStatusInventory() || action.isStoveOpen() || action.isFishing()) {
+    if (farmController.getStatusInventory() || action.isStoveOpen() || action.isFishing() || player.isStoreOpen() || player.isBinOpen()) {
       return;
     }
     boolean isMoving = keyLeftPressed || keyRightPressed || keyUpPressed || keyDownPressed;
@@ -245,7 +245,7 @@ public class PlayerController implements Renderable {
     scene.setOnKeyPressed(e -> {
       System.out.println("Key pressed: " + e.getCode());
 
-      if (action.isStoveOpen()) {
+      if (action.isStoveOpen() || player.isStoreOpen() || player.isBinOpen()) {
         switch (e.getCode())  {
           case KeyCode.ESCAPE -> {
             action.closeCookingInterface();

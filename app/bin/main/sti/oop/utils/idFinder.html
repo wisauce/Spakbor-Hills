@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tilesheet Coordinate Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+    }
+    #canvas {
+      border: 1px solid #ccc;
+      image-rendering: pixelated;
+    }
+    input {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tilesheet Coordinate Viewer</h1>
+  <label>Tile size (in pixels): <input type="number" id="tileSize" value="64" /></label>
+  <br />
+  <input type="file" id="upload" accept="image/*" />
+  <br />
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const upload = document.getElementById("upload");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    upload.addEventListener("change", function () {
+      const file = upload.files[0];
+      const tileSize = parseInt(document.getElementById("tileSize").value);
+
+      if (!file) return;
+
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        const cols = Math.floor(img.width / tileSize);
+        const rows = Math.floor(img.height / tileSize);
+
+        ctx.font = `${tileSize / 4}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            const cx = x * tileSize + tileSize / 2;
+            const cy = y * tileSize + tileSize / 2;
+
+            // Stroke for visibility
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.strokeText(`(${x},${y})`, cx, cy);
+
+            // Fill on top
+            ctx.fillStyle = "yellow";
+            ctx.fillText(`(${x},${y})`, cx, cy);
+          }
+        }
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  </script>
+</body>
+</html>

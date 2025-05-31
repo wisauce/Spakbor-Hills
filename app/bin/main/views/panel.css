@@ -1,0 +1,15 @@
+.stardew-panel {
+  -fx-background-color: rgba(0, 0, 0, 0.6);
+  -fx-background-radius: 12px;
+  -fx-border-color: #dab676;
+  -fx-border-width: 2px;
+  -fx-border-radius: 12px;
+  -fx-padding: 10px; /* Menambahkan padding 10px di semua sisi */
+}
+
+.dialog-text {
+    -fx-font-family: "JetBrains Mono Regular";
+    -fx-font-size: 30px; /* Adjust size as needed for buttons, 24px might be large */
+    -fx-text-fill: white; /* Or your desired text color for buttons */
+    /* You can add other text properties here if needed, like -fx-font-weight */
+}
