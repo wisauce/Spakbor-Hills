@@ -6,6 +6,7 @@ import sti.oop.models.Point;
 import sti.oop.models.Item.*;
 
 import java.util.List;
+import java.util.Random;
 
 public class NPC{
   private final int MAX_HEART_POINTS = 150;
@@ -20,7 +21,7 @@ public class NPC{
   // attributes for rendering
   public Image NPCSpriteSheet;
 
-  private String conversation;
+  private List<String> conversation;
 
   public static final int NPCFrameWidth = 256;
   public static final int NPCFrameHeight = 256;
@@ -43,7 +44,7 @@ public class NPC{
   // private int hitboxWidth;
   // private int hitboxHeight;
 
-  public NPC(String name, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, String conversation) {
+  public NPC(String name, List<Item> lovedItems, List<Item> likedItems, List<Item> hatedItems, List<String> conversation) {
     this.name = name;
     heartPoints = MAX_HEART_POINTS; 
     this.lovedItems = lovedItems;
@@ -171,7 +172,9 @@ public class NPC{
   }
 
   public String getConversation() {
-    return conversation;
+    Random random = new Random();
+    int target = random.nextInt(0,conversation.size());
+    return conversation.get(target);
   }
 
   

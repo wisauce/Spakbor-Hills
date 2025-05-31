@@ -13,8 +13,8 @@ public class NPCArea extends Asset implements Interactable, MultipleOptions {
   NPC npc;
 
 
-  public NPCArea(NPC npc, int x, int y) {
-    super(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE,3 * Constants.TILE_SIZE  , false);
+  public NPCArea(NPC npc, int x, int y, int width, int height) {
+    super(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, width * Constants.TILE_SIZE,height * Constants.TILE_SIZE  , false);
     this.npc = npc;
 
   }
