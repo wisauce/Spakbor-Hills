@@ -74,7 +74,7 @@ public class AssetController {
     assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     
     assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,41*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
-    assetsOnWorld.add(new Teleporter(5 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Teleporter(5 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
 
     assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,11*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_1.png",true));
     assetsOnWorld.add(new Teleporter(17 * Constants.TILE_SIZE,16 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC1_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
@@ -100,6 +100,7 @@ public class AssetController {
     List<Asset> assetsOnStore = new ArrayList<>();
     assetsOnStore.add(new Asset(4 * Constants.TILE_SIZE,4 * Constants.TILE_SIZE,"/sprites/emilyCooker.gif",1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,true));
     assetsOnStore.add(new NPCArea(new Emily(), 3,3 ));
+    assetsOnStore.add(new StoreArea(3 * Constants.TILE_SIZE, 6 * Constants.TILE_SIZE, 2 * Constants.TILE_SIZE, 1 * Constants.TILE_SIZE));
     assetsOnStore.add(new Teleporter(5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,5 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.STORE, assetsOnStore);
 
@@ -138,7 +139,7 @@ public class AssetController {
     assetsOnNPC5_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,47 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.NPC5_HOUSE, assetsOnNPC5_House);
 
-    currentAssets = mapOfListOfAssets.get(MapName.FARM);
+    currentAssets = mapOfListOfAssets.get(MapName.STORE);
     this.player = player;
 
   }

@@ -38,7 +38,7 @@ public class GameMapController {
       Map.entry(MapName.NPC4_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE)),
       Map.entry(MapName.NPC5_HOUSE,new GameMap("/maps/house.png", "/maps/npcHouseInside.txt",16, 5 * Constants.TILE_SIZE, 5 *  Constants.TILE_SIZE))
     );
-    currentMap = mapOfGameMaps.get(MapName.FARM);
+    currentMap = mapOfGameMaps.get(MapName.STORE);
   }
 
   public MapName getCurrentMap() {
