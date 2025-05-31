@@ -69,7 +69,7 @@ public class AssetController {
     List<Asset> assetsOnWorld = new ArrayList<>();
     assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,43 * Constants.TILE_SIZE));
     
-    assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,42*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
+    assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,41*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
     assetsOnWorld.add(new Teleporter(5 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
 
     assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,11*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_1.png",true));
@@ -78,11 +78,11 @@ public class AssetController {
     assetsOnWorld.add(new Asset(31*Constants.TILE_SIZE,4*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_2.png",true));
     assetsOnWorld.add(new Teleporter(33 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC2_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
 
-    assetsOnWorld.add(new Asset(10*Constants.TILE_SIZE,41*Constants.TILE_SIZE,4*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_3.png",true));
-    assetsOnWorld.add(new Teleporter(11 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC3_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Asset(10*Constants.TILE_SIZE,40*Constants.TILE_SIZE,4*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_3.png",true));
+    assetsOnWorld.add(new Teleporter(11 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC3_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
 
-    assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,41*Constants.TILE_SIZE,4*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_4.png",true));
-    assetsOnWorld.add(new Teleporter(16 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC4_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Asset(15*Constants.TILE_SIZE,40*Constants.TILE_SIZE,4*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_4.png",true));
+    assetsOnWorld.add(new Teleporter(16 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC4_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
     
     assetsOnWorld.add(new Asset(45*Constants.TILE_SIZE,2*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_5.png",true));
     assetsOnWorld.add(new Teleporter(47 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC5_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
@@ -92,7 +92,7 @@ public class AssetController {
     List<Asset> assetsOnStore = new ArrayList<>();
     assetsOnStore.add(new Asset(4 * Constants.TILE_SIZE,4 * Constants.TILE_SIZE,"/sprites/emilyCooker.gif",1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,true));
     assetsOnStore.add(new NPCArea(new Emily(), 3,3 ));
-    assetsOnStore.add(new Teleporter(5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,5 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE));
+    assetsOnStore.add(new Teleporter(5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,5 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.STORE, assetsOnStore);
 
     /*Initialize_NPC_House*/
@@ -113,14 +113,14 @@ public class AssetController {
     List<Asset> assetsOnNPC3_House = new ArrayList<>();
     assetsOnNPC3_House.add(new Asset(6 * Constants.TILE_SIZE,5 * Constants.TILE_SIZE,"/sprites/carolineCarpenter.gif",1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,true));
     assetsOnNPC3_House.add(new NPCArea(new Caroline(), 5,4 ));
-    assetsOnNPC3_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,11 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE));
+    assetsOnNPC3_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,11 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.NPC3_HOUSE, assetsOnNPC3_House);
 
     /*Initialize_NPC_House*/
     List<Asset> assetsOnNPC4_House = new ArrayList<>();
     assetsOnNPC4_House.add(new Asset(6 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE,"/sprites/dascoDealer.gif",1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,true));
     assetsOnNPC4_House.add(new NPCArea(new Dasco(), 5,6 ));
-    assetsOnNPC4_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,16 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE));
+    assetsOnNPC4_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,16 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.NPC4_HOUSE, assetsOnNPC4_House);
 
     /*Initialize_NPC_House*/
@@ -130,7 +130,7 @@ public class AssetController {
     assetsOnNPC5_House.add(new Teleporter(4 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.WORLD,47 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.NPC5_HOUSE, assetsOnNPC5_House);
 
-    currentAssets = mapOfListOfAssets.get(MapName.STORE);
+    currentAssets = mapOfListOfAssets.get(MapName.FARM);
     this.player = player;
 
   }
