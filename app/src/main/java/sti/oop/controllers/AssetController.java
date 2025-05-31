@@ -25,6 +25,7 @@ import sti.oop.models.assets.OceanArea;
 import sti.oop.models.assets.PondArea;
 import sti.oop.models.assets.RiverArea;
 import sti.oop.models.assets.SleepingArea;
+import sti.oop.models.assets.StoreArea;
 import sti.oop.models.assets.Stove;
 import sti.oop.models.assets.Teleporter;
 import sti.oop.models.deploys.House;
@@ -55,6 +56,7 @@ public class AssetController {
     assetsOnFarm.add(new PondArea(pond));
     assetsOnFarm.add(new ShippingBin(farmMap));
     assetsOnFarm.add(new BinArea( (farmMap.getShippingBinLoc()[2]+8)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+8)*Constants.TILE_SIZE, 5*Constants.TILE_SIZE, 4*Constants.TILE_SIZE) );
+    assetsOnFarm.add(new StoreArea( (farmMap.getShippingBinLoc()[2]+8)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+8)*Constants.TILE_SIZE, 5*Constants.TILE_SIZE, 4*Constants.TILE_SIZE) );
     assetsOnFarm.addAll(lands);
     assetsOnFarm.add(new Teleporter(29 * Constants.TILE_SIZE, 45* Constants.TILE_SIZE, 2* Constants.TILE_SIZE, 1* Constants.TILE_SIZE, MapName.WORLD, 1* Constants.TILE_SIZE, 47* Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);

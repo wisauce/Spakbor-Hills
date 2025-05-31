@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GID Map Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    #map {
+      display: grid;
+      gap: 1px;
+      margin-top: 20px;
+    }
+    canvas.tile {
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .info {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>GID Map Visualizer</h2>
+
+<label for="tileSize">Tile size (px):</label>
+<input type="number" id="tileSize" value="32" min="1" />
+<br><br>
+
+<label for="spritesheet">Upload Spritesheet:</label>
+<input type="file" id="spritesheet" accept="image/*" />
+<br><br>
+
+<label for="gidInput">Paste GID Map (numbers separated by space, new row per line):</label><br>
+<textarea id="gidInput" rows="6" cols="50">3 4 5
+4 4 7
+89 32 45</textarea>
+<br><br>
+
+<button onclick="renderMap()">Render Map</button>
+
+<div id="map"></div>
+<div class="info" id="infoBox">Click a tile to see its (row, column)</div>
+
+<script>
+  let gidMap = [];
+  let tileSize = 32;
+  let image = null;
+
+  document.getElementById('spritesheet').addEventListener('change', function(e) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      image = new Image();
+      image.src = event.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+  function renderMap() {
+    tileSize = parseInt(document.getElementById('tileSize').value, 10);
+    const input = document.getElementById('gidInput').value.trim();
+    gidMap = input.split('\n').map(row => row.trim().split(/\s+/).map(Number));
+
+    const rows = gidMap.length;
+    const cols = gidMap[0].length;
+
+    const mapContainer = document.getElementById('map');
+    mapContainer.innerHTML = '';
+    mapContainer.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
+
+    if (!image) {
+      alert("Please upload a spritesheet first.");
+      return;
+    }
+
+    image.onload = () => {
+      drawTiles(rows, cols, mapContainer);
+    };
+
+    if (image.complete) {
+      drawTiles(rows, cols, mapContainer);
+    }
+  }
+
+  function drawTiles(rows, cols, mapContainer) {
+    const tilesPerRow = Math.floor(image.width / tileSize);
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const gid = gidMap[row][col];
+        const sx = (gid % tilesPerRow) * tileSize;
+        const sy = Math.floor(gid / tilesPerRow) * tileSize;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = tileSize;
+        canvas.height = tileSize;
+        canvas.className = 'tile';
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(image, sx, sy, tileSize, tileSize, 0, 0, tileSize, tileSize);
+
+        canvas.onclick = () => {
+          document.getElementById('infoBox').textContent =
+            `You clicked tile at row ${row}, column ${col} (GID: ${gid})`;
+        };
+
+        mapContainer.appendChild(canvas);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

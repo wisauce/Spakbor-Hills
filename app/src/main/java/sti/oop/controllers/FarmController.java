@@ -137,7 +137,7 @@ public void initializePlayerData(String playerName, String gender, String farmNa
   gameMapController = new GameMapController(player);
   playerController = new PlayerController(player, collisionController, this);
   farm = new Farm(playerController, lands);
-  timeController = new TimeController(farm, timeDisplay, dateDisplay);
+  timeController = new TimeController(farm, this, timeDisplay, dateDisplay, locationDisplay);
 
   updateHotbar();
   timeController.render();
@@ -200,6 +200,10 @@ public void initializePlayerData(String playerName, String gender, String farmNa
 
   public GameMapController getGameMapController() {
     return gameMapController;
+  }
+
+  public InventoryController getInventoryController() {
+    return inventoryController;
   }
 
   /* Inventory Logics */

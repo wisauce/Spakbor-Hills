@@ -15,6 +15,7 @@ import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.SleepingArea;
+import sti.oop.models.assets.StoreArea;
 import sti.oop.models.assets.Teleporter;
 import sti.oop.utils.Constants;
 
@@ -150,4 +151,13 @@ public class Action implements Actor {
     actionResult = bin.doBin(farmController.getPlayerController().getPlayer(), farmController);
     panelController.showDialog(actionResult);
   }
+
+  @Override
+  public void act(StoreArea acted) {
+    String actionResult = null;
+    Store store = new Store();
+    actionResult = store.doStore(farmController.getPlayerController().getPlayer(), farmController);
+    panelController.showDialog(actionResult);
+  }
+
 }
