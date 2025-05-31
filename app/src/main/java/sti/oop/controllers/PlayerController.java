@@ -28,28 +28,8 @@ public class PlayerController implements Renderable {
   private boolean keyUpPressed = false;
   private boolean keyEPressed = false;
   private boolean keyTPressed = false;
-  private boolean key1Pressed = false;
-  private boolean key2Pressed = false;
-  private boolean key3Pressed = false;
-  private boolean key4Pressed = false;
-  private boolean key5Pressed = false;
-  private boolean key6Pressed = false;
-  private boolean key7Pressed = false;
-  private boolean key8Pressed = false;
-  private boolean key9Pressed = false;
-  private boolean key0Pressed = false;
-  private boolean keyBackQuotePressed = false;
-  private boolean toggleInteraction = false;
   private boolean justInteracted = false;
   private boolean justEaten = false;
-
-  public void toggle() {
-    toggleInteraction = !toggleInteraction;
-  }
-
-  public boolean isToggled() {
-    return toggleInteraction;
-  }
 
   public void setJustEaten(boolean justEaten) {
     this.justEaten = justEaten;
@@ -57,6 +37,10 @@ public class PlayerController implements Renderable {
 
   public boolean isJustEaten()  {
     return justEaten;
+  }
+
+  public void setInteractionGuide(boolean visible) {
+    farmController.setInteractNotification(visible);
   }
 
   /* Render Attributes */
@@ -271,77 +255,12 @@ public class PlayerController implements Renderable {
           }
           keyEPressed = true;
         }
-        case KeyCode.DIGIT1 -> {
-          if (!key1Pressed) {
-            justInteracted = true;
-          }
-          key1Pressed = true;
-        }
-        case KeyCode.DIGIT2 -> {
-          if (!key2Pressed) {
-            justInteracted = true;
-          }
-          key2Pressed = true;
-        }
-        case KeyCode.DIGIT3 -> {
-          if (!key3Pressed) {
-            justInteracted = true;
-          }
-          key3Pressed = true;
-        }
-        case KeyCode.DIGIT4 -> {
-          if (!key4Pressed) {
-            justInteracted = true;
-          }
-          key4Pressed = true;
-        }
-        case KeyCode.DIGIT5 -> {
-          if (!key5Pressed) {
-            justInteracted = true;
-          }
-          key5Pressed = true;
-        }
-        case KeyCode.DIGIT6 -> {
-          if (!key6Pressed) {
-            justInteracted = true;
-          }
-          key6Pressed = true;
-        }
-        case KeyCode.DIGIT7 -> {
-          if (!key7Pressed) {
-            justInteracted = true;
-          }
-          key7Pressed = true;
-        }
-        case KeyCode.DIGIT8 -> {
-          if (!key8Pressed) {
-            justInteracted = true;
-          }
-          key8Pressed = true;
-        }
-        case KeyCode.DIGIT9 -> {
-          if (!key9Pressed) {
-            justInteracted = true;
-          }
-          key9Pressed = true;
-        }
-        case KeyCode.DIGIT0 -> {
-          if (!key0Pressed) {
-            justInteracted = true;
-          }
-          key0Pressed = true;
-        }
-        case KeyCode.BACK_QUOTE -> {
-          if (!keyBackQuotePressed) {
-            justInteracted = true;
-          }
-          keyBackQuotePressed = true;
-        }
         case KeyCode.T -> {
           if (!keyTPressed) {
             justEaten = true;
           }
           keyTPressed = true;
+          justEaten = false;
         }
         default -> {
         }
@@ -365,41 +284,8 @@ public class PlayerController implements Renderable {
         case KeyCode.T -> keyTPressed = false;
         case KeyCode.E -> {
           keyEPressed = false;
+          justInteracted = false;
         }
-        case KeyCode.DIGIT1 -> {
-          key1Pressed = false;
-        }
-        case KeyCode.DIGIT2 -> {
-          key2Pressed = false;
-        }
-        case KeyCode.DIGIT3 -> {
-          key3Pressed = false;
-        }
-        case KeyCode.DIGIT4 -> {
-          key4Pressed = false;
-        }
-        case KeyCode.DIGIT5 -> {
-          key5Pressed = false;
-        }
-        case KeyCode.DIGIT6 -> {
-          key6Pressed = false;
-        }
-        case KeyCode.DIGIT7 -> {
-          key7Pressed = false;
-        }
-        case KeyCode.DIGIT8 -> {
-          key8Pressed = false;
-        }
-        case KeyCode.DIGIT9 -> {
-          key9Pressed = false;
-        }
-        case KeyCode.DIGIT0 -> {
-          key0Pressed = false;
-        }
-        case KeyCode.BACK_QUOTE -> {
-          keyBackQuotePressed = false;
-        }
-
         default -> {
         }
       }
@@ -458,50 +344,6 @@ public class PlayerController implements Renderable {
 
   public boolean isKeyLeftPressed() {
     return keyLeftPressed;
-  }
-
-  public boolean isKey1Pressed() {
-    return key1Pressed;
-  }
-
-  public boolean isKey2Pressed() {
-    return key2Pressed;
-  }
-
-  public boolean isKey3Pressed() {
-    return key3Pressed;
-  }
-
-  public boolean isKey4Pressed() {
-    return key4Pressed;
-  }
-
-  public boolean isKey5Pressed() {
-    return key5Pressed;
-  }
-
-  public boolean isKey6Pressed() {
-    return key6Pressed;
-  }
-
-  public boolean isKey7Pressed() {
-    return key7Pressed;
-  }
-
-  public boolean isKey8Pressed() {
-    return key8Pressed;
-  }
-
-  public boolean isKey9Pressed() {
-    return key9Pressed;
-  }
-
-  public boolean isKey0Pressed() {
-    return key0Pressed;
-  }
-
-  public boolean isKeyBackQuotePressed() {
-    return keyBackQuotePressed;
   }
 
   public boolean isKeyRightPressed() {

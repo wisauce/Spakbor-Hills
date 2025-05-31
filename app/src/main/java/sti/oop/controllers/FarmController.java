@@ -33,6 +33,9 @@ public class FarmController {
   private Label dateDisplay;
 
   @FXML
+  private Label locationDisplay;
+
+  @FXML
   private AnchorPane anchorPane;
 
   @FXML
@@ -134,7 +137,7 @@ public void initializePlayerData(String playerName, String gender, String farmNa
   gameMapController = new GameMapController(player);
   playerController = new PlayerController(player, collisionController, this);
   farm = new Farm(playerController, lands);
-  timeController = new TimeController(farm, timeDisplay, dateDisplay);
+  timeController = new TimeController(farm, this, timeDisplay, dateDisplay, locationDisplay);
 
   updateHotbar();
   timeController.render();
@@ -195,6 +198,14 @@ public void initializePlayerData(String playerName, String gender, String farmNa
     return playerController;
   }
 
+  public GameMapController getGameMapController() {
+    return gameMapController;
+  }
+
+  public InventoryController getInventoryController() {
+    return inventoryController;
+  }
+
   /* Inventory Logics */
   public void toggleInventory() {
     System.out.println("Toggling Inventory... Current state: " + (inventoryOpened ? "Open" : "Closed"));
@@ -252,8 +263,8 @@ public void initializePlayerData(String playerName, String gender, String farmNa
     assetController.setAssets(mapName);
   }
 
-  public Label getInteractionNotification() {
-    return interactionNotification;
+  public void setInteractNotification(boolean visible) {
+    interactionNotification.setVisible(visible);
   }
 
   public TimeController getTimeController() {

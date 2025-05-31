@@ -41,6 +41,15 @@ public class GameMapController {
     currentMap = mapOfGameMaps.get(MapName.FARM);
   }
 
+  public MapName getCurrentMap() {
+    for (Map.Entry<MapName, GameMap> entry : mapOfGameMaps.entrySet()) {
+        if (entry.getValue() == currentMap) {
+            return entry.getKey();
+        }
+    }
+    return MapName.FARM;
+  }
+
   public void setCurrentMap(MapName mapName) {
     currentMap = mapOfGameMaps.get(mapName);
   }

@@ -60,6 +60,10 @@ public class Player {
   private static final int MAX_SHIPPING_ITEMS = 16;
   private boolean isBinOpen = false;
   
+  /* Store Barrier */
+  private boolean storeOpen = false;
+  private Map<Item, Integer> shoppingCartItems = new HashMap<>();
+  private final int MAX_SHOPPING_ITEMS = 5;
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
 
@@ -504,4 +508,92 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     return totalValue;
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                                Store Logics                                */
+  /* -------------------------------------------------------------------------- */
+
+  public void storeOpen() {
+      this.storeOpen = true;
+  }
+
+  public void storeClose() {
+      this.storeOpen = false;
+  }
+
+  public boolean isStoreOpen() {
+      return storeOpen;
+  }
+
+  public void clearShoppingCart() {
+      shoppingCartItems.clear();
+  }
+
+  public boolean addItemToShoppingCart(Item item, int quantity) {
+      if (shoppingCartItems.size() >= MAX_SHOPPING_ITEMS && !shoppingCartItems.containsKey(item)) {
+          return false;
+      }
+      
+      shoppingCartItems.put(item, shoppingCartItems.getOrDefault(item, 0) + quantity);
+      return true;
+  }
+
+  public boolean removeItemFromShoppingCart(Item item, int amount) {
+      if (!shoppingCartItems.containsKey(item)) {
+          return false;
+      }
+      
+      int currentAmount = shoppingCartItems.get(item);
+      if (currentAmount <= amount) {
+          shoppingCartItems.remove(item);
+      } else {
+          shoppingCartItems.put(item, currentAmount - amount);
+      }
+      return true;
+  }
+
+  public Map<Item, Integer> getShoppingCartItems() {
+      return new HashMap<>(shoppingCartItems);
+  }
+
+  public int getShoppingCartItemCount() {
+      return shoppingCartItems.size();
+  }
+
+  public int getMaxShoppingItems() {
+      return MAX_SHOPPING_ITEMS;
+  }
+
+  public void purchaseItems() {
+      int totalCost = 0;
+      for (Map.Entry<Item, Integer> entry : shoppingCartItems.entrySet()) {
+          Item item = entry.getKey();
+          int amount = entry.getValue();
+          
+          if (item instanceof sti.oop.interfaces.Valuable) {
+              totalCost += ((sti.oop.interfaces.Valuable) item).getBuyPrice() * amount;
+          }
+      }
+      if (gold >= totalCost) {
+          gold -= totalCost;       
+          for (Map.Entry<Item, Integer> entry : shoppingCartItems.entrySet()) {
+              Item item = entry.getKey();
+              int amount = entry.getValue();
+              inventory.addItem(item, amount);
+          }
+          clearShoppingCart();
+      }
+  }
+
+  public int getShoppingCartTotalCost() {
+      int totalCost = 0;
+      for (Map.Entry<Item, Integer> entry : shoppingCartItems.entrySet()) {
+          Item item = entry.getKey();
+          int amount = entry.getValue();
+          
+          if (item instanceof sti.oop.interfaces.Valuable) {
+              totalCost += ((sti.oop.interfaces.Valuable) item).getBuyPrice() * amount;
+          }
+      }
+      return totalCost;
+  }
 }

@@ -7,6 +7,7 @@ import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
+import sti.oop.models.ItemRegistry;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Fish;
 import sti.oop.models.assets.BinArea;
@@ -15,6 +16,7 @@ import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
 import sti.oop.models.assets.SleepingArea;
+import sti.oop.models.assets.StoreArea;
 import sti.oop.models.assets.Teleporter;
 import sti.oop.utils.Constants;
 
@@ -77,16 +79,20 @@ public class Action implements Actor {
   }
 
   public void act(FishingArea acted) {
-    if (isFishing) {
-      isFishing = false;
-      farmController.getTimeController().setTimeFrozen(false);
+    if (farmController.getPlayerController().getPlayer().getOnHandItem() != null && farmController.getPlayerController().getPlayer().getOnHandItem().getItemName().equals("FishingRod")) {
+      if (isFishing) {
+        isFishing = false;
+        farmController.getTimeController().setTimeFrozen(false);
+      } else {
+        isFishing = true;
+        farmController.getTimeController().setTimeFrozen(true);
+        Fishing fishing = new Fishing();
+        List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
+        Fish randomizedFish = fishing.randomizeFish(availableFishes);
+        fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController, this);
+      }
     } else {
-      isFishing = true;
-      farmController.getTimeController().setTimeFrozen(true);
-      Fishing fishing = new Fishing();
-      List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
-      Fish randomizedFish = fishing.randomizeFish(availableFishes);
-      fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController, this);
+      panelController.showDialog("You need a Fishing Rod to fish!");
     }
   }
 
@@ -150,4 +156,13 @@ public class Action implements Actor {
     actionResult = bin.doBin(farmController.getPlayerController().getPlayer(), farmController);
     panelController.showDialog(actionResult);
   }
+
+  @Override
+  public void act(StoreArea acted) {
+    String actionResult = null;
+    Store store = new Store();
+    actionResult = store.doStore(farmController.getPlayerController().getPlayer(), farmController);
+    panelController.showDialog(actionResult);
+  }
+
 }

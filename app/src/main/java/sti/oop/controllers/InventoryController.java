@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 
 import sti.oop.models.Player;
+import sti.oop.models.StoreItemRegistry;
 import sti.oop.models.Item.Item;
 import sti.oop.interfaces.Valuable;
 import sti.oop.models.Inventory;
@@ -69,6 +70,7 @@ public class InventoryController {
   private int totalPages = 1;
 
   private Label shippingStatusLabel;
+  private Label shoppingStatusLabel;
 
 
   /* -------------------------------------------------------------------------- */
@@ -293,11 +295,18 @@ public class InventoryController {
 
   public void updateInventoryDisplay() {
       if (inventoryGrid != null) {
+        if (player != null && player.isStoreOpen()) {
+          createStoreSlot(); 
+        } else {
           createInventorySlot();
+        }
       }
       if (player != null && player.isBinOpen()) {
         removeShippingControls();
         addShippingBinControls();
+      } else if (player != null && player.isStoreOpen()) {
+        removeShippingControls();
+        addShoppingControls();
       }
   }
 
@@ -315,11 +324,11 @@ public class InventoryController {
     }
 
     if (prevPageButton != null) {
-      prevPageButton.setDisable(currentPage <= 0); //Max can prev is 0
+      prevPageButton.setDisable(currentPage <= 0);
     }
 
     if (nextPageButton != null) {
-      nextPageButton.setDisable(currentPage >= totalPages - 1); //Max can next is *totalPages
+      nextPageButton.setDisable(currentPage >= totalPages - 1); 
     }
   }
 
@@ -409,6 +418,9 @@ public class InventoryController {
   private void closeInventory() {
     if (player != null  && player.isBinOpen()) {
       player.binClose();
+    }
+    if(player != null && player.isStoreOpen()) {
+      player.storeClose();
     }
 
     if (farmController != null) {
@@ -533,7 +545,6 @@ public class InventoryController {
             VBox vbox = (VBox) node;
             for (Node child : vbox.getChildren()) {
                 if (child instanceof Button && ((Button) child).getText().equals("SHIP ITEMS")) {
-                    // Found a shipping control - mark the whole VBox for removal
                     nodesToRemove.add(vbox);
                     break;
                 }
@@ -544,4 +555,241 @@ public class InventoryController {
     System.out.println("Removed " + nodesToRemove.size() + " shipping control panels");    
     shippingStatusLabel = null;
   }
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                                Store Logics                                */
+  /* -------------------------------------------------------------------------- */
+  private void createStoreSlot() {
+      inventoryGrid.getChildren().clear();
+      
+      inventoryGrid.setHgap(7.5);
+      inventoryGrid.setVgap(13.3);
+      inventoryGrid.setPadding(new javafx.geometry.Insets(0, 0, 39, -2));
+
+      List<Item> storeItems = StoreItemRegistry.getStoreItems();
+      totalPages = Math.max(1, (int) Math.ceil((double) storeItems.size() / ITEMS_PER_PAGE));
+      currentPage = Math.max(0, Math.min(currentPage, totalPages - 1));
+
+      int idxStart = currentPage * ITEMS_PER_PAGE;
+      int idxEnd = Math.min(idxStart + ITEMS_PER_PAGE, storeItems.size());
+
+      for (int i = 0; i < 6; i++) { 
+          for (int j = 0; j < 3; j++) { 
+              StackPane storeSlot = new StackPane();
+              storeSlot.setPrefSize(69, 69);
+              storeSlot.setMinSize(69, 69);
+              storeSlot.setMaxSize(69, 69);
+              storeSlot.setPickOnBounds(true);
+              storeSlot.setStyle("-fx-background-color: transparent; -fx-border-color: rgb(139, 69, 19); -fx-border-width: 0;");
+              
+              int column = i;
+              int row = j;
+              int idxGrid = row * 6 + column;
+              int idxItemGlobal = idxStart + idxGrid;
+
+              if (idxItemGlobal < idxEnd) {
+                  insertStoreItemToGrid(storeSlot, idxItemGlobal, storeItems);
+              }
+
+              storeSlot.setOnMouseEntered(e -> {
+                  if (idxItemGlobal < storeItems.size()) {
+                      Item item = storeItems.get(idxItemGlobal);
+                      boolean inCart = player.getShoppingCartItems().containsKey(item);
+                      if (inCart) {
+                          storeSlot.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
+                      } else {
+                          storeSlot.setStyle("-fx-border-color: #FFD700; -fx-border-width: 2;");
+                      }
+                  }
+              });
+
+              storeSlot.setOnMouseExited(e -> {
+                  if (idxItemGlobal < storeItems.size()) {
+                      Item item = storeItems.get(idxItemGlobal);
+                      boolean inCart = player.getShoppingCartItems().containsKey(item);
+                      if (inCart) {
+                          storeSlot.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2; -fx-background-color: rgba(0, 255, 0, 0.2);");
+                      } else {
+                          storeSlot.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;");
+                      }
+                  }
+              });
+
+              storeSlot.setOnMouseClicked(e -> { 
+                  if (idxItemGlobal < storeItems.size()) {
+                      System.out.println("Store Slot: " + (row + 1) + "," + (column + 1) + " Selected");
+                      handleStoreItemSelection(idxItemGlobal, storeItems);
+                  }
+              });
+              
+              inventoryGrid.add(storeSlot, i, j);
+          }
+      }
+      updatePageControl();
+  }
+
+  private void insertStoreItemToGrid(StackPane grid, int idxGrid, List<Item> storeItems) {
+      if (idxGrid >= storeItems.size()) return;
+      
+      Item storeItem = storeItems.get(idxGrid);
+      String itemID = storeItem.getItemID();
+      
+      boolean inCart = player.getShoppingCartItems().containsKey(storeItem);
+      int cartQuantity = inCart ? player.getShoppingCartItems().get(storeItem) : 0;
+      
+      Image itemSprite = ItemSpriteManager.getItemSprite(itemID);
+      
+      if (itemSprite != null) {
+          VBox itemContainer = new VBox();
+          itemContainer.setAlignment(javafx.geometry.Pos.CENTER);
+          itemContainer.setSpacing(2);
+          
+          ImageView spriteView = new ImageView(itemSprite);
+          spriteView.setFitWidth(40);
+          spriteView.setFitHeight(40);
+          spriteView.setPreserveRatio(true);
+          spriteView.setSmooth(false);
+
+          String labelText = "";
+          if (storeItem instanceof sti.oop.interfaces.Valuable) {
+              int price = ((sti.oop.interfaces.Valuable) storeItem).getBuyPrice();
+              labelText = price + "g";
+              if (inCart) {
+                  labelText += " (" + cartQuantity + " in cart)";
+              }
+          }
+          
+          Label priceLabel = new Label(labelText);
+          priceLabel.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; -fx-background-color: rgba(0,0,0,0.7); -fx-padding: 1 3 1 3; -fx-background-radius: 3;");
+          
+          itemContainer.getChildren().addAll(spriteView, priceLabel);
+          grid.getChildren().add(itemContainer);
+
+          if (inCart) {
+              grid.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2; -fx-background-color: rgba(0, 255, 0, 0.2);");
+          }
+      }
+      
+      String tooltipText = itemID;
+      if (storeItem instanceof sti.oop.interfaces.Valuable) {
+          tooltipText += " - " + ((sti.oop.interfaces.Valuable) storeItem).getBuyPrice() + "g";
+      }
+      if (inCart) {
+          tooltipText += " (In Cart)";
+      }
+      
+      javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(tooltipText);
+      javafx.scene.control.Tooltip.install(grid, tooltip);
+  }
+
+  private void handleStoreItemSelection(int idxItemGlobal, List<Item> storeItems) {
+      if (idxItemGlobal >= storeItems.size()) return;
+      
+      Item selectedItem = storeItems.get(idxItemGlobal);
+      
+      if (player.getShoppingCartItems().containsKey(selectedItem)) {
+          player.removeItemFromShoppingCart(selectedItem, player.getShoppingCartItems().get(selectedItem));
+          System.out.println("Removed " + selectedItem.getItemName() + " from cart");
+      } else {
+          if (player.getShoppingCartItemCount() >= player.getMaxShoppingItems()) {
+              farmController.getPanelController().showDialog("Cart is full! Maximum " + player.getMaxShoppingItems() + " different items allowed.");
+              return;
+          }
+          showPurchaseQuantityDialog(selectedItem);
+      }
+      
+      updateShoppingStatus();
+      updateInventoryDisplay();
+  }
+
+  private void showPurchaseQuantityDialog(Item item) {
+      List<String> quantityOptions = new ArrayList<>();
+      for (int i = 1; i <= 10; i++) { 
+          quantityOptions.add(String.valueOf(i));
+      }
+      
+      farmController.getPanelController().multipleOptionPanel(quantityOptions, (choice) -> {
+          try {
+              int selectedQuantity = Integer.parseInt(choice);
+              if (player.addItemToShoppingCart(item, selectedQuantity)) {
+                  System.out.println("Added " + selectedQuantity + "x " + item.getItemName() + " to cart");
+              } else {
+                  System.out.println("Failed to add item to cart");
+              }
+              updateShoppingStatus();
+              updateInventoryDisplay();
+          } catch (NumberFormatException e) {
+              System.out.println("Invalid quantity selected");
+          }
+      });
+  }
+
+  private void addShoppingControls() {
+      Button floatingBuyButton = new Button("🛒");
+      floatingBuyButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5; -fx-font-size: 12px; -fx-background-radius: 50%; -fx-min-width: 35px; -fx-min-height: 35px; -fx-max-width: 35px; -fx-max-height: 35px;");
+      
+      javafx.scene.control.Tooltip cartTooltip = new javafx.scene.control.Tooltip();
+      updateCartTooltip(cartTooltip);
+      javafx.scene.control.Tooltip.install(floatingBuyButton, cartTooltip);
+      
+      floatingBuyButton.setOnAction(e -> {
+          if (player.getShoppingCartItemCount() > 0) {
+              int totalCost = player.getShoppingCartTotalCost();
+              farmController.getPanelController().showDialog("Cart: " + player.getShoppingCartItemCount() + " items, Total: " + totalCost + "g");
+              
+              farmController.getPanelController().multipleOptionPanel(
+                  List.of("Buy All (" + totalCost + "g)", "Cancel"),
+                  (choice) -> {
+                      if (choice.startsWith("Buy All")) {
+                          if (player.getGold() >= totalCost) {
+                              player.purchaseItems();
+                              farmController.getPanelController().showDialog("Purchased for " + totalCost + "g!");
+                              closeInventory();
+                          } else {
+                              farmController.getPanelController().showDialog("Not enough gold!");
+                          }
+                      }
+                  }
+              );
+          } else {
+              farmController.getPanelController().showDialog("Cart is empty! Click items to add them.");
+          }
+      });
+      
+      StackPane.setAlignment(floatingBuyButton, javafx.geometry.Pos.TOP_RIGHT);
+      StackPane.setMargin(floatingBuyButton, new javafx.geometry.Insets(5, 5, 0, 0));
+      floatingBuyButton.setViewOrder(-1);
+      
+      inventoryPane.getChildren().add(floatingBuyButton);
+  }
+
+  private void updateCartTooltip(javafx.scene.control.Tooltip tooltip) {
+      if (player != null && player.isStoreOpen()) {
+          int items = player.getShoppingCartItemCount();
+          int cost = player.getShoppingCartTotalCost();
+          tooltip.setText("Cart: " + items + " items\nTotal: " + cost + "g\nYour Gold: " + player.getGold() + "g");
+      }
+  }
+
+  private void updateShoppingStatus() {
+    if (shoppingStatusLabel != null) {
+      shoppingStatusLabel.setText("");
+      
+      if (player != null && player.isStoreOpen()) {
+          int selectedItems = player.getShoppingCartItemCount();
+          int maxItems = player.getMaxShoppingItems();
+          int totalCost = player.getShoppingCartTotalCost();
+          shoppingStatusLabel.setText("Cart: " + selectedItems + "/" + maxItems + " (Total: " + totalCost + "g)");
+      }
+    }
+  }
+
+  public void openStoreMode() {
+    if (player != null) {
+      player.storeOpen();
+      updateInventoryDisplay();
+    }
+  }
+
 }
