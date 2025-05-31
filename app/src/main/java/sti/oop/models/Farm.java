@@ -67,25 +67,10 @@ public class Farm {
   /*                                 TIME LOGICS                                */
   /* -------------------------------------------------------------------------- */
 
-  private static int updateCallCount = 0;
 
   public void updateTime() {
-    updateCallCount++;
-    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-    System.out.println("=== updateTime() call #" + updateCallCount + " at " + System.currentTimeMillis() + " ===");
-    
-    // Print the calling method chain
-    for (int i = 1; i <= Math.min(5, stackTrace.length - 1); i++) {
-        StackTraceElement element = stackTrace[i];
-        System.out.println("  " + i + ": " + element.getClassName() + "." + element.getMethodName() + ":" + element.getLineNumber());
-    }
     if (timeFrozen) return;
     if (inGameHour == 2 && timeOfDay.equals("AM")) playerController.getAction().sleepImmediately();
-
-    int oldMinute = inGameMinute;
-    int oldHour = inGameHour;
-    String oldTimeOfDay = timeOfDay;
-
     inGameMinute += MINUTES_PER_SECOND;
     if (inGameMinute >= 60) {
       inGameHour += inGameMinute / 60;
@@ -106,8 +91,6 @@ public class Farm {
         }
       }
     }
-    System.out.println("TIME UPDATE: " + oldHour + ":" + String.format("%02d", oldMinute) + " " + oldTimeOfDay + 
-                      " -> " + inGameHour + ":" + String.format("%02d", inGameMinute) + " " + timeOfDay);
   }
 
   /* -------------------------------------------------------------------------- */
