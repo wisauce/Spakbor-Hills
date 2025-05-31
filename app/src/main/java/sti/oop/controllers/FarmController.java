@@ -71,6 +71,8 @@ public class FarmController {
   private InventoryController inventoryController;
   private PanelController panelController;
 
+  private Player player;
+
   int spriteCounter = 0;
   int idleCounter = 0;
   boolean isIdle = true;
@@ -86,96 +88,10 @@ public class FarmController {
 
     hud.setBottom(panelRoot);
 
-    // Masukkan panelRoot ke BorderPane bagian bawah
-    hud.setBottom(panelRoot);
-
     canvas.widthProperty().bind(anchorPane.widthProperty());
     canvas.heightProperty().bind(anchorPane.heightProperty());
 
-    /* Load Item Sprites */
     ItemSpriteManager.preloadSprites();
-
-    /* Initialize Player */
-    Player player = new Player("Asep", Gender.MALE, "Asep's diary");
-    nameDisplay.setText(player.getName());
-
-    /* Initialize HealthBar */
-    HealthBarUpdater healthBarUpdater = new HealthBarUpdater(energyDisplay, energyBar);
-    healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
-    player.setHealthBarUpdater(healthBarUpdater);
-    /* Initialize HotBar */
-    hotbarController = new HotbarController(player);
-    HBox hotbar = hotbarController.getHotbarContainer();
-    hotbar.setLayoutX(20);
-    hotbar.setLayoutY(550);
-    anchorPane.getChildren().add(hotbar);
-
-    /* Initialize Contoller */
-    LandSetter landSetter = new LandSetter();
-    List<Asset> lands = landSetter.setLandOnFarm();
-    assetController = new AssetController(player, lands);
-    collisionController = new CollisionController();
-    gameMapController = new GameMapController(player);
-    playerController = new PlayerController(player, collisionController, this);
-    farm = new Farm(playerController, lands);
-    timeController = new TimeController(farm, timeDisplay, dateDisplay);
-    // assetController.getAssets().add(new Asset(20 * Constants.TILE_SIZE, 20 *
-    // Constants.TILE_SIZE, "/images/monyet.jpg", true));
-    // assetController.getAssets().add(new Teleporter(23 * Constants.TILE_SIZE, 13 *
-    // Constants.TILE_SIZE, Constants.TILE_SIZE * 3, Constants.TILE_SIZE * 3));
-
-
-    updateHotbar();
-
-    timeController.render();
-
-    /*
-     * <------------------------------------------SEPERATOR-------------------------
-     * ----------------------->
-     */
-
-    AnimationTimer gameTime = new AnimationTimer() {
-      @Override
-      public void handle(long now) {
-        if (lastTime == 0) {
-          lastTime = now;
-        }
-
-        if (now - lastTime >= 1_000_000_000) {
-          timeController.update();
-          timeController.render();
-          lastTime = now;
-        }
-
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gameMapController.render(gc);
-
-        collisionController.checkAssetCollision(assetController.getAssets(), playerController, panelController);
-
-        if (playerController.isJustEaten()) {
-          String eatingResult = playerController.getAction().handleEating();
-          panelController.showDialog(eatingResult);
-          playerController.setJustEaten(false);
-        }
-        assetController.render(gc);
-        playerController.render(gc);
-
-        applyTimeOfDayLighting();
-
-      }
-    };
-
-    /* Delay until scene is ready */
-    Platform.runLater(() -> {
-      scene = hud.getParent().getScene();
-      gc = canvas.getGraphicsContext2D();
-      gc.setImageSmoothing(false);
-      playerController.keyMapper(scene);
-
-      timeController.render();
-
-      gameTime.start();
-    });
   }
 
   private void applyTimeOfDayLighting() {
@@ -194,6 +110,77 @@ public class FarmController {
 
     gc.setFill(originalColor);
   }
+
+public void initializePlayerData(String playerName, String gender, String farmName) {
+  Gender genderEnum = "Male".equals(gender) ? Gender.MALE : Gender.FEMALE;
+  this.player = new Player(playerName, genderEnum, farmName);
+
+  nameDisplay.setText(player.getName());
+
+  HealthBarUpdater healthBarUpdater = new HealthBarUpdater(energyDisplay, energyBar);
+  healthBarUpdater.updateHealthBar(player.getEnergy(), player.getMAX_ENERGY());
+  player.setHealthBarUpdater(healthBarUpdater);
+
+  hotbarController = new HotbarController(player);
+  HBox hotbar = hotbarController.getHotbarContainer();
+  hotbar.setLayoutX(20);
+  hotbar.setLayoutY(550);
+  anchorPane.getChildren().add(hotbar);
+
+  LandSetter landSetter = new LandSetter();
+  List<Asset> lands = landSetter.setLandOnFarm();
+  assetController = new AssetController(player, lands);
+  collisionController = new CollisionController();
+  gameMapController = new GameMapController(player);
+  playerController = new PlayerController(player, collisionController, this);
+  farm = new Farm(playerController, lands);
+  timeController = new TimeController(farm, timeDisplay, dateDisplay);
+
+  updateHotbar();
+  timeController.render();
+
+  AnimationTimer gameTime = new AnimationTimer() {
+    private long lastTime = 0;
+
+    @Override
+    public void handle(long now) {
+      if (lastTime == 0) {
+        lastTime = now;
+      }
+
+      if (now - lastTime >= 1_000_000_000) {
+        timeController.update();
+        timeController.render();
+        lastTime = now;
+      }
+
+      gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      gameMapController.render(gc);
+      collisionController.checkAssetCollision(assetController.getAssets(), playerController, panelController);
+
+      if (playerController.isJustEaten()) {
+        String eatingResult = playerController.getAction().handleEating();
+        panelController.showDialog(eatingResult);
+        playerController.setJustEaten(false);
+      }
+
+      assetController.render(gc);
+      playerController.render(gc);
+
+      applyTimeOfDayLighting();
+    }
+  };
+
+  Platform.runLater(() -> {
+    scene = hud.getParent().getScene();
+    gc = canvas.getGraphicsContext2D();
+    gc.setImageSmoothing(false);
+    playerController.keyMapper(scene);
+    timeController.render();
+    gameTime.start();
+  });
+}
+
 
   /*
    * <------------------------------------------SEPERATOR-------------------------
@@ -291,9 +278,7 @@ public class FarmController {
     return farm;
   }
 
-  
-
-/*
+  /*
    * <------------------------------------------SEPERATOR-------------------------
    * ----------------------->
    */
