@@ -32,7 +32,7 @@ public class Abigail extends NPC {
                 ItemRegistry.createItem("Parsnip"),
                 ItemRegistry.createItem("Wheat")
             ), //hatedItems
-            "hi, i owns a store btw. You should check it out!"
+            List.of("hi, i owns a store btw. You should check it out!", "What would you want to buy?")
         );
     }
 }

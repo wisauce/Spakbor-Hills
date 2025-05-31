@@ -36,7 +36,8 @@ public class Emily extends NPC {
                 ItemRegistry.createItem("Coal"),
                 ItemRegistry.createItem("Firewood")
             ), //hatedItems
-            "Sigh... I am thinking of getting a haircut at a Garut Barbershop but i don't know where"
+            List.of("Sigh... I am thinking of getting a haircut at a Garut Barbershop but i don't know where", 
+            "Gas SUMMIT at Mount Cikuray", "Indiana Jones is my Unofficial granpa")
         );
     }
 }

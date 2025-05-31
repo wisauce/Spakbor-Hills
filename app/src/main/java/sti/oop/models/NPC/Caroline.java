@@ -25,7 +25,7 @@ public class Caroline extends NPC {
             List.of(
                 ItemRegistry.createItem("HotPepper")
             ), //hatedItems
-            "do you know that tung tung tung sahur is my cousin?"
+            List.of("do you know that tung tung tung sahur is my cousin?", "I am the God of Carpenter", "Kang Mebel Nih Bos, OTW Presiden")
         );
     }
 }
