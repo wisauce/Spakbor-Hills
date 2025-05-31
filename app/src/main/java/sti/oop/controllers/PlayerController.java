@@ -12,7 +12,7 @@ import sti.oop.action.Action;
 import sti.oop.interfaces.Renderable;
 import sti.oop.models.Inventory;
 import sti.oop.models.Player;
-import sti.oop.models.item.Item;
+import sti.oop.models.Item.Item;
 import sti.oop.utils.Constants;
 
 public class PlayerController implements Renderable {

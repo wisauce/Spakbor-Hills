@@ -1,21 +1,23 @@
 package sti.oop.action;
 
+import java.util.List;
+
 import sti.oop.controllers.FarmController;
 import sti.oop.controllers.PanelController;
 import sti.oop.interfaces.Actor;
 import sti.oop.interfaces.Edible;
 import sti.oop.interfaces.EnergyConsuming;
 import sti.oop.models.Player;
-import sti.oop.models.Farm;
+import sti.oop.models.Item.Fish;
+import sti.oop.models.assets.BinArea;
+import sti.oop.models.assets.CookingArea;
 import sti.oop.models.assets.FishingArea;
 import sti.oop.models.assets.Land;
 import sti.oop.models.assets.NPCArea;
-import sti.oop.models.assets.CookingArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Teleporter;
-import sti.oop.models.item.Fish;
-import sti.oop.models.item.Item;
 import sti.oop.utils.Constants;
+
 public class Action implements Actor {
   FarmController farmController;
   PanelController panelController;
@@ -35,7 +37,8 @@ public class Action implements Actor {
   }
 
   public boolean hasEnergyRanOut() {
-    return farmController.getPlayerController().getPlayer().getEnergy() == farmController.getPlayerController().getPlayer().getMIN_ENERGY();
+    return farmController.getPlayerController().getPlayer().getEnergy() == farmController.getPlayerController()
+        .getPlayer().getMIN_ENERGY();
   }
 
   @Override
@@ -47,7 +50,8 @@ public class Action implements Actor {
 
   @Override
   public void act(NPCArea acted) {
-    panelController.showDialog(new NPCInteractionHandler(farmController.getPlayerController()).handleInteraction(acted));
+    new NPCInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
+        panelController);
     farmController.updateHotbar();
   }
 
@@ -59,7 +63,7 @@ public class Action implements Actor {
     if (hasEnergyRanOut()) {
       sleepImmediately();
       actionResult = "you are too tired from yesterday farming";
-    } 
+    }
     panelController.showDialog(actionResult);
   }
 
@@ -70,13 +74,12 @@ public class Action implements Actor {
     panelController.showDialog("Good morning. Did you sleep well?");
   }
 
-  public void act(FishingArea acted) {
+  // In your Action class, where you handle the fishing action
+  public void act(FishingArea acted) { // Or however you trigger this
     Fishing fishing = new Fishing();
-    fishing.randomizeFish(fishing.availableFishList(acted.getFishes(), farmController.getTimeController().getFarm()));
-    acted.getFishes();
-    panelController.showFishing(inputValue -> {
-      panelController.showDialog(inputValue.toString());
-    });
+    List<Fish> availableFishes = fishing.availableFishList(acted.getFishes(),farmController.getFarm());
+    Fish randomizedFish = fishing.randomizeFish(availableFishes);
+    fishing.startInteractiveFishing(farmController.getPlayerController().getPlayer(), randomizedFish, panelController, farmController);
   }
 
   public String handleEating() {
@@ -87,32 +90,30 @@ public class Action implements Actor {
       String actionResult = eating.doEating(player, farmController);
       farmController.updateHotbar();
       return actionResult;
-    }
-    else {
+    } else {
       return "You need food in your hand to eat!";
     }
   }
 
-
-    @Override
-    public void act(CookingArea acted) {
+  @Override
+  public void act(CookingArea acted) {
     System.out.println("=== COOKING ACTION TRIGGERED ===");
     System.out.println("CookingArea position: " + acted.getX() + ", " + acted.getY());
-    
+
     try {
-        CookingInteractionHandler handler = new CookingInteractionHandler(
-            farmController.getPlayerController(), 
-            farmController
-        );
-        
-        String result = handler.handleInteraction(acted);
-        System.out.println("Cooking handler result: " + result);
-        
-        panelController.showDialog(result);
-        
+      new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
+          farmController.getTimeController().getFarm(), panelController);
     } catch (Exception e) {
-        System.err.println("Error in cooking action: " + e.getMessage());
-        e.printStackTrace();
-    }   
-   }
+      System.err.println("Error in cooking action: " + e.getMessage());
+      e.printStackTrace();
+    }
   }
+
+  @Override
+  public void act(BinArea acted) {
+    String actionResult = null;
+    Bin bin = new Bin();
+    actionResult = bin.doBin(farmController.getPlayerController().getPlayer(), farmController);
+    panelController.showDialog(actionResult);
+  }
+}

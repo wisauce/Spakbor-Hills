@@ -4,15 +4,14 @@ import sti.oop.interfaces.EnergyConsuming;
 // import sti.oop.models.Inventory;
 import sti.oop.models.Player;
 import sti.oop.models.NPC.NPC;
-import sti.oop.models.item.Item;
 
 public class Marry implements EnergyConsuming {
   private int energyRequired = 80;
 
   public String doMarry(Player player, NPC npc) {
     if (isEnergySufficient(player.getEnergy(), energyRequired)) {
-      if (player.getInventory().hasItem(new Item("Proposal Ring", "EQUIPMENT"))) {
-        return "Where is your proposal ring?";
+      if (!player.getInventory().hasItemByName("WeddingRing")) {
+        return "Where is your wedding ring?";
       } else if (!npc.getRelationshipStatus().equalsIgnoreCase("Fiance")) {
         return "You have to be engaged first dude";
       } else if (player.getPartner() != null) {

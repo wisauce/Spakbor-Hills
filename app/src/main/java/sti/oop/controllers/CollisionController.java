@@ -73,14 +73,7 @@ public class CollisionController {
           playerController.setnoCollidingAsset(false);
         } else {
           Interactable interactable = (Interactable) asset;
-          if (playerController.isToggled() && playerController.isJustInteracted()) {
-            interactable.accept(playerController.getAction());
-            playerController.clearJustInteracted();
-          }
-          if (playerController.isJustInteracted() && !playerController.isToggled()) {
-            if (interactable.multipleInput()) {
-              playerController.toggle(); // masuk ke interaction mode
-            }
+          if (playerController.isJustInteracted()) {
             interactable.accept(playerController.getAction());
             playerController.clearJustInteracted();
           }
@@ -92,11 +85,8 @@ public class CollisionController {
     // Setelah loop selesai
     boolean isMoving = (playerController.isKeyDownPressed() || playerController.isKeyLeftPressed()
         || playerController.isKeyRightPressed() || playerController.isKeyUpPressed());
-    if (isMoving && playerController.isToggled()) {
-      playerController.toggle(); // matikan toggle kalau player sudah keluar dari area
-    }
     if (isMoving) {
-      panelController.hideAllBottom();
+      panelController.hideAllBottomPanels();
     }
   }
 }

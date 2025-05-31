@@ -1,15 +1,12 @@
 package sti.oop.models;
 
-import java.util.EnumSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
+import sti.oop.models.Item.Item;
 import sti.oop.models.NPC.NPC;
-import sti.oop.models.item.Equipment;
-import sti.oop.models.item.Fish;
-import sti.oop.models.item.Item;
-import sti.oop.models.item.Misc;
-import sti.oop.models.item.Seed;
 import sti.oop.utils.Constants;
 
 public class Player {
@@ -54,6 +51,10 @@ public class Player {
   private boolean everHotPepper = false;
   private boolean everLegendaryFish = false;
   //TODO: Develop with other logics!
+
+  /* Bin Barrier */
+  private List<Item> shippingBin = new ArrayList<>();
+  private boolean isBinOpen = false;
   
   
   public static Image playerSpriteSheet = new Image(Player.class.getResource("/sprites/spritePlayer.png").toExternalForm());
@@ -341,12 +342,63 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     return onHandItem != null && onHandItem.getItemName().equals(itemName);
   }
 
-  
-  
-  // public void sellFish(String itemName, int itemQuantity) throws IllegalArgumentException{
-  //   if (!inventory.getListInventorys().contains(itemName)) {
-  //     throw new IllegalStateException("You don't have " + itemName + " in your inventory!");
-  //   }
-  //   if (!inventory.getListCount().c)
-  // }
+  /* -------------------------------------------------------------------------- */
+  /*                            Recipe Blocker Logics                           */
+  /* -------------------------------------------------------------------------- */
+
+  public int getAmountOfFishReeled() {
+    return amountOfFishReeled;
+  }
+  public void addAmountOfFishReeled() {
+    amountOfFishReeled++;
+  }
+
+  public boolean getEverPufferfish() {
+    return everPufferfish;
+  }
+  public void wasEverPufferfish() {
+    this.everPufferfish = true;
+  }
+
+  public boolean getEverHarvest() {
+    return everHarvest;
+  }
+  public void wasEverHarvest() {
+    this.everHarvest = true;
+  }
+
+  public boolean getEverHotPepper() {
+    return everHotPepper;
+  }
+  public void wasEverHotPepper() {
+    this.everHotPepper = true;
+  }
+
+  public boolean getEverLegendaryFish() {
+    return everLegendaryFish;
+  }
+  public void wasEverLegendaryFish() {
+    this.everLegendaryFish = true;
+  }
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 Bin Logics                                 */
+  /* -------------------------------------------------------------------------- */
+
+  public boolean isBinOpen() {
+    return isBinOpen;
+  }
+
+  public void binOpen() {
+    isBinOpen = true;
+  }
+
+  public void binClose() {
+    isBinOpen = false;
+  }
+
+  private void addItemToShippingBin(Item item) {
+    shippingBin.add(item);
+  }
 }

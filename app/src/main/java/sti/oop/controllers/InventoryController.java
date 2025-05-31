@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import sti.oop.models.Player;
-import sti.oop.models.item.Item;
+import sti.oop.models.Item.Item;
 import sti.oop.models.Inventory;
 import sti.oop.utils.ItemSpriteManager;
 
@@ -230,8 +230,14 @@ public class InventoryController {
               Item selectedItemID = ownItem[idxItemGlobal];
               int quantity = inventory.getItemCount(selectedItemID);
 
-              player.setOnHandInventoryIndex(idxItemGlobal);
-              player.setOnHandItem(selectedItemID);
+              if (!player.isBinOpen()) {
+                player.setOnHandInventoryIndex(idxItemGlobal);
+                player.setOnHandItem(selectedItemID);
+              }
+
+              else {
+                
+              }
 
               if (farmController != null) {
                 farmController.updateHotbar();
@@ -244,6 +250,7 @@ public class InventoryController {
           }
       }
   }
+
 
   public void updateInventoryDisplay() {
       if (inventoryGrid != null) {
