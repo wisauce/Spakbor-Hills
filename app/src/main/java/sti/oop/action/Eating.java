@@ -2,13 +2,9 @@ package sti.oop.action;
 
 import sti.oop.controllers.FarmController;
 import sti.oop.interfaces.Edible;
-import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Food;
 import sti.oop.models.Item.Item;
-import sti.oop.models.Item.Seed;
-import sti.oop.models.assets.Land;
-import sti.oop.models.assets.Land.LandState;
 
 public class Eating {
   public String doEating(Player player, FarmController farmController) {

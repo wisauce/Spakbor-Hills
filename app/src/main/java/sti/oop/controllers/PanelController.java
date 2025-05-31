@@ -16,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import sti.oop.models.NPC.NPC;
 
 public class PanelController {
   @FXML

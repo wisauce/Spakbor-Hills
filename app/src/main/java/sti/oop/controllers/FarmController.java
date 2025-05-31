@@ -22,15 +22,7 @@ import sti.oop.controllers.GameMapController.MapName;
 import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Player.Gender;
-import sti.oop.models.NPC.Abigail;
-import sti.oop.models.NPC.Caroline;
-import sti.oop.models.NPC.Dasco;
-import sti.oop.models.NPC.Emily;
-import sti.oop.models.NPC.MayorTadi;
-import sti.oop.models.NPC.NPC;
-import sti.oop.models.NPC.Perry;
 import sti.oop.models.assets.Asset;
-import sti.oop.utils.Constants;
 import sti.oop.utils.ItemSpriteManager;
 
 public class FarmController {
@@ -70,14 +62,6 @@ public class FarmController {
   private StackPane inventoryPane;
 
   private Farm farm;
-
-  private NPC mayorTadi;
-  private NPC abigail;
-  private NPC caroline;
-  private NPC emily;
-  private NPC dasco;
-  private NPC perry;
-
   private TimeController timeController;
   private CollisionController collisionController;
   private PlayerController playerController;

@@ -1,7 +1,6 @@
 package sti.oop.action;
 
 import sti.oop.controllers.FarmController;
-import sti.oop.models.Farm;
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
 import sti.oop.models.Item.Seed;
@@ -63,9 +62,17 @@ public class Farming {
         player.setEnergy(player.getEnergy() - land.getEnergyRequired());
         String seedName = land.getSeed().getItemName();
         String cropName = seedName.replaceAll("(?i)Seeds", "");
-        player.putItemInventory(cropName, 1);
+        player.getInventory().addItemByName(cropName, 1);
         land.changeLandState(LandState.TILLED_LAND);
         land.setSeed(null);
+        if (!player.getEverHarvest()) {
+          player.wasEverHarvest();
+          player.getInventory().addItemByName("VeggieSoupRecipe", 1);
+        }
+        if (!player.getEverHotPepper() && cropName.equals("HotPepper")) {
+          player.wasEverHotPepper();
+          player.getInventory().addItemByName("FishStewRecipe", 1);
+        }
         actionResult =  "Harvested " + cropName + ", it is now in your inventory";
       }
     } else {
