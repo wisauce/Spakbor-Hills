@@ -72,6 +72,7 @@ public class CollisionController {
         if (asset.isCollisionOn()) {
           playerController.setnoCollidingAsset(false);
         } else {
+          playerController.setInteractionGuide(true);
           Interactable interactable = (Interactable) asset;
           if (playerController.isJustInteracted()) {
             interactable.accept(playerController.getAction());
@@ -79,6 +80,8 @@ public class CollisionController {
           }
         }
         break; // keluar dari loop kalau sudah collision
+      } else {
+        playerController.setInteractionGuide(false);
       }
     }
 

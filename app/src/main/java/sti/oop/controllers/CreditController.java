@@ -69,6 +69,7 @@ public class CreditController {
     addCredit("Sound & Music", List.of("Mira K."));
     addSeparator();
     addCredit("Special Thanks", List.of("Everyone who supported us!"));
+    addImage("/images/gacor.jpg");
     scrollPane.setPannable(false); // tidak bisa digeser manual
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // sembunyikan scrollbar vertikal
 
@@ -116,11 +117,9 @@ private void addCredit(String role, List<String> names) {
     creditBox.getChildren().add(spacer);
   }
 
-  private void addImage(String imagePath, double width, double height) {
+  private void addImage(String imagePath) {
     Image image = new Image(getClass().getResourceAsStream(imagePath));
     ImageView imageView = new ImageView(image);
-    imageView.setFitWidth(width);
-    imageView.setFitHeight(height);
     imageView.setPreserveRatio(true);
     creditBox.getChildren().add(imageView);
 

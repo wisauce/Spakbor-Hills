@@ -252,8 +252,8 @@ public void initializePlayerData(String playerName, String gender, String farmNa
     assetController.setAssets(mapName);
   }
 
-  public Label getInteractionNotification() {
-    return interactionNotification;
+  public void setInteractNotification(boolean visible) {
+    interactionNotification.setVisible(visible);
   }
 
   public TimeController getTimeController() {
