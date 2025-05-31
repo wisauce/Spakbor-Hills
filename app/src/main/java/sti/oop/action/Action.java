@@ -1,5 +1,6 @@
 package sti.oop.action;
 
+import java.text.NumberFormat.Style;
 import java.util.List;
 
 import sti.oop.controllers.FarmController;
@@ -107,6 +108,10 @@ public class Action implements Actor {
     return isFishing;
   }
 
+  public void toggleIsFishing() {
+    isFishing = false;
+  }
+
   public String handleEating() {
     Player player = farmController.getPlayerController().getPlayer();
 
@@ -129,8 +134,7 @@ public class Action implements Actor {
       stoveOpen = true;
       farmController.getTimeController().setTimeFrozen(true);
       try {
-        new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),
-            farmController.getFarm(), panelController);
+        new CookingInteractionHandler().handleInteraction(acted, farmController.getPlayerController().getPlayer(),farmController.getFarm(), panelController, this);
       } catch (Exception e) {
         System.err.println("Error in cooking action: " + e.getMessage());
         e.printStackTrace();
@@ -147,6 +151,10 @@ public class Action implements Actor {
 
   public boolean isStoveOpen() {
     return stoveOpen;
+  }
+
+  public void toggleStoveOpen() {
+    stoveOpen = false;
   }
 
   @Override
