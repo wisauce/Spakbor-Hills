@@ -19,8 +19,11 @@ import sti.oop.models.assets.Asset;
 import sti.oop.models.assets.Bed;
 import sti.oop.models.assets.BinArea;
 import sti.oop.models.assets.CookingArea;
+import sti.oop.models.assets.LakeArea;
 import sti.oop.models.assets.NPCArea;
+import sti.oop.models.assets.OceanArea;
 import sti.oop.models.assets.PondArea;
+import sti.oop.models.assets.RiverArea;
 import sti.oop.models.assets.SleepingArea;
 import sti.oop.models.assets.Stove;
 import sti.oop.models.assets.Teleporter;
@@ -51,9 +54,9 @@ public class AssetController {
     assetsOnFarm.add(pond);
     assetsOnFarm.add(new PondArea(pond));
     assetsOnFarm.add(new ShippingBin(farmMap));
-    assetsOnFarm.add(new BinArea( (farmMap.getShippingBinLoc()[2]+8)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+8)*Constants.TILE_SIZE, 5*Constants.TILE_SIZE, Constants.TILE_SIZE*3) );
+    assetsOnFarm.add(new BinArea( (farmMap.getShippingBinLoc()[2]+8)*Constants.TILE_SIZE, (farmMap.getShippingBinLoc()[0]+8)*Constants.TILE_SIZE, 5*Constants.TILE_SIZE, 4*Constants.TILE_SIZE) );
     assetsOnFarm.addAll(lands);
-    assetsOnFarm.add(new Teleporter(29 * Constants.TILE_SIZE, 43* Constants.TILE_SIZE, 2* Constants.TILE_SIZE, 1* Constants.TILE_SIZE, MapName.WORLD, 1* Constants.TILE_SIZE, 47* Constants.TILE_SIZE));
+    assetsOnFarm.add(new Teleporter(29 * Constants.TILE_SIZE, 45* Constants.TILE_SIZE, 2* Constants.TILE_SIZE, 1* Constants.TILE_SIZE, MapName.WORLD, 1* Constants.TILE_SIZE, 47* Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.FARM, assetsOnFarm);
 
     /*Initialize house */
@@ -61,13 +64,13 @@ public class AssetController {
     assetsOnHome.add(new Teleporter(16 * Constants.TILE_SIZE, 25 * Constants.TILE_SIZE, MapName.FARM, teleportToHouse.getX(), teleportToHouse.getY()));
     assetsOnHome.add(new Bed( Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     assetsOnHome.add(new Stove(27 * Constants.TILE_SIZE, 17 * Constants.TILE_SIZE));
-    assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 9 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
+    assetsOnHome.add(new SleepingArea(Constants.TILE_SIZE, 4 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 5 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 4 * Constants.TILE_SIZE));
     assetsOnHome.add(new CookingArea(27 * Constants.TILE_SIZE, 17 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE, 3 * Constants.TILE_SIZE));
     mapOfListOfAssets.put(MapName.HOUSE, assetsOnHome);
 
     /*Initialize World*/
     List<Asset> assetsOnWorld = new ArrayList<>();
-    assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,43 * Constants.TILE_SIZE));
+    assetsOnWorld.add(new Teleporter(1 * Constants.TILE_SIZE,47 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,MapName.FARM,29 * Constants.TILE_SIZE,45 * Constants.TILE_SIZE));
     
     assetsOnWorld.add(new Asset(1*Constants.TILE_SIZE,41*Constants.TILE_SIZE,8*Constants.TILE_SIZE,4*Constants.TILE_SIZE,"/assets/store.png",true));
     assetsOnWorld.add(new Teleporter(5 * Constants.TILE_SIZE,46 * Constants.TILE_SIZE,2 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.STORE,5 * Constants.TILE_SIZE,10 * Constants.TILE_SIZE));
@@ -86,6 +89,10 @@ public class AssetController {
     
     assetsOnWorld.add(new Asset(45*Constants.TILE_SIZE,2*Constants.TILE_SIZE,5*Constants.TILE_SIZE,5*Constants.TILE_SIZE,"/assets/npc_house_5.png",true));
     assetsOnWorld.add(new Teleporter(47 * Constants.TILE_SIZE,7 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,1 * Constants.TILE_SIZE,MapName.NPC5_HOUSE,5 * Constants.TILE_SIZE,9 * Constants.TILE_SIZE));
+
+    assetsOnWorld.add(new OceanArea());
+    assetsOnWorld.add(new RiverArea());
+    assetsOnWorld.add(new LakeArea());
     mapOfListOfAssets.put(MapName.WORLD, assetsOnWorld);
 
     /*Initialize_Store*/

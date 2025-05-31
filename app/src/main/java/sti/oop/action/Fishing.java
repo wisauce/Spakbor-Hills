@@ -165,7 +165,7 @@ public class Fishing {
                     player.getInventory().addItemByName("TheLegendsOfSpakborRecipe", 1); // Assuming this name is correct
                     panelController.showDialog("A legendary catch! You've learned 'The Legends Of Spakbor' Recipe!");
                 }
-                player.getInventory().addItem(fishToCatch, 1); // Add fish to inventory
+                player.getInventory().addItemByName(fishToCatch.getItemName(), 1); // Add fish to inventory
 
             } else {
                 // Player failed to guess or cancelled
