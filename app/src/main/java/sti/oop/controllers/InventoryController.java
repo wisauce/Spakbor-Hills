@@ -1,5 +1,8 @@
 package sti.oop.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 
@@ -14,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 
 import sti.oop.models.Player;
 import sti.oop.models.Item.Item;
@@ -62,6 +66,8 @@ public class InventoryController {
   private int currentPage = 0;
   private final int ITEMS_PER_PAGE = 18;
   private int totalPages = 1;
+
+  private Label shippingStatusLabel;
 
 
   /* -------------------------------------------------------------------------- */
@@ -133,18 +139,38 @@ public class InventoryController {
               }
 
               inventorySlot.setOnMouseEntered(e -> {
-                  if (player.getOnHandInventoryIndex() != idxItemGlobal) {
+                  if (player.isBinOpen()) {
+                     inventorySlot.setStyle("-fx-border-color: #FFD700; -fx-border-width: 2;"); 
+                  } 
+                  
+                  else {
+                    if (player.getOnHandInventoryIndex() != idxItemGlobal) {
                       inventorySlot.setStyle("-fx-border-color:#B52121; -fx-border-width: 1;");
+                    }
                   }
               });
 
               inventorySlot.setOnMouseExited(e -> {
+                if (player.isBinOpen()) {
+                  Item[] itemArray = inventory.getAllItem().toArray(new Item[0]);
+                  if (idxItemGlobal < itemArray.length) {
+                      Item item = itemArray[idxItemGlobal];
+                      boolean inShippingBin = player.getShippingBinItems().containsKey(item);
+                      if (inShippingBin) {
+                          inventorySlot.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2; -fx-background-color: rgba(0, 255, 0, 0.2);");
+                      } else {
+                          inventorySlot.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;");
+                      }
+                  }
+                }
+                else {
                   if (player.getOnHandInventoryIndex() != idxItemGlobal) {
                       inventorySlot.setStyle("-fx-border-color: rgba(139, 69, 19, 0); -fx-border-width: 0;");
                   } 
                   else {
                       inventorySlot.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3; -fx-background-color: rgba(255, 215, 0, 0.3);");
                   }
+                }
               });
 
               inventorySlot.setOnMouseClicked(e -> { 
@@ -177,6 +203,15 @@ public class InventoryController {
         String itemID = ownItem.getItemID();
         System.out.println(itemID);
         int quantity = inventory.getItemCount(ownItem);
+
+        boolean inShippingBin = player.isBinOpen() && player.getShippingBinItems().containsKey(ownItem);
+        int shippingQuantity;
+        if (inShippingBin) {
+          shippingQuantity = player.getShippingBinItems().get(ownItem);
+        }
+        else {
+          shippingQuantity = 0;
+        }
           
         Image itemSprite = ItemSpriteManager.getItemSprite(itemID);
           
@@ -190,31 +225,34 @@ public class InventoryController {
           spriteView.setFitHeight(40);
           spriteView.setPreserveRatio(true);
           spriteView.setSmooth(false);
+
+          String quantityText = String.valueOf(quantity);
+          if (inShippingBin) {
+            quantityText += " (" + shippingQuantity + " selected)";
+          }
             
-          Label quantityLabel = new Label(String.valueOf(quantity));
+          Label quantityLabel = new Label(quantityText);
           quantityLabel.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold; " + "-fx-background-color: rgba(0,0,0,0.7); -fx-padding: 1 3 1 3; " + "-fx-background-radius: 3;");
             
           itemContainer.getChildren().addAll(spriteView, quantityLabel);
           grid.getChildren().add(itemContainer);
+
+          if (inShippingBin) {
+            grid.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2; -fx-background-color: rgba(0, 255, 0, 0.2);");
+          }
         } 
-        else {
-          Label itemLabel = new Label(itemID + "\n" + quantity);
-          itemLabel.setStyle("-fx-text-fill: white; -fx-font-size: 10px; -fx-alignment: center;");
-          grid.getChildren().add(itemLabel);
-        }
         
-        javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(itemID);
+        javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(inShippingBin ? itemID + " (In Shipping Bin)" : itemID);
         javafx.scene.control.Tooltip.install(grid, tooltip);
       }
       
       grid.setOnMouseClicked(e -> {handleItemSelection(idxGrid);});
 
-      if (player.getOnHandInventoryIndex() == idxGrid) {
-          grid.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3;"); // Gold border for selected
-      } else {
-        grid.setStyle("-fx-border-color: transparent; -fx-border-width: 1;");
-      }
-
+      // if (player.getOnHandInventoryIndex() == idxGrid) {
+      //     grid.setStyle("-fx-border-color: #FFD700; -fx-border-width: 3;"); // Gold border for selected
+      // } else {
+      //   grid.setStyle("-fx-border-color: transparent; -fx-border-width: 1;");
+      // }
   }
 
   /* -------------------------------------------------------------------------- */
@@ -236,7 +274,7 @@ public class InventoryController {
               }
 
               else {
-                
+                handleBinItemSelection(selectedItemID, quantity);
               }
 
               if (farmController != null) {
@@ -255,6 +293,10 @@ public class InventoryController {
   public void updateInventoryDisplay() {
       if (inventoryGrid != null) {
           createInventorySlot();
+      }
+      if (player != null && player.isBinOpen()) {
+        removeShippingControls();
+        addShippingBinControls();
       }
   }
 
@@ -364,6 +406,10 @@ public class InventoryController {
   }
 
   private void closeInventory() {
+    if (player != null  && player.isBinOpen()) {
+      player.binClose();
+    }
+
     if (farmController != null) {
       animationTimer.stop();
       farmController.toggleInventory();
@@ -372,5 +418,119 @@ public class InventoryController {
 
   public void setFarmController(FarmController controller) {
     this.farmController = controller;
+  }
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 Bin Logics                                 */
+  /* -------------------------------------------------------------------------- */
+
+  private void handleBinItemSelection(Item item, int availableQuantity) {
+      if (player.getShippingBinItems().containsKey(item)) {
+          player.removeItemFromShippingBin(item, player.getShippingBinItems().get(item));
+          System.out.println("Removed " + item.getItemName() + " from shipping bin");
+      } 
+      
+      else {
+          if (player.getShippingBinItemCount() >= player.getMaxShippingItems()) {
+              System.out.println("Shipping bin is full! Maximum " + player.getMaxShippingItems() + " different items allowed.");
+              return;
+          }
+          showQuantitySelectionDialog(item, availableQuantity);
+      }
+
+      updateShippingStatus();
+  }
+
+  private void showQuantitySelectionDialog(Item item, int maxQuantity) {
+      List<String> quantityOptions = new ArrayList<>();
+      for (int i = 1; i <= Math.min(maxQuantity, 10); i++) { 
+          quantityOptions.add(String.valueOf(i));
+      }
+      
+      farmController.getPanelController().multipleOptionPanel(quantityOptions, (choice) -> {
+          try {
+              int selectedQuantity = Integer.parseInt(choice);
+              if (player.addItemToShippingBin(item, selectedQuantity)) {
+                  System.out.println("Added " + selectedQuantity + "x " + item.getItemName() + " to shipping bin");
+              } else {
+                  System.out.println("Failed to add item to shipping bin");
+              }
+              updateShippingStatus();
+              updateInventoryDisplay();
+          } catch (NumberFormatException e) {
+              System.out.println("Invalid quantity selected");
+          }
+      });
+  }
+
+  private void addShippingBinControls() {
+    if (shippingStatusLabel == null) {
+      shippingStatusLabel = new Label();
+    }
+    updateShippingStatus();
+    shippingStatusLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold;");
+    
+    Button shipButton = new Button("SHIP ITEMS");
+    shipButton.setStyle("-fx-background-color: #FF6B35; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5 15 5 15; -fx-font-size: 12px; -fx-background-radius: 10;");
+    shipButton.setOnAction(e -> {
+        if (player.getShippingBinItemCount() > 0) {
+            farmController.getPanelController().multipleOptionPanel(
+                List.of("Confirm Ship", "Cancel"),
+                (choice) -> {
+                    if (choice.equals("Confirm Ship")) {
+                        player.shipItems();
+                        farmController.getPanelController().showDialog("Items shipped successfully! Gold added to your account.");
+                        closeInventory();
+                    }
+                }
+            );
+        } else {
+            farmController.getPanelController().showDialog("No items selected for shipping!");
+        }
+    });
+
+    VBox shippingControls = new VBox(5);
+    shippingControls.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+    shippingControls.getChildren().addAll(shippingStatusLabel, shipButton);
+    
+    shippingControls.setStyle("-fx-padding: 20; -fx-background-color: rgba(0, 0, 0, 0.); -fx-background-radius: 15; -fx-border-color: #FFD700; -fx-border-width: 3; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+    
+    StackPane.setAlignment(shippingControls, javafx.geometry.Pos.TOP_CENTER);
+    StackPane.setMargin(shippingControls, new javafx.geometry.Insets(25, 0, 0, 550));
+    shippingControls.setViewOrder(-1);    
+    inventoryPane.getChildren().add(shippingControls);
+  }
+
+  private void updateShippingStatus() {
+    if (shippingStatusLabel != null) {
+      shippingStatusLabel.setText("");
+    
+      if (player != null && player.isBinOpen()) {
+          int selectedItems = player.getShippingBinItemCount();
+          int maxItems = player.getMaxShippingItems();
+          shippingStatusLabel.setText("Shipping Bin: " + selectedItems + "/" + maxItems);
+      }
+    }
+  }
+
+  private void removeShippingControls() {
+    List<Node> nodesToRemove = new ArrayList<>();
+    
+    for (Node node : inventoryPane.getChildren()) {
+        if (node instanceof VBox) {
+            VBox vbox = (VBox) node;
+            for (Node child : vbox.getChildren()) {
+                if (child instanceof Button && ((Button) child).getText().equals("SHIP ITEMS")) {
+                    // Found a shipping control - mark the whole VBox for removal
+                    nodesToRemove.add(vbox);
+                    break;
+                }
+            }
+        }
+    }
+    inventoryPane.getChildren().removeAll(nodesToRemove);
+    System.out.println("Removed " + nodesToRemove.size() + " shipping control panels");    
+    shippingStatusLabel = null;
   }
 }

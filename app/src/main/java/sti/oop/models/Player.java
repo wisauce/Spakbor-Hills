@@ -2,6 +2,8 @@ package sti.oop.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.scene.image.Image;
 import sti.oop.controllers.HealthBarUpdater;
@@ -50,10 +52,10 @@ public class Player {
   private boolean everHarvest = false;
   private boolean everHotPepper = false;
   private boolean everLegendaryFish = false;
-  //TODO: Develop with other logics!
 
   /* Bin Barrier */
-  private List<Item> shippingBin = new ArrayList<>();
+  private Map<Item, Integer> shippingBinItems = new HashMap<>();
+  private static final int MAX_SHIPPING_ITEMS = 16;
   private boolean isBinOpen = false;
   
   
@@ -231,6 +233,10 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     this.gold = gold;
   }
 
+  public void addGold(int gold) {
+    this.gold += gold;
+  }
+
   public CurrentMap getCurrentMap() {
     return currentMap;
   }
@@ -398,7 +404,68 @@ private void giveStarterItems() { //TODO: CHANGE LATER!
     isBinOpen = false;
   }
 
-  private void addItemToShippingBin(Item item) {
-    shippingBin.add(item);
+  public void clearShippingBin() {
+    shippingBinItems.clear();
+  }
+
+  public boolean addItemToShippingBin(Item item, int amount) {
+    if (shippingBinItems.size() >= MAX_SHIPPING_ITEMS && !shippingBinItems.containsKey(item)) {
+      return false;
+    }
+
+    int availableQuantity = inventory.getItemCount(item);
+    if (availableQuantity < amount) {
+      return false;
+    }
+
+    shippingBinItems.put(item, shippingBinItems.getOrDefault(item, 0) + amount);
+    return true;
+  }
+
+  public boolean removeItemFromShippingBin(Item item, int amount) {
+      if (!shippingBinItems.containsKey(item)) {
+          return false;
+      }
+      
+      int currentAmount = shippingBinItems.get(item);
+      if (currentAmount <= amount) {
+          shippingBinItems.remove(item);
+      } else {
+          shippingBinItems.put(item, currentAmount - amount);
+      }
+      return true;
+  }
+
+  public Map<Item, Integer> getShippingBinItems() {
+      return new HashMap<>(shippingBinItems);
+  }
+
+  public int getShippingBinItemCount() {
+      return shippingBinItems.size();
+  }
+
+  public int getMaxShippingItems() {
+      return MAX_SHIPPING_ITEMS;
+  }
+
+  public void shipItems() {
+      int totalGold = 0;
+      
+      for (Map.Entry<Item, Integer> entry : shippingBinItems.entrySet()) {
+          Item item = entry.getKey();
+          int amount = entry.getValue();
+          
+          inventory.removeItem(item, amount);
+          
+          if (item instanceof sti.oop.interfaces.Valuable) {
+              totalGold += ((sti.oop.interfaces.Valuable) item).getSellPrice() * amount;
+          } 
+          else {
+              totalGold += 0; 
+          }
+      }
+      
+      addGold(totalGold);
+      clearShippingBin();
   }
 }
